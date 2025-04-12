@@ -75,7 +75,7 @@ export default function Home() {
   return (
     <main className="w-full">
       {(initData && isAuTh == true) && <HomeTheme />}
-      {(initData && isAuTh == false) && <NotAuth />}
+      {(initData && isAuTh == false) && <NotAuth data={error}/>}
       {(!initData) && <NotUser />}
     </main>
   );
