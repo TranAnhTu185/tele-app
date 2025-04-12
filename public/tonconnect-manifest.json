@@ -1,0 +1,10 @@
+{
+    "manifest_version": "1",
+    "name": "My Telegram Mini App",
+    "description": "A TON-powered Mini App",
+    "url": "https://your-domain.com",
+    "icons": [""],
+    "bridge": {
+        "type": "tonconnect"
+    }
+}

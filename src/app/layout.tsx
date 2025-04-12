@@ -10,9 +10,9 @@ import rank1 from "../../public/icons/rank-1.svg";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "thirdweb SDK + Next starter",
+  title: "Ton War",
   description:
-    "Starter template for using thirdweb SDK with Next.js App router",
+    "Ton War",
 };
 
 export default function RootLayout({

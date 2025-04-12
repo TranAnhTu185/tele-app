@@ -13,10 +13,83 @@ import monster from "../../public/btn/monster.svg";
 import inventory from "../../public/btn/inventory.svg";
 import { Spin } from 'antd';
 import "./globals.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { TonConnectButton } from "@tonconnect/ui-react";
+
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp?: {
+        platform?: string;
+        initData?: string;
+        initDataUnsafe?: any;
+        version?: string;
+      };
+    }
+  }
+}
 
 export default function Home() {
-  const account = useActiveAccount();
+  // const account = useActiveAccount();
+  // const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
+  // const isMobile = ['android', 'ios'].includes(platform);
+  // const isDesktop = ['macos', 'windows', 'linux', 'tdesktop'].includes(platform);
+  const [isLoading, setIsLoading] = useState(false);
+  const [initData, setinitData] = useState<string | null>(null);
+  const [channelUserName, setChannelUserName] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    if (window.Telegram?.WebApp) {
+      const initDataString = window.Telegram.WebApp.initData;
+      if (initDataString) {
+        setinitData(initDataString.toString());
+        checkAuth();
+      } else {
+        alert('No uesr login');
+        return;
+      }
+      
+    }
+  }, [])
+
+  const checkAuth = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          "initData" : initData
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to check membership');
+      }else {
+        const data = await response.json();
+        alert('this app login success');
+        return;
+      }
+      setError(null);
+    } catch (error) {
+      console.error('Error loggin', error);
+      setError(error instanceof Error ? error.message : 'An unknown error occurred')
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  if (!initData) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center p-4">
+        <h1 className="text-4xl font-bold mb-8">Ton War</h1>
+        <p className="text-xl">This app can only be used within Telegram as a Mini App.</p>
+      </main>
+    )
+  }
 
   return (
     <main className="w-full">
@@ -135,6 +208,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
               </defs>
             </svg>
           </div>
+          {/* <TonConnectButton/> */}
         </div>
         <div className="flex justify-between items-center pt-[12px]">
           <div className="flex-1 text-xs text-left mr-2">What’s Inside</div>
