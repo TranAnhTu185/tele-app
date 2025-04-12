@@ -25,23 +25,28 @@ declare global {
 }
 
 export default function Home() {
-  // const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
-  // const isMobile = ['android', 'ios'].includes(platform);
-  // const isDesktop = ['macos', 'windows', 'linux', 'tdesktop'].includes(platform);
   const [initData, setinitData] = useState<string | null>(null);
+  const [isMobile, setisMobile] = useState<boolean | null>(false);
   useEffect(() => {
     if (window.Telegram?.WebApp) {
-      const initDataString = window.Telegram.WebApp.initData;
-      if (initDataString) {
-        setinitData(initDataString.toString());
-        checkAuth();
-      } else {
-        alert('No uesr login');
-        return;
+      const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
+      const isMobile = ['android', 'ios'].includes(platform);
+      const isDesktop = ['macos', 'windows', 'linux', 'tdesktop'].includes(platform);
+      if (isMobile && !isDesktop) {
+        setisMobile(true);
+        const initDataString = window.Telegram.WebApp.initData;
+        if (initDataString) {
+          setinitData(initDataString.toString());
+          checkAuth();
+        } else {
+          alert('No uesr login');
+          return;
+        }
+      }else {
+        setisMobile(false);
       }
-      
     }
-  }, [initData])
+  }, [isMobile, initData])
 
   const checkAuth = async () => {
     try {
@@ -50,15 +55,15 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
-          "initData" : initData
+        body: JSON.stringify({
+          "initData": initData
         }),
       })
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to check membership');
-      }else {
+      } else {
         const data = await response.json();
         console.log(data);
         alert('this app login success');
@@ -70,20 +75,33 @@ export default function Home() {
     }
   }
 
-  if (!initData) {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-        <p className="text-xl">This app can only be used within Telegram as a Mini App.</p>
-      </main>
-    )
-  }
 
   return (
     <main className="w-full">
-      <HomeTheme />
+      {(isMobile == true && initData) && <HomeTheme />}
+      {(isMobile == false && initData ) && <NotMobile />}
+      {(isMobile == false && !initData) && <NotMobile />}
+      {(isMobile == true && !initData) && <NotUser />}
     </main>
   );
+}
+
+function NotUser() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <h1 className="text-4xl font-bold mb-8">Ton War</h1>
+      <p className="text-xl">This app can only be used within Telegram as a Mini App.</p>
+    </div>
+  )
+}
+
+function NotMobile() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <h1 className="text-4xl font-bold mb-8">Ton War</h1>
+      <p className="text-xl">Using Ton war in mobile</p>
+    </div>
+  )
 }
 
 
