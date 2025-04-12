@@ -41,7 +41,7 @@ export default function Home() {
       }
       
     }
-  }, [])
+  }, [initData])
 
   const checkAuth = async () => {
     try {
