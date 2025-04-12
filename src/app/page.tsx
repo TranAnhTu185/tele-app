@@ -27,6 +27,7 @@ declare global {
 export default function Home() {
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       const initDataString = window.Telegram.WebApp.initData;
@@ -55,15 +56,17 @@ export default function Home() {
       if (!response.ok) {
         const errorData = await response.json();
         setisAuTh(false);
+        setError(errorData);
         throw new Error(errorData.error || 'Failed to check membership');
       } else {
         const data = await response.json();
         console.log(data);
         setisAuTh(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error loggin', error);
       setisAuTh(false);
+      setError(error);
     } finally {
     }
   }
@@ -87,11 +90,11 @@ function NotUser() {
   )
 }
 
-function NotAuth() {
+function NotAuth(data : any) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-      <p className="text-xl">Not Auth</p>
+      <p className="text-xl">{data}</p>
     </div>
   )
 }
