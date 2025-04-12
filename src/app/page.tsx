@@ -26,26 +26,19 @@ declare global {
 
 export default function Home() {
   const [initData, setinitData] = useState<string | null>(null);
-  const [isMobile, setisMobile] = useState<boolean | null>(false);
+  const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   useEffect(() => {
     if (window.Telegram?.WebApp) {
-      const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
-      const isMobile = ['android', 'ios'].includes(platform);
-      if (isMobile == true) {
-        setisMobile(true);
-        const initDataString = window.Telegram.WebApp.initData;
-        if (initDataString) {
-          setinitData(initDataString.toString());
-          checkAuth();
-        } else {
-          alert('No uesr login');
-          return;
-        }
-      }else {
-        setisMobile(false);
+      const initDataString = window.Telegram.WebApp.initData;
+      if (initDataString) {
+        setinitData(initDataString.toString());
+        checkAuth();
+      } else {
+        alert('No uesr login');
+        return;
       }
     }
-  }, [isMobile, initData])
+  }, [isAuTh, initData])
 
   const checkAuth = async () => {
     try {
@@ -58,18 +51,18 @@ export default function Home() {
           "initData": initData
         }),
       })
-
       if (!response.ok) {
         const errorData = await response.json();
+        setisAuTh(false);
         throw new Error(errorData.error || 'Failed to check membership');
       } else {
         const data = await response.json();
         console.log(data);
-        alert('this app login success');
-        return;
+        setisAuTh(true);
       }
     } catch (error) {
       console.error('Error loggin', error);
+      setisAuTh(false);
     } finally {
     }
   }
@@ -77,10 +70,8 @@ export default function Home() {
 
   return (
     <main className="w-full">
-      {(isMobile == true && initData) && <HomeTheme />}
-      {(isMobile == false && initData ) && <NotMobile />}
-      {(isMobile == false && !initData) && <NotMobile />}
-      {(isMobile == true && !initData) && <NotUser />}
+      {(initData && isAuTh == true) && <HomeTheme />}
+      {(!initData && isAuTh == false) && <NotUser />}
     </main>
   );
 }
@@ -93,16 +84,6 @@ function NotUser() {
     </div>
   )
 }
-
-function NotMobile() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-      <p className="text-xl">Using Ton war in mobile</p>
-    </div>
-  )
-}
-
 
 function HomeTheme() {
 
