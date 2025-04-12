@@ -1,12 +1,10 @@
 "use client";
 import Image from "next/image";
-import { useActiveAccount } from "thirdweb/react";
 import img1 from "../../public/img-1.svg";
 import img11 from "../../public/img-11.svg";
 import key from "../../public/icons/key.svg";
 import icon11 from "../../public/icon-11.svg";
 import icon1 from "../../public/icons/icon-1.png";
-import rank1 from "../../public/icons/rank-1.svg";
 import stats from "../../public/btn/btn-stats.svg";
 import vuKhi from "../../public/btn/btn-vk.svg";
 import monster from "../../public/btn/monster.svg";
@@ -30,7 +28,6 @@ declare global {
 }
 
 export default function Home() {
-  // const account = useActiveAccount();
   // const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
   // const isMobile = ['android', 'ios'].includes(platform);
   // const isDesktop = ['macos', 'windows', 'linux', 'tdesktop'].includes(platform);
