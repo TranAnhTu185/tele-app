@@ -24,10 +24,18 @@ declare global {
   }
 }
 
+interface ChildProps {
+  onButtonClick: (increment: string) => void;
+}
+
+interface Props {
+  dataString: string | null;
+}
+
 export default function Home() {
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState("");
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       const initDataString = window.Telegram.WebApp.initData;
@@ -63,10 +71,10 @@ export default function Home() {
         console.log(data);
         setisAuTh(true);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error loggin', error);
       setisAuTh(false);
-      setError(error);
+      setError("login false");
     } finally {
     }
   }
@@ -75,7 +83,7 @@ export default function Home() {
   return (
     <main className="w-full">
       {(initData && isAuTh == true) && <HomeTheme />}
-      {(initData && isAuTh == false) && <NotAuth data={error}/>}
+      {(initData && isAuTh == false) && <NotAuth dataString={error}/>}
       {(!initData) && <NotUser />}
     </main>
   );
@@ -90,11 +98,11 @@ function NotUser() {
   )
 }
 
-function NotAuth(data : any) {
+function NotAuth({ dataString }: Props) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-      <p className="text-xl">{data}</p>
+      <p className="text-xl">{dataString}</p>
     </div>
   )
 }
@@ -138,11 +146,6 @@ function HomeTheme() {
     </div>
   )
 }
-
-interface ChildProps {
-  onButtonClick: (increment: string) => void;
-}
-
 function SummonMonster({ onButtonClick }: ChildProps) {
   return (
     <div className="p-3 rounded-lg bg-[url('../../public/image.svg')] bg-auto bg-no-repeat min-h-[500px] relative">
