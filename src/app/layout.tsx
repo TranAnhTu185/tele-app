@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Providers from "./providers";
 import Script from "next/script";
 import Navbar from "./navbar/page";
 import Image from "next/image";
@@ -26,10 +25,8 @@ export default function RootLayout({
         {/* <div className="bg-[url('../../public/bg-home.svg')] bg-cover w-screen">
           
         </div> */}
-        <Header/>
-        <Providers>
-          {children}
-        </Providers>
+        <Header />
+        {children}
         <Navbar />
         <Script src="https://telegram.org/js/telegram-web-app.js" />
       </body>

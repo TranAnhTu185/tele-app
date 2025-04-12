@@ -19,8 +19,6 @@ declare global {
       WebApp?: {
         platform?: string;
         initData?: string;
-        initDataUnsafe?: any;
-        version?: string;
       };
     }
   }
@@ -30,10 +28,7 @@ export default function Home() {
   // const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
   // const isMobile = ['android', 'ios'].includes(platform);
   // const isDesktop = ['macos', 'windows', 'linux', 'tdesktop'].includes(platform);
-  const [isLoading, setIsLoading] = useState(false);
   const [initData, setinitData] = useState<string | null>(null);
-  const [channelUserName, setChannelUserName] = useState("");
-  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       const initDataString = window.Telegram.WebApp.initData;
@@ -49,7 +44,6 @@ export default function Home() {
   }, [])
 
   const checkAuth = async () => {
-    setIsLoading(true);
     try {
       const response = await fetch('/api/auth', {
         method: 'POST',
@@ -66,15 +60,13 @@ export default function Home() {
         throw new Error(errorData.error || 'Failed to check membership');
       }else {
         const data = await response.json();
+        console.log(data);
         alert('this app login success');
         return;
       }
-      setError(null);
     } catch (error) {
       console.error('Error loggin', error);
-      setError(error instanceof Error ? error.message : 'An unknown error occurred')
     } finally {
-      setIsLoading(false);
     }
   }
 
