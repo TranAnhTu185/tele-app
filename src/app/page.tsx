@@ -12,7 +12,6 @@ import inventory from "../../public/btn/inventory.svg";
 import { Spin } from 'antd';
 import "./globals.css";
 import { useEffect, useState } from "react";
-import { TonConnectButton } from "@tonconnect/ui-react";
 
 declare global {
   interface Window {
