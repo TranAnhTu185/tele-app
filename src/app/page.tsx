@@ -31,8 +31,7 @@ export default function Home() {
     if (window.Telegram?.WebApp) {
       const platform = window.Telegram?.WebApp?.platform !== undefined ? window.Telegram?.WebApp?.platform : "";
       const isMobile = ['android', 'ios'].includes(platform);
-      const isDesktop = ['macos', 'windows', 'linux', 'tdesktop'].includes(platform);
-      if (isMobile && !isDesktop) {
+      if (isMobile == true) {
         setisMobile(true);
         const initDataString = window.Telegram.WebApp.initData;
         if (initDataString) {
