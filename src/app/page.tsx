@@ -38,7 +38,7 @@ export default function Home() {
         return;
       }
     }
-  }, [isAuTh, initData])
+  }, [initData])
 
   const checkAuth = async () => {
     try {
@@ -71,7 +71,8 @@ export default function Home() {
   return (
     <main className="w-full">
       {(initData && isAuTh == true) && <HomeTheme />}
-      {(!initData && isAuTh == false) && <NotUser />}
+      {(initData && isAuTh == false) && <NotAuth />}
+      {(!initData) && <NotUser />}
     </main>
   );
 }
@@ -81,6 +82,15 @@ function NotUser() {
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold mb-8">Ton War</h1>
       <p className="text-xl">This app can only be used within Telegram as a Mini App.</p>
+    </div>
+  )
+}
+
+function NotAuth() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <h1 className="text-4xl font-bold mb-8">Ton War</h1>
+      <p className="text-xl">Not Auth</p>
     </div>
   )
 }
