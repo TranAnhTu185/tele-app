@@ -42,6 +42,7 @@ export default function Home() {
 
   const checkAuth = async () => {
     try {
+      debugger;
       const response = await fetch('/api/auth', {
         method: 'POST',
         headers: {
