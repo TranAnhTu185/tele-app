@@ -21,20 +21,35 @@ interface Props {
   dataString: string | null;
 }
 
+interface TelegramWebApp {
+  ready: () => void;
+  initData: string;
+}
+
+
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp?: TelegramWebApp;
+    }
+  }
+}
+
 export default function Home() {
+  // const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
   useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      const initDataString = window.Telegram?.WebApp.initData;
-      if (initDataString) {
-        setinitData(initDataString.toString());
-        checkAuth();
-      } else {
-        alert('No uesr login');
-        return;
-      }
+    const tgApp = window.Telegram?.WebApp;
+    if (tgApp) {
+      tgApp.ready();
+      // setWebApp(tgApp);
+      setinitData(tgApp.initData);
+      checkAuth();
+    } else {
+      alert('No uesr login');
+      return;
     }
   }, [])
 
@@ -72,8 +87,8 @@ export default function Home() {
   return (
     <main className="w-full">
       {(initData && isAuTh == true) && <HomeTheme />}
-      {(initData && isAuTh == false) && <NotAuth dataString={error}/>}
-      {(!initData) && <NotUser dataString={initData}/>}
+      {(initData && isAuTh == false) && <NotAuth dataString={error} />}
+      {(!initData) && <NotUser dataString={initData} />}
     </main>
   );
 }
