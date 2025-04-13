@@ -40,6 +40,7 @@ export default function Home() {
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const tgApp = window.Telegram?.WebApp;
     setTimeout(async () => {
@@ -62,21 +63,25 @@ export default function Home() {
               const errorData = await response.json();
               setisAuTh(false);
               setError(errorData);
+              setLoading(false);
               throw new Error(errorData.error || 'Failed to check membership');
             } else {
               const data = await response.json();
               console.log(data);
               setisAuTh(true);
+              setLoading(false);
             }
           } catch (error) {
             console.error('Error loggin', error);
             setisAuTh(false);
             setError("login false");
+            setLoading(false);
           } finally {
           }
         }
       } else {
         alert('No uesr login');
+        setLoading(false);
         return;
       }
     }, 3000)
@@ -84,9 +89,11 @@ export default function Home() {
 
   return (
     <main className="w-full">
-      {(initData && isAuTh == true) && <HomeTheme />}
-      {(initData && isAuTh == false) && <NotAuth dataString={JSON.stringify(webApp)} />}
-      {(!initData) && <NotUser dataString={initData + error} />}
+      <Spin spinning={loading}>
+        {(initData && isAuTh == true) && <HomeTheme />}
+        {(initData && isAuTh == false) && <NotAuth dataString={JSON.stringify(webApp)} />}
+        {(!initData) && <NotUser dataString={initData + error} />}
+      </Spin>
     </main>
   );
 }
