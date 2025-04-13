@@ -41,6 +41,7 @@ export default function Home() {
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState("");
   useEffect(() => {
     const tgApp = window.Telegram?.WebApp;
     setTimeout(async () => {
@@ -68,6 +69,8 @@ export default function Home() {
             } else {
               const data = await response.json();
               console.log(data);
+              setToken(data.token);
+              await getToken();
               setisAuTh(true);
               setLoading(false);
             }
@@ -86,6 +89,30 @@ export default function Home() {
       }
     }, 3000)
   }, [])
+
+
+  const getToken = async () => {
+    try {
+      const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
+        method: 'POST',
+        headers: {
+          'Authorization': token,
+        },
+      })
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to check');
+        alert('error call');
+      } else {
+        const data = await response.json();
+        console.log(data);
+        alert('Call success');
+      }
+    } catch (error) {
+      console.error('Error loggin', error);
+    } finally {
+    }
+  }
 
   return (
     <main className="w-full">
