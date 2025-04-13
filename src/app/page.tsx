@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Image from "next/image";
 import img1 from "../../public/img-1.svg";
 import img11 from "../../public/img-11.svg";
@@ -12,6 +12,7 @@ import inventory from "../../public/btn/inventory.svg";
 import { Spin } from 'antd';
 import "./globals.css";
 import { useEffect, useState } from "react";
+import { initDataUser } from '@telegram-apps/sdk';
 
 interface ChildProps {
   onButtonClick: (increment: string) => void;
@@ -26,8 +27,8 @@ export default function Home() {
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
   useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      const initDataString = window.Telegram?.WebApp.initData;
+    if (initData) {
+      const initDataString = initDataUser();
       if (initDataString) {
         setinitData(initDataString.toString());
         checkAuth();
@@ -40,8 +41,7 @@ export default function Home() {
 
   const checkAuth = async () => {
     try {
-      debugger;
-      const response = await fetch('/api/auth', {
+      const response = await fetch('https://ton-war.bytebuffer.co/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
