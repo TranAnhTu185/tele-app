@@ -17,6 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "telegram-webapps-types": "^1.0.5",
     "thirdweb": "^5.93.6"
   },
   "devDependencies": {
