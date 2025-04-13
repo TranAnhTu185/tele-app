@@ -42,23 +42,25 @@ export default function Home() {
   const [error, setError] = useState("");
   useEffect(() => {
     const tgApp = window.Telegram?.WebApp;
-    if (tgApp) {
-      tgApp.ready();
-      setWebApp(tgApp);
-      if(tgApp.initData) {
-        setinitData(tgApp.initData);
-        checkAuth();
+    setTimeout(() => {
+      if (tgApp) {
+        tgApp.ready();
+        setWebApp(tgApp);
+        if(tgApp.initData) {
+          setinitData(tgApp.initData);
+          checkAuth();
+        }
+      } else {
+        alert('No uesr login');
+        return;
       }
-    } else {
-      alert('No uesr login');
-      return;
-    }
+    }, 5000)
   }, [])
 
   const checkAuth = async () => {
     try {
       debugger;
-      const response = await fetch('/api/auth', {
+      const response = await fetch('https://ton-war.bytebuffer.co/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
