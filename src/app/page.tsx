@@ -9,9 +9,10 @@ import stats from "../../public/btn/btn-stats.svg";
 import vuKhi from "../../public/btn/btn-vk.svg";
 import monster from "../../public/btn/monster.svg";
 import inventory from "../../public/btn/inventory.svg";
-import { Spin } from 'antd';
+import {Button, Progress, Spin} from 'antd';
 import "./globals.css";
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
+import "./page.style.css"
 
 interface ChildProps {
   onButtonClick: (increment: string) => void;
@@ -34,7 +35,6 @@ declare global {
     }
   }
 }
-
 export default function Home() {
   const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [initData, setinitData] = useState<string | null>(null);
@@ -490,20 +490,60 @@ function Weapon({ onButtonClick }: ChildProps) {
         />
       </div>
       <div className="flex flex-col justify-center items-center">
-        <div className="flex justify-center items-center bg-[url('../../public/bg-btn.svg')] bg-cover h-[40px] p-[4px] w-[144px]">
-          <span className="mr-2">1000</span>
-          <div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clipPath="url(#clip0_12_66)">
-                <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />
-              </g>
-              <defs>
-                <clipPath id="clip0_12_66">
-                  <rect width="24" height="24" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </div>
+        {/*<div className="flex justify-center items-center bg-[url('../../public/bg-btn.svg')] bg-cover h-[40px] p-[4px] w-[144px]">*/}
+        {/*  <span className="mr-2">1000</span>*/}
+        {/*  <div>*/}
+        {/*    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
+        {/*      <g clipPath="url(#clip0_12_66)">*/}
+        {/*        <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />*/}
+        {/*      </g>*/}
+        {/*      <defs>*/}
+        {/*        <clipPath id="clip0_12_66">*/}
+        {/*          <rect width="24" height="24" fill="white" />*/}
+        {/*        </clipPath>*/}
+        {/*      </defs>*/}
+        {/*    </svg>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
+        <div className="flex flex-col justify-center items-center mt-[20px] mb-[5px] relative">
+
+          <Progress
+            percent={(36*100)/72}
+            showInfo={false}
+            percentPosition={{ align: 'end', type: 'inner' }}
+            size={[240, 20]}/>
+          <span className={'absolute '}
+                style={{fontWeight: 400,
+                        fontSize: '10px',
+                        bottom:'8px',
+                        right:'8px'
+                      }}>XP: <b>37/72</b></span>
+        </div>
+
+        <div className="flex justify-center items-center mt-[0px] mb-[10px] ">
+                    <span style={{fontWeight: 400,
+                      fontSize: '12px',
+                      marginTop:'2px'
+                    }}>
+                      Level:
+                    </span> &nbsp;
+                    <span
+                        style={{fontWeight: 600,
+                          fontSize: '16px',
+                          color:'#96DC6B'
+                        }}>
+                      1
+                    </span>
+        </div>
+
+        <div className="flex justify-center items-center mt-[1px] mb-[10px] ">
+         <Button type={'primary'} className={'ButtonOpen1'}>
+            Open 1
+         </Button>
+          <Button  className={'ButtonOpenAll'}>
+            Open All
+          </Button>
+
         </div>
         <div className="flex justify-between items-center pt-[12px]">
           <div className="flex-1 text-xs text-left mr-2">What’s Inside</div>
