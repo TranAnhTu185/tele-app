@@ -84,16 +84,16 @@ export default function Home() {
     <main className="w-full">
       {(initData && isAuTh == true) && <HomeTheme />}
       {(initData && isAuTh == false) && <NotAuth dataString={error}/>}
-      {(!initData) && <NotUser />}
+      {(!initData) && <NotUser dataString={initData}/>}
     </main>
   );
 }
 
-function NotUser() {
+function NotUser({ dataString }: Props) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-      <p className="text-xl">This app can only be used within Telegram as a Mini App.</p>
+      <p className="text-xl">intData: {dataString}</p>
     </div>
   )
 }
