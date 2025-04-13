@@ -156,7 +156,7 @@ function NotAuth({ dataString }: Props) {
 function LoginPage({ onButtonClick }: ChildProps) {
   return (
     <div className="h-screen flex flex-col items-center justify-center">
-      <Button type={"primary"} onClick={() => onButtonClick}> Login</Button>
+      <Button type={"primary"} onClick={() => onButtonClick(true)}> Login</Button>
     </div>
   );
 }
