@@ -12,17 +12,7 @@ import inventory from "../../public/btn/inventory.svg";
 import { Spin } from 'antd';
 import "./globals.css";
 import { useEffect, useState } from "react";
-
-declare global {
-  interface Window {
-    Telegram?: {
-      WebApp?: {
-        platform?: string;
-        initData?: string;
-      };
-    }
-  }
-}
+import '../types/global';
 
 interface ChildProps {
   onButtonClick: (increment: string) => void;
@@ -38,7 +28,7 @@ export default function Home() {
   const [error, setError] = useState("");
   useEffect(() => {
     if (window.Telegram?.WebApp) {
-      const initDataString = window.Telegram.WebApp.initData;
+      const initDataString = window.Telegram?.WebApp.initData;
       if (initDataString) {
         setinitData(initDataString.toString());
         checkAuth();

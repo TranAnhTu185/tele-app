@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import Navbar from "./navbar/page";
 import Image from "next/image";
 import rank1 from "../../public/icons/rank-1.svg";
@@ -28,7 +27,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Navbar />
-        <Script src="https://telegram.org/js/telegram-web-app.js" />
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
       </body>
     </html>
   );
