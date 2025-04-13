@@ -21,6 +21,10 @@ interface Props {
   dataString: string | null;
 }
 
+interface PropInitDatas {
+  dataString: string;
+}
+
 interface TelegramWebApp {
   ready: () => void;
   initData: string;
@@ -40,33 +44,32 @@ export default function Home() {
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
+  const tgApp = window.Telegram?.WebApp;
   useEffect(() => {
-    const tgApp = window.Telegram?.WebApp;
     setTimeout(() => {
       if (tgApp) {
         tgApp.ready();
         setWebApp(tgApp);
         if(tgApp.initData) {
           setinitData(tgApp.initData);
-          checkAuth();
+          checkAuth(tgApp.initData);
         }
       } else {
         alert('No uesr login');
         return;
       }
-    }, 5000)
+    }, 3000)
   }, [])
 
-  const checkAuth = async () => {
+  const checkAuth = async (dataString: string) => {
     try {
-      debugger;
       const response = await fetch('https://ton-war.bytebuffer.co/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          "initData": initData
+          "initData": dataString
         }),
       })
       if (!response.ok) {
