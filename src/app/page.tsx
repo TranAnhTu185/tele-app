@@ -12,7 +12,6 @@ import inventory from "../../public/btn/inventory.svg";
 import { Spin } from 'antd';
 import "./globals.css";
 import { useEffect, useState } from "react";
-import '../types/global';
 
 interface ChildProps {
   onButtonClick: (increment: string) => void;
