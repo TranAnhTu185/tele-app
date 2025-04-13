@@ -29,6 +29,8 @@ export default function RootLayout({
         {children}
         <Navbar />
         <Script src="https://telegram.org/js/telegram-web-app.js" />
+        {/* <script src="https://telegram.org/js/telegram-web-app.js"></script> */}
+
       </body>
     </html>
   );

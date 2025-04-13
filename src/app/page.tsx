@@ -36,7 +36,7 @@ declare global {
 }
 
 export default function Home() {
-  // const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
+  const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
@@ -44,9 +44,11 @@ export default function Home() {
     const tgApp = window.Telegram?.WebApp;
     if (tgApp) {
       tgApp.ready();
-      // setWebApp(tgApp);
-      setinitData(tgApp.initData);
-      checkAuth();
+      setWebApp(tgApp);
+      if(tgApp.initData) {
+        setinitData(tgApp.initData);
+        checkAuth();
+      }
     } else {
       alert('No uesr login');
       return;
@@ -87,8 +89,8 @@ export default function Home() {
   return (
     <main className="w-full">
       {(initData && isAuTh == true) && <HomeTheme />}
-      {(initData && isAuTh == false) && <NotAuth dataString={error} />}
-      {(!initData) && <NotUser dataString={initData} />}
+      {(initData && isAuTh == false) && <NotAuth dataString={JSON.stringify(webApp)} />}
+      {(!initData) && <NotUser dataString={initData + error} />}
     </main>
   );
 }
