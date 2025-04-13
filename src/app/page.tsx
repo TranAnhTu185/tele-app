@@ -21,10 +21,6 @@ interface Props {
   dataString: string | null;
 }
 
-interface PropInitDatas {
-  dataString: string;
-}
-
 interface TelegramWebApp {
   ready: () => void;
   initData: string;
@@ -44,15 +40,40 @@ export default function Home() {
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
-  const tgApp = window.Telegram?.WebApp;
   useEffect(() => {
-    setTimeout(() => {
+    const tgApp = window.Telegram?.WebApp;
+    setTimeout(async () => {
       if (tgApp) {
         tgApp.ready();
         setWebApp(tgApp);
-        if(tgApp.initData) {
+        if (tgApp.initData) {
           setinitData(tgApp.initData);
-          checkAuth(tgApp.initData);
+          try {
+            const response = await fetch('https://ton-war.bytebuffer.co/auth', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                "initData": tgApp.initData
+              }),
+            })
+            if (!response.ok) {
+              const errorData = await response.json();
+              setisAuTh(false);
+              setError(errorData);
+              throw new Error(errorData.error || 'Failed to check membership');
+            } else {
+              const data = await response.json();
+              console.log(data);
+              setisAuTh(true);
+            }
+          } catch (error) {
+            console.error('Error loggin', error);
+            setisAuTh(false);
+            setError("login false");
+          } finally {
+          }
         }
       } else {
         alert('No uesr login');
@@ -60,36 +81,6 @@ export default function Home() {
       }
     }, 3000)
   }, [])
-
-  const checkAuth = async (dataString: string) => {
-    try {
-      const response = await fetch('https://ton-war.bytebuffer.co/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          "initData": dataString
-        }),
-      })
-      if (!response.ok) {
-        const errorData = await response.json();
-        setisAuTh(false);
-        setError(errorData);
-        throw new Error(errorData.error || 'Failed to check membership');
-      } else {
-        const data = await response.json();
-        console.log(data);
-        setisAuTh(true);
-      }
-    } catch (error) {
-      console.error('Error loggin', error);
-      setisAuTh(false);
-      setError("login false");
-    } finally {
-    }
-  }
-
 
   return (
     <main className="w-full">
