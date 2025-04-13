@@ -70,7 +70,7 @@ export default function Home() {
               console.log(data);
               try {
                 const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
-                  method: 'POST',
+                  method: 'GET',
                   headers: {
                     'Authorization': data.token,
                   },
