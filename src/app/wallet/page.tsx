@@ -4,7 +4,6 @@ import Navbar from "../navbar/page";
 import { useState, useEffect, useCallback } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import { Address } from "@ton/core";
-import { sendTonTransaction } from "../lib/ton";
 
 const WalletPage: React.FC = () => {
     const [tonConnectUI] = useTonConnectUI();
@@ -63,7 +62,16 @@ const WalletPage: React.FC = () => {
 
     const sentTon = async () => {
         try {
-            await sendTonTransaction();
+            await tonConnectUI.sendTransaction({
+                validUntil: Math.floor(Date.now() / 1000) + 600,
+                messages: [
+                    {
+                        address: '0QBngP-cJUrnfAjKYd4rOuBeYCO7VXdyv0c_h40GO6zRzuCH', // địa chỉ nhận
+                        amount: '100000000', // 0.1 TON = 100M nanoTON
+                        payload: '', // nếu cần, dùng base64 payload
+                    },
+                ],
+            })
         } catch (error) {
             console.log(error);
         }
