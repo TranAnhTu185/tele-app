@@ -74,7 +74,7 @@ const WalletPage: React.FC = () => {
             <h1 className="text-4xl font-bold mb-8">TON Connect</h1>
             {tonWalletAddress ? (
                 <div className="flex flex-col items-center">
-                    <p className="mb-4">Connected: {formatAddress(tonWalletAddress)}</p>
+                    <p className="mb-4">Connected: {formatAddress(tonWalletAddress)} tonWalletAddress</p>
                     <button
                         onClick={handleWalletAction}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
