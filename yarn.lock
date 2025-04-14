@@ -487,7 +487,7 @@
   dependencies:
     jssha "3.2.0"
 
-"@ton/crypto@>=3.2.0":
+"@ton/crypto@^3.3.0", "@ton/crypto@>=3.2.0":
   version "3.3.0"
   resolved "https://registry.npmjs.org/@ton/crypto/-/crypto-3.3.0.tgz"
   integrity sha512-/A6CYGgA/H36OZ9BbTaGerKtzWp50rg67ZCH2oIjV1NcrBaCK9Z343M+CxedvM7Haf3f/Ee9EhxyeTp0GKMUpA==
@@ -518,7 +518,7 @@
     tweetnacl "^1.0.3"
     tweetnacl-util "^0.15.1"
 
-"@tonconnect/sdk@^3.1.0", "@tonconnect/sdk@3.1.0":
+"@tonconnect/sdk@3.1.0":
   version "3.1.0"
   resolved "https://registry.npmjs.org/@tonconnect/sdk/-/sdk-3.1.0.tgz"
   integrity sha512-bsuuw5+NwoA8MrWMwDWEgfH/LepSKiPbugsojFoJmoJE4/hOsu6H47HEHtlD2NDLIHRhkTsEjiAyc+npfmocjw==
