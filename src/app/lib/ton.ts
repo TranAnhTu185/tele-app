@@ -10,6 +10,8 @@ export async function sendTonTransaction() {
   const mnemonics = ['your', '12', 'word', 'mnemonic', 'goes', 'here', '...'];
   const key = await mnemonicToWalletKey(mnemonics);
 
+  console.log(key);
+
   // 3. Tạo wallet
   const wallet = WalletContractV4.create({
     workchain: 0,
@@ -27,7 +29,7 @@ export async function sendTonTransaction() {
     messages: [
       internal({
         to: '0QBngP-cJUrnfAjKYd4rOuBeYCO7VXdyv0c_h40GO6zRzuCH', // địa chỉ nhận
-        value: toNano('0.05'), // số TON gửi
+        value: toNano(1), // số TON gửi
         body: 'Hello from TON!',
       }),
     ],
