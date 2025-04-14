@@ -30,7 +30,6 @@ declare global {
   }
 }
 export default function Home() {
-  const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
   const [initData, setinitData] = useState<string | null>(null);
   const [isAuTh, setisAuTh] = useState<boolean | null>(false);
   const [error, setError] = useState("");
@@ -42,7 +41,6 @@ export default function Home() {
       setTimeout(async () => {
         if (tgApp) {
           tgApp.ready();
-          setWebApp(tgApp);
           if (tgApp.initData) {
             setinitData(tgApp.initData);
             try {
@@ -95,10 +93,6 @@ export default function Home() {
           }
         } else {
           alert('No uesr login');
-          const tg = window.Telegram?.WebApp;
-          if (tg) {
-            setWebApp(tg);
-          }
         }
       }, 2000)
     }
@@ -121,7 +115,6 @@ export default function Home() {
             <Header />
             <main className="w-full">
               {(initData && isAuTh == true) && <HomePage />}
-              {(initData && isAuTh == false) && <NotAuth dataString={JSON.stringify(webApp)} />}
               {(!initData) && <NotUser dataString={initData + error} />}
             </main>
             <Navbar />
@@ -142,16 +135,6 @@ function NotUser({ dataString }: Props) {
     </div>
   )
 }
-
-function NotAuth({ dataString }: Props) {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-      <p className="text-xl">{dataString}</p>
-    </div>
-  )
-}
-
 
 function LoginPage({ onButtonClick }: ChildProps) {
   return (

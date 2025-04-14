@@ -1,15 +1,11 @@
+"use client";
+
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Ton War",
-  description:
-    "Ton War",
-};
 
 export default function RootLayout({
   children,
@@ -18,11 +14,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>TON War</title>
+        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
+      </head>
       <body className={inter.className}>
-        <div>
+        <TonConnectUIProvider manifestUrl="https://teal-defeated-piranha-723.mypinata.cloud/ipfs/bafkreicratyikzcjr73lr6v3yvp7u4ne7bqnkimgj7ogtavei4lzabdxga">
           {children}
-        </div>
-        <Script src="https://telegram.org/js/telegram-web-app.js" />
+        </TonConnectUIProvider>
       </body>
     </html>
   );

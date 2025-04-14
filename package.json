@@ -9,16 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^2.2.0",
-    "@tanstack/react-query": "^5.69.0",
     "@telegram-apps/sdk": "^3.7.1",
+    "@ton/core": "^0.60.1",
+    "@tonconnect/sdk": "^3.1.0",
+    "@tonconnect/ui-react": "^2.1.0",
+    "@twa-dev/sdk": "^8.0.2",
     "antd": "^5.24.6",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0",
-    "telegram-webapps-types": "^1.0.5",
-    "thirdweb": "^5.93.6"
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
