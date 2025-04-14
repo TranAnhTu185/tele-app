@@ -71,12 +71,9 @@ export default function Home() {
                   if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.error || 'Failed to check');
-                    alert('error call');
-                    return
                   } else {
                     const data = await response.json();
                     console.log(data);
-                    alert('Call success');
                   }
                 } catch (error) {
                   console.error('Error loggin', error);
@@ -94,7 +91,7 @@ export default function Home() {
         } else {
           alert('No uesr login');
         }
-      }, 2000)
+      }, 1000)
     }
   }, [login])
 
