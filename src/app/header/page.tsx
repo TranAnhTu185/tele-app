@@ -1,14 +1,42 @@
 "use client";
 import Image from "next/image";
 import rank1 from "../../../public/icons/rank-1.svg";
+import { useEffect, useState } from "react";
+import { getFromLocalStorage } from "../utils/localStorage";
+
+type DataUser = {
+    avatar?: string,
+    currentKey?: number,
+    currentPoint?: number,
+    currentTon?: number,
+    level?: number,
+    userId?: string
+    userName?: string
+};
 
 export default function Header() {
+    const [dataItem, setDataItem] = useState<DataUser | null>(null);
+    useEffect(() => {
+        const stored = getFromLocalStorage('userInfo');
+        if (stored) {
+            setDataItem(stored);
+        }
+    }, [])
     return (
         <div className="text-white w-full mx-auto relative">
             <div className="bg-[url('../../public/Union.svg')] bg-cover flex justify-center items-center h-[56px]">
-                <div className="w-8 h-8 bg-[#D9D9D9] rounded-full mr-3"></div>
+                <div className="w-8 h-8 bg-[#D9D9D9] rounded-full mr-3">
+                    <Image
+                        src={dataItem?.avatar !== undefined ? dataItem.avatar : rank1}
+                        alt=""
+                        className="w-[32px] h-[32px] mx-auto"
+                        style={{
+                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                        }}
+                    />
+                </div>
                 <span className="text-lg font-bold">
-                    Username
+                    {dataItem?.userName}
                 </span>
             </div>
             <div className="flex w-full justify-between items-end mb-5 absolute top-4 left-0">

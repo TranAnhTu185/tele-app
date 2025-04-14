@@ -13,6 +13,7 @@ import inventory from "../../../public/btn/inventory.svg";
 import { Button, Progress, Spin } from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
+import { saveToLocalStorage } from "../utils/localStorage";
 
 
 interface ChildProps {
@@ -63,7 +64,7 @@ export default function HomePage() {
                                     throw new Error(errorData.error || 'Failed to check');
                                 } else {
                                     const data = await response.json();
-                                    console.log(data);
+                                    saveToLocalStorage("userInfo", data.userInfo);
                                 }
                             } catch (error) {
                                 console.error('Error loggin', error);
