@@ -92,8 +92,8 @@ const WalletPage: React.FC = () => {
                 console.log("result: " + JSON.stringify(result));
                 const bocBase64 = result.boc;
                 const cell = Cell.fromBase64(bocBase64);
-                const hash = cell.hash().toString("hex");
-                console.log(hash);
+                const slice = cell.beginParse();
+                console.log(slice);
             }
         } catch (error) {
             console.log(error);
