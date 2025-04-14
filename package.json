@@ -12,6 +12,7 @@
     "@telegram-apps/sdk": "^3.7.1",
     "@ton/core": "^0.60.1",
     "@ton/crypto": "^3.3.0",
+    "@ton/ton": "^15.2.1",
     "@tonconnect/ui-react": "^2.1.0",
     "@twa-dev/sdk": "^8.0.2",
     "antd": "^5.24.6",
