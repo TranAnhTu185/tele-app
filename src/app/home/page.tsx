@@ -123,6 +123,7 @@ export default function HomePage() {
                     <Navbar />
                 </div>}
             {(!initData) && <NotUser dataString={initData + error} />}
+            <Navbar />
         </main>
     )
 }

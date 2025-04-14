@@ -15,7 +15,7 @@ import pvp2 from "../../../public/navbar/button-pvp-2.svg";
 
 export default function Navbar() {
     const navItems = [
-        { id: 1, name: "Home", href: "/homePage", bg: home1, bgActive: home2, active: true },
+        { id: 1, name: "Home", href: "/home", bg: home1, bgActive: home2, active: true },
         { id: 2, name: "PVP", href: "/pvp", bg: pvp1, bgActive: pvp2, active: false },
         { id: 3, name: "Wallet", href: "/wallet", bg: wallet1, bgActive: wallet2, active: false },
         { id: 4, name: "Invite", href: "/invite", bg: invite1, bgActive: invite2, active: false },
