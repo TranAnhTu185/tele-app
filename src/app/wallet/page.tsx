@@ -3,7 +3,18 @@ import type React from "react";
 import Navbar from "../navbar/page";
 import { useState, useEffect, useCallback } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
-import { Address } from "@ton/core";
+import { Address, beginCell, Cell } from "@ton/core";
+import { getFromLocalStorage } from "../utils/localStorage";
+
+type DataUser = {
+    avatar?: string,
+    currentKey?: number,
+    currentPoint?: number,
+    currentTon?: number,
+    level?: number,
+    userId?: string
+    userName?: string
+};
 
 const WalletPage: React.FC = () => {
     const [tonConnectUI] = useTonConnectUI();
@@ -62,16 +73,28 @@ const WalletPage: React.FC = () => {
 
     const sentTon = async () => {
         try {
-            await tonConnectUI.sendTransaction({
-                validUntil: Math.floor(Date.now() / 1000) + 600,
-                messages: [
-                    {
-                        address: '0QBngP-cJUrnfAjKYd4rOuBeYCO7VXdyv0c_h40GO6zRzuCH', // địa chỉ nhận
-                        amount: '100000000', // 0.1 TON = 100M nanoTON
-                        payload: '', // nếu cần, dùng base64 payload
-                    },
-                ],
-            })
+            const stored = getFromLocalStorage<DataUser>('userInfo');
+            if (stored) {
+                const payload = beginCell()
+                    .storeUint(0, 32)
+                    .storeStringTail(stored.userId ? stored.userId : "")
+                    .endCell();
+                const result = await tonConnectUI.sendTransaction({
+                    validUntil: Math.floor(Date.now() / 1000) + 600,
+                    messages: [
+                        {
+                            address: '0QBngP-cJUrnfAjKYd4rOuBeYCO7VXdyv0c_h40GO6zRzuCH', // địa chỉ nhận
+                            amount: '100000000', // 0.1 TON = 100M nanoTON
+                            payload: payload.toBoc().toString("base64"),
+                        },
+                    ],
+                })
+                console.log("result: " + JSON.stringify(result));
+                const bocBase64 = result.boc;
+                const cell = Cell.fromBase64(bocBase64);
+                const hash = cell.hash().toString("hex");
+                console.log(hash);
+            }
         } catch (error) {
             console.log(error);
         }
