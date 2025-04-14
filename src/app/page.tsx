@@ -2,7 +2,6 @@
 
 import { Button } from 'antd';
 import "./globals.css";
-import "./page.style.css"
 import Link from "next/link";
 
 interface TelegramWebApp {

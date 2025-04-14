@@ -14,6 +14,7 @@ import { Button, Progress, Spin } from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
 import { saveToLocalStorage } from "../utils/localStorage";
+import "../page.style.css"
 
 
 interface ChildProps {
