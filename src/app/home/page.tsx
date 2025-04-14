@@ -51,7 +51,7 @@ export default function HomePage() {
                             throw new Error(errorData.error || 'Failed to check membership');
                         } else {
                             const data = await response.json();
-                            console.log(data);
+                            saveToLocalStorage("userInfo", data.userInfo);
                             try {
                                 const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
                                     method: 'GET',
@@ -63,8 +63,8 @@ export default function HomePage() {
                                     const errorData = await response.json();
                                     throw new Error(errorData.error || 'Failed to check');
                                 } else {
-                                    const data = await response.json();
-                                    saveToLocalStorage("userInfo", data.userInfo);
+                                    const dataItem = await response.json();
+                                    console.log(dataItem);
                                 }
                             } catch (error) {
                                 console.error('Error loggin', error);
