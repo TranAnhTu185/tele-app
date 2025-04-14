@@ -57,6 +57,7 @@ const WalletPage: React.FC = () => {
 
     const formatAddress = (address: string) => {
         const tempAddress = Address.parse(address).toString();
+        console.log(tempAddress);
         return `${tempAddress.slice(0, 4)}...${tempAddress.slice(-4)}`;
     };
 
