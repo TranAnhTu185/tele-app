@@ -100,7 +100,7 @@ export default function HomePage() {
     };
     return (
         <main className="w-full">
-            {/*{(initData && isAuTh == true) &&*/}
+            {(initData && isAuTh == true) &&
                 <div className="w-full">
                     <Header />
                     <div className="text-white w-full mx-auto">
@@ -130,7 +130,7 @@ export default function HomePage() {
                     </div>
                     <Navbar />
                 </div>
-        {/*}*/}
+        }
 
             {(!initData) && <NotUser dataString={initData + error} />}
         </main>
@@ -243,7 +243,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                 <div className="flex justify-between items-center pt-[12px]">
                     {/*<div className="flex-1 text-xs text-left mr-2">What’s Inside</div>*/}
                     <WhatInsideMonsterModal/>
-                    
+
                     <div className="">
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
