@@ -7,10 +7,14 @@ import key from "../../../public/icons/key.svg";
 import icon11 from "../../../public/icon-11.svg";
 import icon1 from "../../../public/icons/icon-1.png";
 import stats from "../../../public/btn/btn-stats.svg";
+import info from "../../../public/icons/info.svg";
+import close from "../../../public/icons/close-red.png";
 import vuKhi from "../../../public/btn/btn-vk.svg";
 import monster from "../../../public/btn/monster.svg";
 import inventory from "../../../public/btn/inventory.svg";
-import { Button, Progress, Spin } from 'antd';
+import arrowLeft from "../../../public/icons/Arrow-left.png";
+import arrowRight from "../../../public/icons/Arrow-right.png";
+import {Button, Carousel, Col, Modal, Progress, Row, Spin} from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
 import { saveToLocalStorage } from "../utils/localStorage";
@@ -27,7 +31,6 @@ export default function HomePage() {
     const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [error, setError] = useState("");
-
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
         setTimeout(async () => {
@@ -95,7 +98,7 @@ export default function HomePage() {
     };
     return (
         <main className="w-full">
-            {(initData && isAuTh == true) &&
+            {/*{(initData && isAuTh == true) &&*/}
                 <div className="w-full">
                     <Header />
                     <div className="text-white w-full mx-auto">
@@ -118,12 +121,14 @@ export default function HomePage() {
                                     {isStatic === "stats" && <Statistic onButtonClick={handleChildClick} />}
                                     {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} />}
                                     {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} />}
+
                                 </Spin>
                             </div>
                         </div>
                     </div>
                     <Navbar />
-                </div>}
+                </div>
+        {/*}*/}
             {(!initData) && <NotUser dataString={initData + error} />}
             <Navbar />
         </main>
@@ -146,6 +151,8 @@ function NotUser({ dataString }: Props) {
 
 
 function SummonMonster({ onButtonClick }: ChildProps) {
+
+
     return (
         <div className="p-3 rounded-lg bg-[url('../../public/image.svg')] bg-auto bg-no-repeat min-h-[500px] relative">
             <button className="absolute top-[50px] right-[27px]" onClick={() => onButtonClick("weapon")}>
@@ -213,7 +220,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                     {/* <TonConnectButton/> */}
                 </div>
                 <div className="flex justify-between items-center pt-[12px]">
-                    <div className="flex-1 text-xs text-left mr-2">What’s Inside</div>
+                    <WhatInsideMonsterModal onButtonClick={()=>onButtonClick('modalMonster')}/>
                     <div className="">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M6.075 15.909C6.9875 16.303 7.9625 16.5 9 16.5C10.0385 16.501 11.0135 16.3042 11.925 15.9097C12.8365 15.5152 13.6303 14.9808 14.3063 14.3063C14.9823 13.6318 15.5165 12.838 15.909 11.925C16.3015 11.012 16.4985 10.037 16.5 9C16.5015 7.963 16.3048 6.988 15.9098 6.075C15.5148 5.162 14.9803 4.36825 14.3063 3.69375C13.6323 3.01925 12.8385 2.485 11.925 2.091C11.0115 1.697 10.0365 1.5 9 1.5C7.9635 1.5 6.9885 1.697 6.075 2.091C5.1615 2.485 4.36775 3.01925 3.69375 3.69375C3.01975 4.36825 2.4855 5.162 2.091 6.075C1.6965 6.988 1.4995 7.963 1.5 9C1.5005 10.037 1.6975 11.012 2.091 11.925C2.4845 12.838 3.01875 13.6318 3.69375 14.3063C4.36875 14.9808 5.1625 15.515 6.075 15.909ZM9 6.75C9.2125 6.75 9.39075 6.678 9.53475 6.534C9.67875 6.39 9.7505 6.212 9.75 6C9.7495 5.788 9.6775 5.61 9.534 5.466C9.3905 5.322 9.2125 5.25 9 5.25C8.7875 5.25 8.6095 5.322 8.466 5.466C8.3225 5.61 8.2505 5.788 8.25 6C8.2495 6.212 8.3215 6.39025 8.466 6.53475C8.6105 6.67925 8.7885 6.751 9 6.75ZM8.25 8.25V12.75H9.75V8.25H8.25Z" fill="white" />
@@ -229,6 +236,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                     className="w-[44px] h-[46px]"
                 />
             </button>
+
         </div>
     );
 }
@@ -528,4 +536,114 @@ function Weapon({ onButtonClick }: ChildProps) {
             </div>
         </div>
     )
+}
+
+
+interface CarouseMonster {
+    image:string;
+    reward?:number,
+    winningRate?:number;
+}
+function WhatInsideMonsterModal( { onButtonClick }: ChildProps) {
+    const [isModalOpen , setIsOpenModal]=useState(false);
+    const showModal = () => {
+        setIsOpenModal(true);
+    };
+    const data:CarouseMonster[]=[
+        {
+            image:img1,
+            reward:0,
+            winningRate:0
+        },
+        {
+            image:img1,
+            reward:0,
+            winningRate:0
+        },
+        {
+            image:img1,
+            reward:0,
+            winningRate:0
+        },
+        {
+            image:img1,
+            reward:0,
+            winningRate:0
+        }
+    ]
+
+    const hideModal = () => {
+        setIsOpenModal(false);
+    };
+    return <>
+            <div className="flex-1 text-xs text-left mr-2" onClick={showModal}>
+                What’s Inside
+            </div>
+            <Modal  title={<>
+                <div className={'flex'}>
+                            <Image src={info}  alt="" className={'me-2'}/>
+                            <span style={{color:'#ffffff', paddingTop:'5px'}}> What’s Inside</span></div>
+                        </>}
+                    width={"100%"}
+                    closeIcon={   <Image src={close}  alt="" />}
+                    open={isModalOpen}
+                    className={'monster-modal'}
+                    footer={null}
+                    style={{ top: 180 }}
+                    onCancel={hideModal}>
+                <div className={"bg-[url('../../public/image.svg')]  min-h-[350px] pt-5"}>
+                    <Carousel arrows
+                              nextArrow={ <Image src={arrowRight}  alt="" className={'me-2 btnArrow '}/>}
+                              prevArrow={ <Image src={arrowLeft} alt="" className={'me-2 btnArrow'}/>}
+                    >
+                        {(() => {
+                            const arr = [];
+                            for (let i = 0; i < data.length; i++) {
+                                arr.push(
+                                    <div className={' min-h-[350px]'}>
+                                        <Image
+                                            src={data[i].image}
+                                            alt=""
+                                            className="mx-auto mt-5"
+                                            style={{
+                                                filter: "drop-shadow(0px 0px 24px #3B2E14)",
+                                            }}
+                                        />
+                                       <Row gutter={30}>
+                                           <Col span={12}  >
+                                               <div className={"py-[6px] text-size-info text-amber-50 text-center bg-[url('../../public/Rectangle-left.png')]  h-[53px]  justify-center grid ms-[36px]"}>
+                                                   <div className={'flex'}>
+                                                     <span className={'color-green'}> {data[i].reward} </span> &nbsp;
+                                                     <svg className={'mt-[1px]'} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                               <g clipPath="url(#clip0_12_66)">
+                                                                   <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />
+                                                                                                              </g>
+                                                               <defs>
+                                                                   <clipPath id="clip0_12_66">
+                                                                       <rect width="24" height="24" fill="white" />
+                                                                   </clipPath>
+                                                               </defs>
+                                                     </svg> /day
+                                                   </div>
+                                                   <span> Reward </span>
+                                               </div>
+                                           </Col>
+                                           <Col span={12}>
+                                                <div className={"py-[6px] text-size-info text-amber-50 text-center justify-center grid bg-[url('../../public/Rectangle-right.png')] me-[36px] h-[53px]"}>
+                                                    <span className={'color-green'}> {data[i].winningRate}% </span>
+                                                    <span> Winning Rate </span>
+                                                   </div>
+                                           </Col>
+                                       </Row>
+
+                                    </div>
+                                );
+                            }
+                            return arr;
+                        })()}
+
+                    </Carousel>
+                </div>
+            </Modal>
+        </>
 }

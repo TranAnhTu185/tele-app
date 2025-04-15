@@ -11,3 +11,4 @@ const InvitePage: React.FC = () => {
 };
 
 export default InvitePage;
+1
