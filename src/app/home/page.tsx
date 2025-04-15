@@ -13,8 +13,9 @@ import inventory from "../../../public/btn/inventory.svg";
 import { Button, Progress, Spin } from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
-import { saveToLocalStorage } from "../utils/localStorage";
+import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 import "../page.style.css"
+import ApiService from "../lib/apiService";
 
 
 interface ChildProps {
@@ -53,6 +54,7 @@ export default function HomePage() {
                         } else {
                             const data = await response.json();
                             saveToLocalStorage("userInfo", data.userInfo);
+                            saveToLocalStorage("token", data.token);
                             try {
                                 const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
                                     method: 'GET',
@@ -123,9 +125,9 @@ export default function HomePage() {
                         </div>
                     </div>
                     <Navbar />
-                </div>}
+                </div>
+            }
             {(!initData) && <NotUser dataString={initData + error} />}
-            <Navbar />
         </main>
     )
 }
@@ -146,6 +148,25 @@ function NotUser({ dataString }: Props) {
 
 
 function SummonMonster({ onButtonClick }: ChildProps) {
+    useEffect(() => {
+        const fetchData = async () => {
+            const stored = getFromLocalStorage('token');
+            if (stored !== null && stored !== undefined) {
+                try {
+                    const res = await ApiService.get('/egg', {
+                        Authorization: `${stored}`,
+                    });
+                    console.log(res)
+                } catch (error) {
+                    console.error('GET failed:', error);
+                }
+            } else {
+                console.error("no token");
+            }
+        };
+
+        fetchData();
+    }, [])
     return (
         <div className="p-3 rounded-lg bg-[url('../../public/image.svg')] bg-auto bg-no-repeat min-h-[500px] relative">
             <button className="absolute top-[50px] right-[27px]" onClick={() => onButtonClick("weapon")}>
