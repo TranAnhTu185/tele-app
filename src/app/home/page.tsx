@@ -131,8 +131,7 @@ export default function HomePage() {
                     <Navbar />
                 </div>
         {/*}*/}
-                </div>
-            }
+
             {(!initData) && <NotUser dataString={initData + error} />}
         </main>
     )
@@ -242,8 +241,11 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                     {/* <TonConnectButton/> */}
                 </div>
                 <div className="flex justify-between items-center pt-[12px]">
-                    <div className="flex-1 text-xs text-left mr-2">What’s Inside</div>
+                    {/*<div className="flex-1 text-xs text-left mr-2">What’s Inside</div>*/}
+                    <WhatInsideMonsterModal/>
+                    
                     <div className="">
+
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M6.075 15.909C6.9875 16.303 7.9625 16.5 9 16.5C10.0385 16.501 11.0135 16.3042 11.925 15.9097C12.8365 15.5152 13.6303 14.9808 14.3063 14.3063C14.9823 13.6318 15.5165 12.838 15.909 11.925C16.3015 11.012 16.4985 10.037 16.5 9C16.5015 7.963 16.3048 6.988 15.9098 6.075C15.5148 5.162 14.9803 4.36825 14.3063 3.69375C13.6323 3.01925 12.8385 2.485 11.925 2.091C11.0115 1.697 10.0365 1.5 9 1.5C7.9635 1.5 6.9885 1.697 6.075 2.091C5.1615 2.485 4.36775 3.01925 3.69375 3.69375C3.01975 4.36825 2.4855 5.162 2.091 6.075C1.6965 6.988 1.4995 7.963 1.5 9C1.5005 10.037 1.6975 11.012 2.091 11.925C2.4845 12.838 3.01875 13.6318 3.69375 14.3063C4.36875 14.9808 5.1625 15.515 6.075 15.909ZM9 6.75C9.2125 6.75 9.39075 6.678 9.53475 6.534C9.67875 6.39 9.7505 6.212 9.75 6C9.7495 5.788 9.6775 5.61 9.534 5.466C9.3905 5.322 9.2125 5.25 9 5.25C8.7875 5.25 8.6095 5.322 8.466 5.466C8.3225 5.61 8.2505 5.788 8.25 6C8.2495 6.212 8.3215 6.39025 8.466 6.53475C8.6105 6.67925 8.7885 6.751 9 6.75ZM8.25 8.25V12.75H9.75V8.25H8.25Z" fill="white" />
                         </svg>
@@ -565,7 +567,7 @@ interface CarouseMonster {
     reward?:number,
     winningRate?:number;
 }
-function WhatInsideMonsterModal( { onButtonClick }: ChildProps) {
+function WhatInsideMonsterModal() {
     const [isModalOpen , setIsOpenModal]=useState(false);
     const showModal = () => {
         setIsOpenModal(true);
