@@ -195,7 +195,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                     const response = await fetch('https://ton-war.bytebuffer.co/egg', {
                         method: 'GET',
                         headers: {
-                            'Authorization': `${stored}`,
+                            'Authorization': stored,
                         },
                     })
                     if (response.ok) {
@@ -220,7 +220,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
         const response = await fetch('https://ton-war.bytebuffer.co/egg/buy', {
             method: 'POST',
             headers: {
-                'Authorization': `${token}`,
+                'Authorization': token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -233,7 +233,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
             const responseOpenEgg = await fetch('https://ton-war.bytebuffer.co/user-egg/open', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `${token}`,
+                    'Authorization': token,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -246,7 +246,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                 const responseMe = await fetch('https://ton-war.bytebuffer.co/account/me', {
                     method: 'GET',
                     headers: {
-                        'Authorization': `${token}`,
+                        'Authorization': token,
                         'Content-Type': 'application/json'
                     },
                 });
