@@ -38,8 +38,8 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [error, setError] = useState("");
     useEffect(() => {
-        const stored = getFromLocalStorage('userInfo');
-        if (!stored) {
+        const stored = localStorage.getItem('userInfo');
+        if (stored === null || stored === undefined) {
             const tgApp = window.Telegram?.WebApp;
             setTimeout(async () => {
                 if (tgApp) {
