@@ -187,6 +187,7 @@ function SummonMonster({ onButtonClick }: ChildProps) {
     const [token, setToken] = useState<string>("");
     useEffect(() => {
         const fetchData = async () => {
+            debugger;
             const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
                 setToken(stored);
