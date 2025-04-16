@@ -38,8 +38,6 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [error, setError] = useState("");
     useEffect(() => {
-        const stored = localStorage.getItem('userInfo');
-        if (stored === null || stored === undefined) {
             const tgApp = window.Telegram?.WebApp;
             setTimeout(async () => {
                 if (tgApp) {
@@ -97,13 +95,6 @@ export default function HomePage() {
                     alert('No uesr login');
                 }
             }, 500)
-        } else {
-            const init = localStorage.getItem('initData');
-            if (init) {
-                setinitData(init)
-            }
-            setisAuTh(true);
-        }
 
     }, [])
 
