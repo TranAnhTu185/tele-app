@@ -25,15 +25,15 @@ export default function Header() {
     return (
         <div className="text-white w-full mx-auto relative">
             <div className="bg-[url('../../public/Union.svg')] bg-cover flex justify-center items-center h-[56px]">
-                <div className="w-8 h-8 bg-[#D9D9D9] rounded-full mr-3">
-                    <Image
+                <div className="w-[32px] h-[32px] bg-[#D9D9D9] rounded-full mr-3">
+                    {/* <Image
                         src={dataItem?.avatar !== undefined ? dataItem.avatar : rank1}
                         alt=""
                         className="w-[32px] h-[32px] mx-auto"
                         style={{
                             filter: "drop-shadow(0px 0px 24px #a726a9a8)",
                         }}
-                    />
+                    /> */}
                 </div>
                 <span className="text-lg font-bold">
                     {dataItem?.userName}

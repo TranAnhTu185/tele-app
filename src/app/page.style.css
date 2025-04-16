@@ -87,3 +87,8 @@
         font-size: 12px !important;
     }
 }
+
+
+.ant-carousel .slick-prev::after, .ant-carousel .slick-next::after {
+    display: none !important;
+}
