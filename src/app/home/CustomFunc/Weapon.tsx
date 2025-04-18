@@ -123,7 +123,7 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
     }
 
     return (
-        <div className="p-3 bg-no-repeat bg-center rounded-lg bg-[url('../../public/image.svg')]  min-h-[500px] relative">
+        <div className="p-3 bg-no-repeat bg-center rounded-lg bg-[url('../../public/image.svg')]  min-h-[540px] relative">
             <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
                 <Image
                     src={monster}
@@ -221,11 +221,6 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
     const showModal = () => {
         setIsOpenModal(true);
     };
-
-    useEffect(() => {
-        console.log(dataList);
-    }, []);
-
     const hideModal = () => {
         setIsOpenModal(false);
     };
