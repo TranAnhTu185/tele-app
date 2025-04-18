@@ -25,7 +25,7 @@ export default function Header() {
     return (
         <div className="text-white w-full mx-auto relative">
             <div className="bg-[url('../../public/Union.svg')] bg-cover flex justify-center items-center h-[56px]">
-                <div className="w-[32px] h-[32px] bg-[#D9D9D9] rounded-full mr-3">
+                <div className="w-[32px] h-[32px] bg-[#D9D9D9] rounded-full mr-2 overflow-hidden">
                     <Image
                         src={dataItem?.avatar !== undefined ? dataItem.avatar : rank1}
                         alt=""
@@ -56,7 +56,7 @@ export default function Header() {
 
                     </div>
                     <div>
-                        <div className="text-xs font-semibold text-[#547658]">99,999</div>
+                        <div className="text-xs font-semibold text-[#547658]">{dataItem?.currentPoint}</div>
                         <div className="text-xs text-gray-400">eBH</div>
                     </div>
                 </div>

@@ -17,14 +17,25 @@ import arrowRight from "../../../public/icons/Arrow-right.png";
 import { Button, Carousel, Col, Modal, Progress, Row, Spin } from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
-import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
+import { removeFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 import "../page.style.css"
 
 
 type dataMe = {
-    ton: number,
-    keys: number,
-    oint: number
+    current_ton: number,
+    current_key: number,
+    current_point: number,
+    username: string,
+    level: number;
+    user_id: string,
+    first_name: string,
+    last_name: string,
+    language_code: string,
+    weapon_level: number,
+    last_login_at: number,
+    updated_at: number,
+    created_at: number,
+    photo_url: string
 };
 interface ChildProps {
     onButtonClick: (increment: string) => void;
@@ -37,6 +48,8 @@ export default function HomePage() {
     const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [error, setError] = useState("");
+
+    const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
         setTimeout(async () => {
@@ -107,13 +120,28 @@ export default function HomePage() {
     };
 
     const handleChildvoid = (data: dataMe) => {
-        console.log(data);
+        removeFromLocalStorage("userInfo");
+        const userInfor = {
+            userId: data.user_id,
+            userName: data.first_name + " " + data.last_name,
+            avatar: data.photo_url,
+            currentTon: data.current_ton,
+            currentPoint: data.current_point,
+            currentKey: data.current_key,
+            level: data.level
+        }
+        saveToLocalStorage("userInfo", userInfor);
+        reloadChild();
     }
+
+    const reloadChild = () => {
+        setChildKey((prev) => prev + 1); // thay đổi key để reload
+    };
     return (
         <main className="w-full">
             {(initData && isAuTh == true) &&
                 <div className="w-full">
-                    <Header />
+                    <Header key={childKey} />
                     <div className="text-white w-full mx-auto">
                         <div className="mt-22">
                             <div className="flex justify-between items-center m-3 rounded-[20px] pb-[3px] pt-[3px] pr-[8px] pl-[8px] bg-[#33321e]">
@@ -133,7 +161,7 @@ export default function HomePage() {
                                 <Spin spinning={loading}>
                                     {isStatic === "stats" && <Statistic onButtonClick={handleChildClick} />}
                                     {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-                                    {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} />}
+                                    {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
 
                                 </Spin>
                             </div>
@@ -173,7 +201,7 @@ interface CarouseSum {
 }
 
 
-function SummonMonster({ onButtonClick }: ChildProps) {
+function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     const [dataItem, setDataItem] = useState<CarouseSum[] | []>([]);
     const [token, setToken] = useState<string>("");
     useEffect(() => {
@@ -199,7 +227,6 @@ function SummonMonster({ onButtonClick }: ChildProps) {
             const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
                 setToken(JSON.parse(stored));
-                debugger;
                 try {
                     const response = await fetch('https://ton-war.bytebuffer.co/egg', {
                         method: 'GET',
@@ -261,7 +288,26 @@ function SummonMonster({ onButtonClick }: ChildProps) {
                 });
                 if (responseMe.ok) {
                     const datatt = await responseMe.json();
-                    console.log(datatt);
+                    const data = datatt.data;
+                    const dataMe: dataMe = {
+                        current_ton: data.current_ton,
+                        current_key: data.current_key,
+                        current_point: data.current_point,
+                        username: data.username,
+                        level: data.level,
+                        user_id: data.user_id,
+                        first_name: data.first_name,
+                        last_name: data.last_name,
+                        language_code: data.language_code,
+                        weapon_level: data.weapon_level,
+                        last_login_at: data.last_login_at,
+                        updated_at: data.updated_at,
+                        created_at: data.created_at,
+                        photo_url: data.photo_url
+                    }
+                    if (onVoidData) {
+                        onVoidData(dataMe);
+                    }
                 }
             }
         }
@@ -551,22 +597,31 @@ function Statistic({ onButtonClick }: ChildProps) {
     );
 }
 
-function Weapon({ onButtonClick }: ChildProps) {
+function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
+    const [token, setToken] = useState<string>("");
     useEffect(() => {
         const fetchData = async () => {
-            const stored = getFromLocalStorage('token');
+            const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
+                setToken(JSON.parse(stored));
                 try {
-                    const response = await fetch('https://ton-war.bytebuffer.co/key', {
+                    const dataUsser = localStorage.getItem('userInfo');
+                    if (dataUsser) {
+                        const data = JSON.parse(dataUsser);
+                        setKey(data?.currentKey);
+                    }
+
+                    const responWeapon = await fetch('https://ton-war.bytebuffer.co/weapon', {
                         method: 'GET',
                         headers: {
-                            'Authorization': `${stored}`,
+                            'Authorization': JSON.parse(stored),
                         },
                     })
-                    if (response.ok) {
-                        const dataTest = await response.json();
-                        setKey(dataTest.claimableKeys);
+
+                    if (responWeapon.ok) {
+                        const dataTest = await responWeapon.json();
+                        console.log(dataTest);
                     }
                 } catch (error) {
                     console.error('GET failed:', error);
@@ -578,16 +633,65 @@ function Weapon({ onButtonClick }: ChildProps) {
 
         fetchData();
     }, [])
+
+    const handleOpenWeapon = async (key_quantity: number) => {
+        const response = await fetch('https://ton-war.bytebuffer.co/weapon/open', {
+            method: 'POST',
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "key_quantity": key_quantity
+            }),
+        })
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            const responseMe = await fetch('https://ton-war.bytebuffer.co/account/me', {
+                method: 'GET',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (responseMe.ok) {
+                const datatt = await responseMe.json();
+                const data = datatt.data;
+                const dataMe: dataMe = {
+                    current_ton: data.current_ton,
+                    current_key: data.current_key,
+                    current_point: data.current_point,
+                    username: data.username,
+                    level: data.level,
+                    user_id: data.user_id,
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    language_code: data.language_code,
+                    weapon_level: data.weapon_level,
+                    last_login_at: data.last_login_at,
+                    updated_at: data.updated_at,
+                    created_at: data.created_at,
+                    photo_url: data.photo_url
+                }
+                setKey(data.current_key);
+                if (onVoidData) {
+                    onVoidData(dataMe);
+                }
+            }
+        }
+    }
+
     return (
         <div className="p-3 rounded-lg bg-[url('../../public/image.svg')] bg-auto min-h-[500px] relative">
-            <button className="absolute top-[50px] left-[26px]" onClick={() => onButtonClick("sum")}>
+            <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
                 <Image
                     src={monster}
                     alt=""
                     className="w-[56px] h-[60px]"
                 />
             </button>
-            <button className="absolute top-[54px] right-[26px]">
+            <button className="absolute top-[54px] right-[26px] cursor-pointer">
                 <Image
                     src={inventory}
                     alt=""
@@ -621,23 +725,7 @@ function Weapon({ onButtonClick }: ChildProps) {
                 />
             </div>
             <div className="flex flex-col justify-center items-center">
-                {/*<div className="flex justify-center items-center bg-[url('../../public/bg-btn.svg')] bg-cover h-[40px] p-[4px] w-[144px]">*/}
-                {/*  <span className="mr-2">1000</span>*/}
-                {/*  <div>*/}
-                {/*    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
-                {/*      <g clipPath="url(#clip0_12_66)">*/}
-                {/*        <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />*/}
-                {/*      </g>*/}
-                {/*      <defs>*/}
-                {/*        <clipPath id="clip0_12_66">*/}
-                {/*          <rect width="24" height="24" fill="white" />*/}
-                {/*        </clipPath>*/}
-                {/*      </defs>*/}
-                {/*    </svg>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
                 <div className="flex flex-col justify-center items-center mt-[20px] mb-[5px] relative">
-
                     <Progress
                         percent={(36 * 100) / 72}
                         showInfo={false}
@@ -671,10 +759,10 @@ function Weapon({ onButtonClick }: ChildProps) {
                 </div>
 
                 <div className="flex justify-center items-center mt-[1px] mb-[10px] ">
-                    <Button type={'primary'} className={'ButtonOpen1'}>
+                    <Button type={'primary'} className={'ButtonOpen1'} onClick={() => handleOpenWeapon(2)}>
                         Open 1
                     </Button>
-                    <Button className={'ButtonOpenAll'}>
+                    <Button className={'ButtonOpenAll'} onClick={() => handleOpenWeapon(key)}>
                         Open All
                     </Button>
 
