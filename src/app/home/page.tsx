@@ -198,16 +198,13 @@ function SummonMonster({ onButtonClick }: ChildProps) {
         const fetchData = async () => {
             const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
-                let tokenSlice = "";
-                if (stored.startsWith('""') && stored.endsWith('""')) {
-                    tokenSlice = `"${stored.slice(2, -2)}"`;
-                }
-                setToken(tokenSlice);
+                setToken(JSON.parse(stored));
+                debugger;
                 try {
                     const response = await fetch('https://ton-war.bytebuffer.co/egg', {
                         method: 'GET',
                         headers: {
-                            'Authorization': tokenSlice,
+                            'Authorization': JSON.parse(stored),
                         },
                     })
                     if (response.ok) {
