@@ -20,6 +20,8 @@ import Header from "../header/page";
 import { removeFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 import "../page.style.css"
 
+import inventoryIcon from "../../../public/icons/inventory.png";
+
 
 type dataMe = {
     current_ton: number,
@@ -43,7 +45,7 @@ interface ChildProps {
 }
 
 export default function HomePage() {
-    const [isStatic, setIsStatic] = useState("sum");
+    const [isStatic, setIsStatic] = useState("weapon");
     const [loading, setLoading] = useState(false);
     const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
@@ -135,42 +137,41 @@ export default function HomePage() {
     }
 
     const reloadChild = () => {
-        setChildKey((prev) => prev + 1); // thay đổi key để reload
+        setChildKey((prev) => prev + 1);
     };
     return (
         <main className="w-full">
             {(initData && isAuTh == true) &&
-                <div className="w-full">
-                    <Header key={childKey} />
-                    <div className="text-white w-full mx-auto">
-                        <div className="mt-22">
-                            <div className="flex justify-between items-center m-3 rounded-[20px] pb-[3px] pt-[3px] pr-[8px] pl-[8px] bg-[#33321e]">
-                                <div className="mr-3">
-                                    <Image
-                                        src={icon1}
-                                        alt=""
-                                        className="w-[18px] h-[21px] mx-auto"
-                                        style={{
-                                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-                                        }}
-                                    />
-                                </div>
-                                <div className="flex-1 text-xs text-left">Summon Monster and get 4 TON per day</div>
+            <div className="w-full">
+                <Header key={childKey} />
+                <div className="text-white w-full mx-auto">
+                    <div className="mt-22">
+                        <div className="flex justify-between items-center m-3 rounded-[20px] pb-[3px] pt-[3px] pr-[8px] pl-[8px] bg-[#33321e]">
+                            <div className="mr-3">
+                                <Image
+                                    src={icon1}
+                                    alt=""
+                                    className="w-[18px] h-[21px] mx-auto"
+                                    style={{
+                                        filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                                    }}
+                                />
                             </div>
-                            <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
-                                <Spin spinning={loading}>
-                                    {isStatic === "stats" && <Statistic onButtonClick={handleChildClick} />}
-                                    {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-                                    {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                            <div className="flex-1 text-xs text-left">Summon Monster and get 4 TON per day</div>
+                        </div>
+                        <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
+                            <Spin spinning={loading}>
+                                {isStatic === "stats" && <Statistic onButtonClick={handleChildClick} />}
+                                {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                                {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
 
-                                </Spin>
-                            </div>
+                            </Spin>
                         </div>
                     </div>
-                    <Navbar />
                 </div>
+                <Navbar />
+            </div>
             }
-
             {(!initData) && <NotUser dataString={initData + error} />}
         </main>
     )
@@ -597,9 +598,18 @@ function Statistic({ onButtonClick }: ChildProps) {
     );
 }
 
+type Weapon = {
+    id: string,
+    name: string,
+    type: string,
+    level: number,
+    quality: number
+}
+
 function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
     const [token, setToken] = useState<string>("");
+    const [dataWeapon, setDataWeapon] = useState<Weapon[] | []>([]);
     useEffect(() => {
         const fetchData = async () => {
             const stored = localStorage.getItem('token');
@@ -621,7 +631,7 @@ function Weapon({ onButtonClick, onVoidData }: ChildProps) {
 
                     if (responWeapon.ok) {
                         const dataTest = await responWeapon.json();
-                        console.log(dataTest);
+                        setDataWeapon(dataTest.weapons);
                     }
                 } catch (error) {
                     console.error('GET failed:', error);
@@ -633,6 +643,30 @@ function Weapon({ onButtonClick, onVoidData }: ChildProps) {
 
         fetchData();
     }, [])
+
+    const getListWeapons = async () => {
+        let dataToken = "";
+        if (token === " " || token === undefined || token === null) {
+            const tokenLocalStorage = localStorage.getItem('token');
+            if (tokenLocalStorage !== null) {
+                dataToken = JSON.parse(tokenLocalStorage);
+            }
+        } else {
+            dataToken = token;
+        }
+        const response = await fetch('https://ton-war.bytebuffer.co/weapon', {
+            method: 'GET',
+            headers: {
+                'Authorization': dataToken,
+                'Content-Type': 'application/json'
+            },
+        })
+        if (response.ok) {
+            const dataList = await response.json();
+            console.log(dataList.weapons);
+            setDataWeapon(dataList.weapons);
+        }
+    }
 
     const handleOpenWeapon = async (key_quantity: number) => {
         const response = await fetch('https://ton-war.bytebuffer.co/weapon/open', {
@@ -680,6 +714,8 @@ function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                 }
             }
         }
+
+        await getListWeapons();
     }
 
     return (
@@ -692,11 +728,7 @@ function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                 />
             </button>
             <button className="absolute top-[54px] right-[26px] cursor-pointer">
-                <Image
-                    src={inventory}
-                    alt=""
-                    className="w-[44px] h-[46px]"
-                />
+                <ModalInventory dataList={dataWeapon} />
             </button>
             <div className="flex justify-between items-center">
                 <div className="mr-3">
@@ -890,6 +922,72 @@ function WhatInsideMonsterModal() {
                     })()}
 
                 </Carousel>
+            </div>
+        </Modal>
+    </>
+}
+
+
+interface PropsWeapon {
+    dataList: Weapon[];
+};
+
+function ModalInventory({ dataList }: PropsWeapon) {
+    const [isModalOpen, setIsOpenModal] = useState(false);
+    const showModal = () => {
+        setIsOpenModal(true);
+    };
+    const hideModal = () => {
+        setIsOpenModal(false);
+    };
+    return <>
+        <div onClick={showModal}>
+            <Image
+                src={inventory}
+                alt=""
+                className="w-[44px] h-[46px]"
+            />
+        </div>
+        <Modal title={<>
+            <div className={'flex'}>
+                <Image
+                    src={inventoryIcon}
+                    alt=""
+                    className="w-[24px] h-[24px] mr-2"
+                    style={{
+                        filter: "drop-shadow(0px 0px 24px #3B2E14)",
+                    }}
+                />
+                <span style={{ color: '#ffffff', paddingTop: '5px' }}> Inventory</span></div>
+        </>}
+            width={"100%"}
+            closeIcon={<Image src={close} alt="" />}
+            open={isModalOpen}
+            className={'monster-modal'}
+            footer={null}
+            style={{ top: 180 }}
+            onCancel={hideModal}>
+            <div className={"bg-[url('../../public/image.svg')]  h-[378px] pt-5 overflow-x-scroll px-[5px]"}>
+                <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 10]}>
+                    {(() => {
+                        const arr = [];
+                        for (let i = 0; i < dataList.length; i++) {
+                            arr.push(
+                                <Col className="gutter-row" span={8}>
+                                    <div className="flex justify-center items-center flex-col">
+                                        <Image
+                                            src={vuKhi}
+                                            alt=""
+                                            className="w-[56px] h-[60px] mb-[4px]"
+                                        />
+                                        <span className="text-white">level: {dataList[i].level}</span>
+                                    </div>
+                                </Col>
+                            );
+                        }
+                        return arr;
+                    })()}
+                </Row>
             </div>
         </Modal>
     </>
