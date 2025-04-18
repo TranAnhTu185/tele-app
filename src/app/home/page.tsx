@@ -38,63 +38,63 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [error, setError] = useState("");
     useEffect(() => {
-            const tgApp = window.Telegram?.WebApp;
-            setTimeout(async () => {
-                if (tgApp) {
-                    tgApp.ready();
-                    if (tgApp.initData) {
-                        setinitData(tgApp.initData);
-                        try {
-                            const response = await fetch('https://ton-war.bytebuffer.co/auth', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    "initData": tgApp.initData
-                                }),
-                            })
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                setisAuTh(false);
-                                setError(errorData);
-                                throw new Error(errorData.error || 'Failed to check membership');
-                            } else {
-                                const data = await response.json();
-                                saveToLocalStorage("initData", tgApp.initData);
-                                saveToLocalStorage("userInfo", data.userInfo);
-                                saveToLocalStorage("token", data.token);
-                                try {
-                                    const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
-                                        method: 'GET',
-                                        headers: {
-                                            'Authorization': data.token,
-                                        },
-                                    })
-                                    if (!response.ok) {
-                                        const errorData = await response.json();
-                                        throw new Error(errorData.error || 'Failed to check');
-                                    } else {
-                                        const dataItem = await response.json();
-                                        console.log(dataItem);
-                                    }
-                                } catch (error) {
-                                    console.error('Error loggin', error);
-                                } finally {
-                                }
-                                setisAuTh(true);
-                            }
-                        } catch (error) {
-                            console.error('Error loggin', error);
+        const tgApp = window.Telegram?.WebApp;
+        setTimeout(async () => {
+            if (tgApp) {
+                tgApp.ready();
+                if (tgApp.initData) {
+                    setinitData(tgApp.initData);
+                    try {
+                        const response = await fetch('https://ton-war.bytebuffer.co/auth', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                "initData": tgApp.initData
+                            }),
+                        })
+                        if (!response.ok) {
+                            const errorData = await response.json();
                             setisAuTh(false);
-                            setError("login false");
-                        } finally {
+                            setError(errorData);
+                            throw new Error(errorData.error || 'Failed to check membership');
+                        } else {
+                            const data = await response.json();
+                            saveToLocalStorage("initData", tgApp.initData);
+                            saveToLocalStorage("userInfo", data.userInfo);
+                            saveToLocalStorage("token", data.token);
+                            try {
+                                const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': data.token,
+                                    },
+                                })
+                                if (!response.ok) {
+                                    const errorData = await response.json();
+                                    throw new Error(errorData.error || 'Failed to check');
+                                } else {
+                                    const dataItem = await response.json();
+                                    console.log(dataItem);
+                                }
+                            } catch (error) {
+                                console.error('Error loggin', error);
+                            } finally {
+                            }
+                            setisAuTh(true);
                         }
+                    } catch (error) {
+                        console.error('Error loggin', error);
+                        setisAuTh(false);
+                        setError("login false");
+                    } finally {
                     }
-                } else {
-                    alert('No uesr login');
                 }
-            }, 500)
+            } else {
+                alert('No uesr login');
+            }
+        }, 500)
 
     }, [])
 
@@ -177,6 +177,24 @@ function SummonMonster({ onButtonClick }: ChildProps) {
     const [dataItem, setDataItem] = useState<CarouseSum[] | []>([]);
     const [token, setToken] = useState<string>("");
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            import('eruda').then((erudaModule) => {
+                type Eruda = {
+                    init: (options?: object) => void;
+                    destroy: () => void;
+                    get: (name: string) => unknown;
+                };
+
+                const eruda = erudaModule as unknown as Eruda;
+
+                if (!document.getElementById('eruda')) {
+                    const container = document.createElement('div');
+                    container.id = 'eruda';
+                    document.body.appendChild(container);
+                    eruda.init();
+                }
+            });
+        }
         const fetchData = async () => {
             debugger;
             const stored = localStorage.getItem('token');
