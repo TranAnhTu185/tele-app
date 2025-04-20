@@ -5,7 +5,7 @@ import icon11 from "../../../../public/icon-11.svg";
 
 export function StatisticPage({ onButtonClick }: ChildProps) {
     return (
-        <div className="p-3 min-h-[500px]">
+        <div className="p-3 min-h-[500px] mb-[95px]">
             <div className="flex justify-between items-center">
                 <div className="mr-3">
                     <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,12 +32,12 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     Back to home</button>
             </div>
             <div className="mt-[16px] mb-[10px]">
-                <div className="bg-[url('../../public/bg-thbg.svg')] bg-cover w-[353px] mx-auto grid grid-cols-3 gap-4 py-[9px] mb-[12px]">
+                <div className="bg-[url('../../public/bg-thbg.svg')] bg-cover max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[9px] mb-[12px]">
                     <div className="text-[16px] text-white text-left">User</div>
                     <div className="text-[16px] text-white text-center">Egg</div>
                     <div className="text-[16px] text-white text-right">Profit/day</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -50,7 +50,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -63,7 +63,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -76,7 +76,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -89,7 +89,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -102,7 +102,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -115,7 +115,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -128,7 +128,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -141,7 +141,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -154,7 +154,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">
@@ -167,7 +167,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     </div>
                     <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
                 </div>
-                <div className="w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
+                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
                     <div className="text-xs text-white text-left">abxxnamw</div>
                     <div className="text-xs text-white text-center flex items-center justify-center">+1
                         <div className="ml-3">

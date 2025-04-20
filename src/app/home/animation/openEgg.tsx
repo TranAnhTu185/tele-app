@@ -11,7 +11,6 @@ import {PropsCommon} from "@/app/utils/common";
 export default function EggCrackAnimation({dataNumber}:PropsCommon ){
     const [step, setStep] = useState<'eggFull' | 'egg1Nua' | 'eggCrack'|'monster'|'default'>('eggFull');
     useEffect(() => {
-            console.log(dataNumber)
         if((dataNumber??0)>0){
             const timers = [
                 setTimeout(() => setStep('eggFull'), 0 ),

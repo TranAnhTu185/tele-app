@@ -54,3 +54,13 @@ export interface CarouseMonster {
     reward?: number,
     winningRate?: number;
 }
+
+export type DataUser = {
+    avatar?: string,
+    currentKey?: number,
+    currentPoint?: number,
+    currentTon?: number,
+    level?: number,
+    userId?: string
+    userName?: string
+};

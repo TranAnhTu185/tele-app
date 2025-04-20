@@ -1,18 +1,16 @@
 "use client";
 import Image from "next/image";
 import rank1 from "../../../public/icons/rank-1.svg";
+import rank2 from "../../../public/icons/rank-2.svg";
+import rank3 from "../../../public/icons/rank-3.svg";
+import rank4 from "../../../public/icons/rank-4.svg";
+import rank5 from "../../../public/icons/rank-5.svg";
+import rank6 from "../../../public/icons/rank-6.svg";
+import rank7 from "../../../public/icons/rank-7.svg";
+
 import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "../utils/localStorage";
-
-type DataUser = {
-    avatar?: string,
-    currentKey?: number,
-    currentPoint?: number,
-    currentTon?: number,
-    level?: number,
-    userId?: string
-    userName?: string
-};
+import {DataUser} from "@/app/utils/common";
 
 export default function Header() {
     const [dataItem, setDataItem] = useState<DataUser | null>(null);
@@ -26,14 +24,14 @@ export default function Header() {
         <div className="text-white w-full mx-auto relative">
             <div className="bg-[url('../../public/Union.svg')] bg-cover flex justify-center items-center h-[56px]">
                 <div className="w-[32px] h-[32px] bg-[#D9D9D9] rounded-full mr-2 overflow-hidden">
-                    {/*<Image*/}
-                    {/*    src={dataItem?.avatar !== undefined ? dataItem.avatar : rank1}*/}
-                    {/*    alt=""*/}
-                    {/*    className="w-[32px] h-[32px] mx-auto"*/}
-                    {/*    style={{*/}
-                    {/*        filter: "drop-shadow(0px 0px 24px #a726a9a8)",*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Image
+                        src={dataItem?.avatar !== undefined ? dataItem.avatar : rank1}
+                        alt=""
+                        className="w-[32px] h-[32px] mx-auto"
+                        style={{
+                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                        }}
+                    />
                 </div>
                 <span className="text-lg font-bold">
                     {dataItem?.userName}
@@ -60,21 +58,70 @@ export default function Header() {
                         <div className="text-xs text-gray-400">eBH</div>
                     </div>
                 </div>
-                <div className="flex items-center bg-[url('../../public/bg-rank.svg')] bg-auto bg-no-repeat h-[30px] w-[130px] p-[4px]">
+                <div className="flex items-center bg-[url('../../public/bg-rank.svg')] bg-contain bg-no-repeat min-h-[34px] min-w-[140px] p-[4px]">
                     <div className="mr-[2px]">
-                        <Image
+                        {dataItem?.level === 1 && <Image
                             src={rank1}
+                            alt=""
+                            className="w-[24px] h-[18px] mx-auto"
+                            style={{
+                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                        }}
+                            />}
+                        {dataItem?.level === 2 && <Image
+                            src={rank2}
                             alt=""
                             className="w-[24px] h-[18px] mx-auto"
                             style={{
                                 filter: "drop-shadow(0px 0px 24px #a726a9a8)",
                             }}
-                        />
+                        />}
+                        {dataItem?.level === 3 && <Image
+                            src={rank3}
+                            alt=""
+                            className="w-[24px] h-[18px] mx-auto"
+                            style={{
+                                filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                            }}
+                        />}
+                        {dataItem?.level === 4 && <Image
+                            src={rank4}
+                            alt=""
+                            className="w-[24px] h-[18px] mx-auto"
+                            style={{
+                                filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                            }}
+                        />}
+                        {dataItem?.level === 5 && <Image
+                            src={rank5}
+                            alt=""
+                            className="w-[24px] h-[18px] mx-auto"
+                            style={{
+                                filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                            }}
+                        />}
+                        {dataItem?.level === 6 && <Image
+                            src={rank6}
+                            alt=""
+                            className="w-[24px] h-[18px] mx-auto"
+                            style={{
+                                filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                            }}
+                        />}
+                        {dataItem?.level === 7 && <Image
+                            src={rank7}
+                            alt=""
+                            className="w-[24px] h-[18px] mx-auto"
+                            style={{
+                                filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                            }}
+                        />}
                     </div>
                     <div className="text-xs font-medium" >
-                        Monster Starter
+                        Monster Starter {dataItem?.level}
                     </div>
                 </div>
+
                 <div className="flex items-center justify-center flex-col w-[113px] h-[92px] bg-[url('../../public/right-1.svg')] bg-cover">
                     <div className="">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
