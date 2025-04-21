@@ -1,9 +1,44 @@
 import {ChildProps} from "@/app/utils/common";
 import Image from "next/image";
-import icon11 from "../../../../public/icon-11.svg";
+import {useEffect, useState} from "react";
 
 
+type dataStatic = {
+    user_id: string,
+    username: string,
+    avatar: string,
+    eggs: number,
+    profit: number
+}
 export function StatisticPage({ onButtonClick }: ChildProps) {
+    const [datalist, setDataList] = useState<dataStatic[] | []>([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const stored = localStorage.getItem('token');
+            if (stored !== null && stored !== undefined) {
+                try {
+                    const responListMon = await fetch('https://ton-war.bytebuffer.co/honor?type=1', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': JSON.parse(stored),
+                        },
+                    })
+
+                    if (responListMon.ok) {
+                        const dataTest = await responListMon.json();
+                        console.log(dataTest);
+                        setDataList(dataTest.rows);
+                    }
+                } catch (error) {
+                    console.error('GET failed:', error);
+                }
+            } else {
+                console.error("no token");
+            }
+        };
+
+        fetchData();
+    }, [])
     return (
         <div className="p-3 min-h-[500px] mb-[95px]">
             <div className="flex justify-between items-center">
@@ -37,149 +72,21 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     <div className="text-[16px] text-white text-center">Egg</div>
                     <div className="text-[16px] text-white text-right">Profit/day</div>
                 </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
+                {datalist.map(item => (
+                    <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]" key={item.user_id}>
+                        <div className="text-xs text-white text-left">{item.username}</div>
+                        <div className="text-xs text-white text-center flex items-center justify-center">+1
+                            <div className="ml-3">
+                                <Image
+                                    src={item.avatar}
+                                    alt=""
+                                    className="w-[24px] h-[24px] mx-auto"
+                                />
+                            </div>
                         </div>
+                        <div className="text-xs text-[#7cce00] text-right">{item.profit} TON</div>
                     </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
-                <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]">
-                    <div className="text-xs text-white text-left">abxxnamw</div>
-                    <div className="text-xs text-white text-center flex items-center justify-center">+1
-                        <div className="ml-3">
-                            <Image
-                                src={icon11}
-                                alt=""
-                                className="w-[24px] h-[24px] mx-auto"
-                            />
-                        </div>
-                    </div>
-                    <div className="text-xs text-[#7cce00] text-right">+10.9 TON</div>
-                </div>
+                ))}
             </div>
         </div>
     );

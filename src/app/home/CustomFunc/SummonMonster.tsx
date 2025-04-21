@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import Image from "next/image";
 import { Carousel, Col, Modal,  Row} from "antd";
 import close from "../../../../public/icons/close-red.png";
-import {CarouseMonster, CarouseSum, ChildProps, dataMe} from "@/app/utils/common";
+import {CarouseSum, ChildProps, dataMe} from "@/app/utils/common";
 import img1 from "../../../../public/img-1.svg";
 import vuKhi from "../../../../public/btn/btn-vk.svg";
 import EggCrackAnimation from "@/app/home/animation/openEgg";
@@ -235,34 +235,48 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     );
 }
 
+type dataMon = {
+    id: string,
+    name: string,
+    image: string,
+    level: number,
+    status: string,
+    dailyReward: number
+}
+
 function WhatInsideMonsterModal() {
     const [isModalOpen, setIsOpenModal] = useState(false);
+    const [datalist, setDataList] = useState<dataMon[] | []>([]);
     const showModal = () => {
         setIsOpenModal(true);
     };
-    const data: CarouseMonster[] = [
-        {
-            image: img1,
-            reward: 0,
-            winningRate: 0
-        },
-        {
-            image: img1,
-            reward: 0,
-            winningRate: 0
-        },
-        {
-            image: img1,
-            reward: 0,
-            winningRate: 0
-        },
-        {
-            image: img1,
-            reward: 0,
-            winningRate: 0
-        }
-    ]
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const stored = localStorage.getItem('token');
+            if (stored !== null && stored !== undefined) {
+                try {
+                    const responListMon = await fetch('https://ton-war.bytebuffer.co/monster/list', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': JSON.parse(stored),
+                        },
+                    })
+
+                    if (responListMon.ok) {
+                        const dataTest = await responListMon.json();
+                        setDataList(dataTest.rows);
+                    }
+                } catch (error) {
+                    console.error('GET failed:', error);
+                }
+            } else {
+                console.error("no token");
+            }
+        };
+
+        fetchData();
+    }, [])
     const hideModal = () => {
         setIsOpenModal(false);
     };
@@ -294,11 +308,11 @@ function WhatInsideMonsterModal() {
                 >
                     {(() => {
                         const arr = [];
-                        for (let i = 0; i < data.length; i++) {
+                        for (let i = 0; i < datalist.length; i++) {
                             arr.push(
                                 <div className={' min-h-[350px]'}>
                                     <Image
-                                        src={data[i].image}
+                                        src={img1}
                                         alt=""
                                         className="mx-auto mt-5"
                                         style={{
@@ -309,7 +323,7 @@ function WhatInsideMonsterModal() {
                                         <Col span={12}  >
                                             <div className={"py-[6px] text-size-info text-amber-50 text-center bg-[url('../../public/Rectangle-left.png')]  h-[53px]  justify-center grid ms-[36px]"}>
                                                 <div className={'flex'}>
-                                                    <span className={'color-green'}> {data[i].reward} </span> &nbsp;
+                                                    <span className={'color-green'}> {datalist[i].dailyReward} </span> &nbsp;
                                                     <svg className={'mt-[1px]'} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g clipPath="url(#clip0_12_66)">
                                                             <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />
@@ -326,7 +340,7 @@ function WhatInsideMonsterModal() {
                                         </Col>
                                         <Col span={12}>
                                             <div className={"py-[6px] text-size-info text-amber-50 text-center justify-center grid bg-[url('../../public/Rectangle-right.png')] me-[36px] h-[53px]"}>
-                                                <span className={'color-green'}> {data[i].winningRate}% </span>
+                                                <span className={'color-green'}> {datalist[i].dailyReward}% </span>
                                                 <span> Winning Rate </span>
                                             </div>
                                         </Col>
