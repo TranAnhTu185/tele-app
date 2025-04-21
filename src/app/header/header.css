@@ -1,0 +1,14 @@
+.container-setting{
+    border-radius: 16px;
+    background:#131716 !important;
+
+}
+.dropdown-item-r{
+    border-radius:999px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 22px;
+}
