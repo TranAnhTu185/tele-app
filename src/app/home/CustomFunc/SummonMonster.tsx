@@ -180,15 +180,6 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                             for (let i = 0; i < dataItem.length; i++) {
                                 arr.push(
                                     <div>
-                                        {/*<Image*/}
-                                        {/*    src={dataItem[i].image}*/}
-                                        {/*    alt=""*/}
-                                        {/*    className="w-[232px] h-[232px] mx-auto"*/}
-                                        {/*    style={{*/}
-                                        {/*        filter: "drop-shadow(0px 0px 24px #3B2E14)",*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
-
                                         <EggCrackAnimation dataNumber={childKey} key={childKey}/>
                                         <button
                                             className="flex justify-center items-center mx-auto bg-[url('../../public/bg-btn.svg')] bg-cover h-[40px] p-[4px] w-[144px] mt-[10px] cursor-pointer"
