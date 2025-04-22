@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@esotericsoftware/spine-player": "^4.2.77",
     "@telegram-apps/sdk": "^3.7.1",
     "@ton/core": "^0.60.1",
     "@ton/crypto": "^3.3.0",
