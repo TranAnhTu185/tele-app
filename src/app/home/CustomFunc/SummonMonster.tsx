@@ -137,7 +137,7 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
 
 
     return (
-        <div className="p-3 bg-center rounded-lg bg-[url('../../public/image.svg')] bg-auto bg-no-repeat min-h-[500px] relative">
+        <div className="p-3 bg-center rounded-lg bg-[url('../../public/image.svg')] bg-auto bg-no-repeat min-h-[500px] relative mb-[70px]">
             <button className="absolute top-[50px] right-[27px] cursor-pointer z-1000" onClick={() => onButtonClick("weapon")}>
                 <Image
                     src={vuKhi}
