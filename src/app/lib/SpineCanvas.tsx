@@ -8,7 +8,7 @@ import { SpinePlayer, SpinePlayerConfig } from '@esotericsoftware/spine-player';
 type Props = {
     jsonUrl: string;
     atlasUrl: string;
-    animation?: string;
+    animation: string;
     backgroundColor?: string;
     width?: number;
     height?: number;
@@ -19,6 +19,10 @@ interface CustomSpinePlayerConfig extends SpinePlayerConfig {
     fit?: "contain" | "cover" | "fill" | "none";
 }
 
+interface SpinePlayerInstance {
+    setAnimation: (animationName: string, loop: boolean) => void;
+  }
+
 export default function SpinePlayerComponent({
     jsonUrl,
     atlasUrl,
@@ -27,7 +31,7 @@ export default function SpinePlayerComponent({
     height = 270,
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const playerRef = useRef<any>(null);
+    const playerRef = useRef<SpinePlayerInstance | null>(null);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
