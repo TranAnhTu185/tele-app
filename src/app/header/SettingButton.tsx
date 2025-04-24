@@ -63,9 +63,9 @@ export function SettingButton(){
                 </div>
                 <div className={`container-setting absolute top-23 z-30 w-[152px] right-0 min-h-[117px] flex flex-col pt-2 bg-zinc-400 rounded-md ${transClass}`}>
                     {
-                        items.map(item =>
+                        items.map((item, index) =>
                             <Link
-                                key={item.route}
+                                key={index}
                                 className="flex dropdown-item-r bg-[#0d0d0d] px-4 py-1"
                                 href={item?.route || ''}
                                 onClick={toggle}

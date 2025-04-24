@@ -5,17 +5,17 @@ import close from "../../../../public/icons/close-red.png";
 import {CarouseSum, ChildProps, dataMe} from "@/app/utils/common";
 import img1 from "../../../../public/img-1.svg";
 import vuKhi from "../../../../public/btn/btn-vk.svg";
-import EggCrackAnimation from "@/app/home/animation/openEgg";
 import stats from "../../../../public/btn/btn-stats.svg";
 import info from "../../../../public/icons/info.svg";
 import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
+import SpinePlayerComponent from "@/app/lib/SpineCanvas";
 
 
 export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     const [dataItem, setDataItem] = useState<CarouseSum[] | []>([]);
     const [token, setToken] = useState<string>("");
-    const [childKey, setChildKey] = useState(0);
+    const [animation, setAnimation] = useState("Idle")
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -64,9 +64,6 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
 
         fetchData();
     }, [])
-    const reloadChild = () => {
-        setChildKey((prev) => prev + 1);
-    };
 
     const onClickByEgg = async (eggId: number) => {
         const response = await fetch('https://ton-war.bytebuffer.co/egg/buy', {
@@ -80,6 +77,7 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
             }),
         })
         if (response.ok) {
+            setAnimation('Action');
             const data = await response.json();
             const userEgg = data.userEgg;
             const responseOpenEgg = await fetch('https://ton-war.bytebuffer.co/user-egg/open', {
@@ -96,7 +94,13 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
             if (responseOpenEgg.ok) {
                 const dataOpen = await responseOpenEgg.json();
                 console.log(dataOpen);
-                reloadChild()
+                setTimeout(() => {
+                    setAnimation('Idle_Broken');
+                }, 1500);
+
+                setTimeout(() => {
+                    setAnimation('Idle');
+                }, 3000);
                 const responseMe = await fetch('https://ton-war.bytebuffer.co/account/me', {
                     method: 'GET',
                     headers: {
@@ -179,8 +183,14 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                             const arr = [];
                             for (let i = 0; i < dataItem.length; i++) {
                                 arr.push(
-                                    <div>
-                                        <EggCrackAnimation dataNumber={childKey} key={childKey}/>
+                                    <div key={i} className="mt-[50px]">
+                                        <SpinePlayerComponent
+                                            jsonUrl="/export/egg1.json"
+                                            atlasUrl="/export/egg1.atlas.txt"
+                                            animation={animation} // thay bằng animation bạn muốn
+                                            width={700}
+                                            height={570}
+                                        />
                                         <button
                                             className="flex justify-center items-center mx-auto bg-[url('../../public/bg-btn.svg')] bg-cover h-[40px] p-[4px] w-[144px] mt-[10px] cursor-pointer"
                                             onClick={() => onClickByEgg(dataItem[i]?.level)}

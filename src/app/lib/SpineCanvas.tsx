@@ -1,56 +1,67 @@
+// components/SpinePlayer.tsx
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { SpinePlayer } from '@esotericsoftware/spine-player';
+import React, { useEffect, useRef } from 'react';
 import '@esotericsoftware/spine-player/dist/spine-player.css';
+import {SpinePlayer, SpinePlayerConfig} from '@esotericsoftware/spine-player';
 
-interface Props {
-    json: string;
-    atlas: string;
-    png: string;
+type Props = {
+    jsonUrl: string;
+    atlasUrl: string;
     animation?: string;
+    backgroundColor?: string;
     width?: number;
     height?: number;
+};
+
+interface CustomSpinePlayerConfig extends SpinePlayerConfig {
+    autoplay?: boolean;
+    fit?: "contain" | "cover" | "fill" | "none";
 }
 
 export default function SpinePlayerComponent({
-                                                 json,
-                                                 atlas,
-                                                 png,
-                                                 animation = 'idle',
-                                                 width = 600,
-                                                 height = 600,
+                                                 jsonUrl,
+                                                 atlasUrl,
+                                                 animation,
+                                                 width = 348,
+                                                 height = 270,
                                              }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!containerRef.current) return;
 
-        const player = new SpinePlayer(containerRef.current, {
-            jsonUrl: json,
-            atlasUrl: atlas,
+        const config: CustomSpinePlayerConfig = {
+            jsonUrl,
+            atlasUrl,
             animation,
             backgroundColor: '#00000000',
-            showControls: false,
-            alpha: true,
-            premultipliedAlpha: true,
             preserveDrawingBuffer: true,
             viewport: {
-                x: 0,
-                y: 0,
-                width,
-                height,
+                x: -(width/2),
+                y: -((height/2) - 220),
+                width: width,
+                height: height,
                 padLeft: 0,
                 padRight: 0,
                 padTop: 0,
                 padBottom: 0,
             },
-        });
+            showControls: false,
+            alpha: true,
+            autoplay: true, // ✅ Now recognized
+            scale: 0.9,
+            fit: "contain",
+            premultipliedAlpha: true,
+            defaultMix: 1,
+        };
 
+        const player = new SpinePlayer(containerRef.current, config);
         return () => {
             player.dispose();
         };
-    }, [json, atlas, png, animation, width, height]);
+    }, [jsonUrl, atlasUrl, animation, width, height]);
 
-    return <div ref={containerRef} style={{ width, height }} />;
+    return <div ref={containerRef}  className="spine-player-container"
+                style={{ width: 'auto', maxWidth: width, aspectRatio: '16 / 9', background: 'transparent' }}/>;
 }

@@ -7,6 +7,7 @@ import Link from "next/link";
 interface TelegramWebApp {
   ready: () => void;
   initData: string;
+  initDataUnsafe: string;
 }
 
 

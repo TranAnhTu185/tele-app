@@ -28,6 +28,9 @@ export default function HomePage() {
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
+                    const initDataUnsafe = tgApp.initDataUnsafe;
+                    const params = new URLSearchParams(initDataUnsafe);
+                    const startParam = params.get('start_param'); // ✅ this works
                     setinitData(tgApp.initData);
                     try {
                         const response = await fetch('https://ton-war.bytebuffer.co/auth', {
@@ -36,7 +39,8 @@ export default function HomePage() {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                "initData": tgApp.initData
+                                "initData": tgApp.initData,
+                                "startParam": startParam
                             }),
                         })
                         if (!response.ok) {
