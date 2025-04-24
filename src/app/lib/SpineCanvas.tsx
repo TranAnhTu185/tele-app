@@ -1,9 +1,9 @@
 // components/SpinePlayer.tsx
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@esotericsoftware/spine-player/dist/spine-player.css';
-import {SpinePlayer, SpinePlayerConfig} from '@esotericsoftware/spine-player';
+import { SpinePlayer, SpinePlayerConfig } from '@esotericsoftware/spine-player';
 
 type Props = {
     jsonUrl: string;
@@ -20,13 +20,15 @@ interface CustomSpinePlayerConfig extends SpinePlayerConfig {
 }
 
 export default function SpinePlayerComponent({
-                                                 jsonUrl,
-                                                 atlasUrl,
-                                                 animation,
-                                                 width = 348,
-                                                 height = 270,
-                                             }: Props) {
+    jsonUrl,
+    atlasUrl,
+    animation,
+    width = 348,
+    height = 270,
+}: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const playerRef = useRef<any>(null);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -38,8 +40,8 @@ export default function SpinePlayerComponent({
             backgroundColor: '#00000000',
             preserveDrawingBuffer: true,
             viewport: {
-                x: -(width/2),
-                y: -((height/2) - 220),
+                x: -(width / 2),
+                y: -((height / 2) - 220),
                 width: width,
                 height: height,
                 padLeft: 0,
@@ -49,19 +51,26 @@ export default function SpinePlayerComponent({
             },
             showControls: false,
             alpha: true,
-            autoplay: true, // ✅ Now recognized
             scale: 0.9,
             fit: "contain",
             premultipliedAlpha: true,
             defaultMix: 1,
+            success: () => setLoaded(true),
         };
 
         const player = new SpinePlayer(containerRef.current, config);
+        playerRef.current = player;
         return () => {
             player.dispose();
         };
-    }, [jsonUrl, atlasUrl, animation, width, height]);
+    }, []);
 
-    return <div ref={containerRef}  className="spine-player-container"
-                style={{ width: 'auto', maxWidth: width, aspectRatio: '16 / 9', background: 'transparent' }}/>;
+    useEffect(() => {
+        if (loaded && playerRef.current) {
+            playerRef.current.setAnimation(animation, true);
+        }
+    }, [animation, loaded]);
+
+    return <div ref={containerRef} className="spine-player-container"
+        style={{ width: 'auto', maxWidth: width, aspectRatio: '16 / 9', background: 'transparent' }} />;
 }

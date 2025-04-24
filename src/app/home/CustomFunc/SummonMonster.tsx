@@ -96,7 +96,7 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                 console.log(dataOpen);
                 setTimeout(() => {
                     setAnimation('Idle_Broken');
-                }, 1500);
+                }, 1000);
 
                 setTimeout(() => {
                     setAnimation('Idle');
@@ -185,8 +185,8 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                                 arr.push(
                                     <div key={i} className="mt-[50px]">
                                         <SpinePlayerComponent
-                                            jsonUrl="/export/egg1.json"
-                                            atlasUrl="/export/egg1.atlas.txt"
+                                            jsonUrl="/export/egg2.json"
+                                            atlasUrl="/export/egg2.atlas.txt"
                                             animation={animation} // thay bằng animation bạn muốn
                                             width={700}
                                             height={570}
