@@ -145,7 +145,7 @@ export default function HomePage() {
                 </div>
                 <Navbar />
             </div>
-            }
+             }
             {(!initData) && <NotUser dataString={initData + error} />}
         </main>
     )

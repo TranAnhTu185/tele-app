@@ -64,3 +64,10 @@ export type DataUser = {
     userId?: string
     userName?: string
 };
+export  interface ItemEarn{
+    title:string,
+    logo:string,
+    checked:boolean
+    value:number,
+
+}
