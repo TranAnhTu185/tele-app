@@ -18,24 +18,6 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     const [animation, setAnimation] = useState("Idle")
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            import('eruda').then((erudaModule) => {
-                type Eruda = {
-                    init: (options?: object) => void;
-                    destroy: () => void;
-                    get: (name: string) => unknown;
-                };
-
-                const eruda = erudaModule as unknown as Eruda;
-
-                if (!document.getElementById('eruda')) {
-                    const container = document.createElement('div');
-                    container.id = 'eruda';
-                    document.body.appendChild(container);
-                    eruda.init();
-                }
-            });
-        }
         const fetchData = async () => {
             const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
@@ -49,9 +31,20 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                     })
                     if (response.ok) {
                         const dataTest = await response.json();
-                        dataTest.rows.map((item: CarouseSum) => {
+                        dataTest.rows.map((item: CarouseSum, index: number) => {
                             item[`image`] = img1;
+                            if(index === 0 || index === 3) {
+                                item[`jsonUrl`] = "/export/egg1.json";
+                                item[`atlasUrl`] = "/export/egg1.atlas.txt";
+                            }else if(index === 1 || index === 4) {
+                                item[`jsonUrl`] = "/export/egg2.json";
+                                item[`atlasUrl`] = "/export/egg2.atlas.txt";
+                            }else {
+                                item[`jsonUrl`] = "/export/egg3.json";
+                                item[`atlasUrl`] = "/export/egg3.atlas.txt";
+                            } 
                         })
+                        console.log(dataTest.rows);
                         setDataItem(dataTest.rows);
                     }
                 } catch (error) {
@@ -185,8 +178,8 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                                 arr.push(
                                     <div key={i} className="mt-[50px]">
                                         <SpinePlayerComponent
-                                            jsonUrl="/export/egg2.json"
-                                            atlasUrl="/export/egg2.atlas.txt"
+                                            jsonUrl={dataItem[i]?.jsonUrl}
+                                            atlasUrl={dataItem[i]?.atlasUrl}
                                             animation={animation} // thay bằng animation bạn muốn
                                             width={700}
                                             height={570}

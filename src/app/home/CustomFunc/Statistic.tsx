@@ -1,15 +1,9 @@
-import {ChildProps} from "@/app/utils/common";
+import { ChildProps, dataStatic } from "@/app/utils/common";
 import Image from "next/image";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 
-type dataStatic = {
-    user_id: string,
-    username: string,
-    avatar: string,
-    eggs: number,
-    profit: number
-}
+
 export function StatisticPage({ onButtonClick }: ChildProps) {
     const [datalist, setDataList] = useState<dataStatic[] | []>([]);
     useEffect(() => {
@@ -72,11 +66,11 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                     <div className="text-[16px] text-white text-center">Egg</div>
                     <div className="text-[16px] text-white text-right">Profit/day</div>
                 </div>
-                {datalist.map(item => (
-                    <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]" key={item.user_id}>
-                        <div className="text-xs text-white text-left">{item.username}</div>
-                        <div className="text-xs text-white text-center flex items-center justify-center">+1
-                            <div className="ml-3">
+                    {datalist.map(item => (
+                        <div className="max-w-[353px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]" key={item.user_id}>
+                            <div className="text-xs text-white text-left">{item.username}</div>
+                            <div className="text-xs text-white text-center flex items-center justify-center">+1
+                                <div className="ml-3">
                                 <Image
                                     src={item.avatar}
                                     alt=""
@@ -85,7 +79,7 @@ export function StatisticPage({ onButtonClick }: ChildProps) {
                             </div>
                         </div>
                         <div className="text-xs text-[#7cce00] text-right">{item.profit} TON</div>
-                    </div>
+                </div>
                 ))}
             </div>
         </div>

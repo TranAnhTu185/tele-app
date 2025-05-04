@@ -28,8 +28,8 @@ const EarnPage: React.FC = () => {
 
     ]
     return (
-        <main className=" pb-[120px] background-color-main w-100  min-h-[100vh] pt-[30px] relative">
-           <div className={'w-100 flex justify-center'}>
+        <main className=" pb-[120px] background-color-main w-full  min-h-[100vh] pt-[30px] relative">
+           <div className={'w-full flex justify-center'}>
                <div className={'w-[90%]'}>
                 <Segmented
                     block

@@ -10,22 +10,22 @@ import {Col, Row, Tabs} from "antd";
 const InvitePage: React.FC = () => {
 
     return (
-        <main className="pb-[120px] background-color-main w-100  min-h-[100vh] pt-[30px] relative">
-            <div className={'w-100 flex justify-center text-white font-bold text-2xl'}>
+        <main className="pb-[120px] background-color-main pt-[30px] relative">
+            <div className={'flex justify-center text-white font-bold text-2xl'}>
                 Invite Friends
 
             </div>
 
-            <div className={'w-100 flex justify-center text-white text-xl'}>
+            <div className={'flex justify-center text-white text-xl'}>
                 Earn more TON coin
 
             </div>
 
-            <div className={'w-100 mt-5 flex justify-center text-white text-xl'}>
+            <div className={'w-full mt-5 flex justify-center text-white text-xl'}>
                 <div className={'w-[95%] flex justify-center text-white me-2'}>
 
                         <div className={' w-[45%] h-[65px]  flex grounded-radiants items-center text-center '}>
-                            <div className={'w-100'}>
+                            <div className={'w-full'}>
                                 <nav className={'text-center justify-center flex  text-sm '} >Total Friends</nav>
                                 <nav className={' text-center justify-center flex text-lg '} >
                                    <span className={'text-amber-400 '}> 3 </span> &nbsp;
@@ -35,7 +35,7 @@ const InvitePage: React.FC = () => {
 
                         </div>
                     <div className={' w-[45%] h-[65px] ms-2 flex grounded-radiants items-center text-center '}>
-                        <div className={'w-100'}>
+                        <div className={'w-full'}>
                             <nav className={'text-center justify-center flex  text-sm '} >TON Earned</nav>
                             <nav className={' text-center justify-center flex text-lg '} >
                                 <span className={'text-amber-400 '}> 2.23 </span> &nbsp;
@@ -55,7 +55,7 @@ const InvitePage: React.FC = () => {
 
             </div>
 
-            <div className={' w-100 mt-[30px]  flex justify-center items-center text-center text-white '}>
+            <div className={' w-full mt-[30px]  flex justify-center items-center text-center text-white '}>
                 <div className={'pb-[35px] w-[90%] grounded-radiants me-2 relative'}>
 
                     <div className={'w-[40px] left-[50%] -top-5 -translate-x-1/2 transform-gpu flex justify-center bg-other items-center  h-[40px] absolute  rounded-full'}>
@@ -110,17 +110,12 @@ const InvitePage: React.FC = () => {
 
             <div className={'mt-[30px] pe-[40px] w-full p-[20px] flex justify-center items-center text-center text-white '}>
                 <Tabs
-className={'w-full '}
+                    className={'w-full '}
                     defaultActiveKey="1"
                     items={[
                         {
-                            label: 'Latest Rewards',
-                            key: '1',
-                            children:<LastedRewardFunct/>,
-                        },
-                        {
                             label: 'List Friends',
-                            key: '2',
+                            key: '1',
                             children: <LastedRewardFunct/>,
                         }
                     ]}

@@ -23,6 +23,14 @@ export type dataMe = {
     created_at: number,
     photo_url: string
 };
+export type dataStatic = {
+    user_id: string,
+    username: string,
+    avatar: string,
+    eggs: number,
+    profit: number
+};
+
 export interface ChildProps {
     onButtonClick: (increment: string) => void;
     onVoidData?: (data: dataMe) => void;
@@ -46,6 +54,8 @@ export interface CarouseSum {
     description: string;
     created: number;
     image: string;
+    jsonUrl: string;
+    atlasUrl: string;
 }
 
 

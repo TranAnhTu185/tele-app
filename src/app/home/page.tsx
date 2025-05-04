@@ -2,15 +2,15 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import icon1 from "../../../public/icons/icon-1.png";
-import { Spin} from 'antd';
+import { Spin } from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
 import { removeFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 import "../page.style.css"
-import { dataMe, PropsCommon} from "@/app/utils/common";
-import {Weapon} from "@/app/home/CustomFunc/Weapon";
-import {SummonMonster} from "@/app/home/CustomFunc/SummonMonster";
-import { StatisticPage} from "@/app/home/CustomFunc/Statistic";
+import { dataMe, PropsCommon } from "@/app/utils/common";
+import { Weapon } from "@/app/home/CustomFunc/Weapon";
+import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
+import { StatisticPage } from "@/app/home/CustomFunc/Statistic";
 
 
 
@@ -116,35 +116,35 @@ export default function HomePage() {
     return (
         <main className="w-full">
             {(initData && isAuTh == true) &&
-            <div className="w-full">
-                <Header key={childKey} />
-                <div className="text-white w-full mx-auto">
-                    <div className="mt-22">
-                        <div className="flex justify-between items-center m-3 rounded-[20px] pb-[3px] pt-[3px] pr-[8px] pl-[8px] bg-[#33321e]">
-                            <div className="mr-3">
-                                <Image
-                                    src={icon1}
-                                    alt=""
-                                    className="w-[18px] h-[21px] mx-auto"
-                                    style={{
-                                        filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-                                    }}
-                                />
+                <div className="w-full">
+                    <Header key={childKey} />
+                    <div className="text-white w-full mx-auto">
+                        <div className="mt-22">
+                            <div className="flex justify-between items-center m-3 rounded-[20px] pb-[3px] pt-[3px] pr-[8px] pl-[8px] bg-[#33321e]">
+                                <div className="mr-3">
+                                    <Image
+                                        src={icon1}
+                                        alt=""
+                                        className="w-[18px] h-[21px] mx-auto"
+                                        style={{
+                                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                                        }}
+                                    />
+                                </div>
+                                <div className="flex-1 text-xs text-left">Summon Monster and get 4 TON per day</div>
                             </div>
-                            <div className="flex-1 text-xs text-left">Summon Monster and get 4 TON per day</div>
-                        </div>
-                        <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
-                            <Spin spinning={loading}>
-                                {isStatic === "stats" && <StatisticPage onButtonClick={handleChildClick} />}
-                                {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-                                {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                            <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
+                                <Spin spinning={loading}>
+                                    {isStatic === "stats" && <StatisticPage onButtonClick={handleChildClick} />}
+                                    {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                                    {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
 
-                            </Spin>
+                                </Spin>
+                            </div>
                         </div>
                     </div>
+                    <Navbar />
                 </div>
-                <Navbar />
-            </div>
              }
             {(!initData) && <NotUser dataString={initData + error} />}
         </main>
