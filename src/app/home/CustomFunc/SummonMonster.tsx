@@ -9,12 +9,14 @@ import info from "../../../../public/icons/info.svg";
 import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
 import SpinePlayerComponent from "@/app/lib/SpineCanvas";
+import {useT} from "@/i18n/client";
 
 
 export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     const [dataItem, setDataItem] = useState<CarouseSum[] | []>([]);
     const [token, setToken] = useState<string>("");
     const [animation, setAnimation] = useState("Idle")
+    const {t} =  useT("en");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -143,7 +145,7 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                         <path d="M4.0989 11.0027C4.1123 13.6542 4.75435 15.7759 5.26805 17.2645C3.0106 13.8947 0.448413 7.80251 4.64841 4.25689C2.65341 4.05485 0.318381 5.46607 0.158725 7.595H0.149819C0.0997565 8.25368 0.270756 8.98981 0.700413 9.75748C-0.2354 12.3491 -0.281431 15.2051 1.32498 19.3153C2.22404 21.6144 4.64626 22.2544 6.98523 21.8437C8.68894 21.5437 10.2754 20.7812 11.3584 19.0428C13.2408 16.0203 14.1704 14.1013 16.1298 12.6949C18.3107 11.7679 20.702 12.5426 21.9367 13.7475C21.5862 11.0498 18.6369 8.52045 16.2899 11.0867C14.3528 11.4458 13.0543 11.908 10.8654 13.4884C11.7865 11.6716 13.5057 9.50806 14.5746 8.2189C16.154 6.26853 19.3958 5.55546 21.0679 5.96393C19.5684 3.83862 15.0718 3.17065 14.0547 6.55128C12.0856 7.45423 9.60643 9.40362 7.96529 11.3793C8.5081 8.9067 9.5206 5.85804 10.5128 4.10389C12.0983 2.39046 14.4395 2.41957 15.8858 2.8587C14.5309 0.674511 10.2024 -0.428177 9.3938 3.46775C7.37302 5.01837 5.30405 8.1604 4.09899 11.0028L4.0989 11.0027Z" fill="#96DC68" />
                     </svg>
                 </div>
-                <div className="flex-1 text-lg font-semibold text-left">Summon Monster</div>
+                <div className="flex-1 text-lg font-semibold text-left">{t('monster')}</div>
             </div>
             <div className="mt-[34px]">
                 <Carousel arrows dots={false}

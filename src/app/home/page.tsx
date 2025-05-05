@@ -10,16 +10,12 @@ import "../page.style.css"
 import { dataMe, PropsCommon } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-
-
-
-export default function HomePage() {
+export default function  HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
     const [loading, setLoading] = useState(false);
     const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
-    const [error, setError] = useState("");
-
+    const [error, setError] = useState<string|undefined>();
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
@@ -75,7 +71,7 @@ export default function HomePage() {
                     } catch (error) {
                         console.error('Error loggin', error);
                         setisAuTh(false);
-                        setError("login false");
+                        setError('login false');
                     } finally {
                     }
                 }
@@ -113,6 +109,8 @@ export default function HomePage() {
         setChildKey((prev) => prev + 1);
     };
     return (
+
+
         <main className="w-full">
             {(initData && isAuTh == true) &&
                 <div className="w-full">
@@ -136,7 +134,6 @@ export default function HomePage() {
                                 <Spin spinning={loading}>
                                     {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
                                     {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-
                                 </Spin>
                             </div>
                         </div>
@@ -144,7 +141,7 @@ export default function HomePage() {
                     <Navbar />
                 </div>
              }
-            {(!initData) && <NotUser dataString={initData + error} />}
+            {(!initData) && <NotUser dataString={initData??'' + error??''} />}
         </main>
     )
 }
