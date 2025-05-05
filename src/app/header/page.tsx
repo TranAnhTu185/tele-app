@@ -10,8 +10,7 @@ import rank7 from "../../../public/icons/rank-7.svg";
 
 import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "../utils/localStorage";
-import {DataUser} from "@/app/utils/common";
-import {SettingButton} from "@/app/header/SettingButton";
+import { DataUser } from "@/app/utils/common";
 
 export default function Header() {
     const [dataItem, setDataItem] = useState<DataUser | null>(null);
@@ -21,6 +20,15 @@ export default function Header() {
             setDataItem(stored);
         }
     }, [])
+
+    const formatNumber = (number: number | undefined) => {
+        if(number !== undefined) {
+            return (Math.round(number * 100)/100).toFixed(2);
+        }else {
+            return 0;
+        }
+        
+    };
     return (
         <div className="text-white w-full mx-auto relative">
             <div className="bg-[url('../../public/Union.svg')] bg-cover flex justify-center items-center h-[56px]">
@@ -66,9 +74,9 @@ export default function Header() {
                             alt=""
                             className="w-[24px] h-[18px] mx-auto"
                             style={{
-                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-                        }}
-                            />}
+                                filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                            }}
+                        />}
                         {dataItem?.level === 2 && <Image
                             src={rank2}
                             alt=""
@@ -123,10 +131,22 @@ export default function Header() {
                     </div>
                 </div>
 
-                <SettingButton/>
+                <div className="flex items-center w-[113px] h-[92px] bg-[url('../../public/right-1.svg')] bg-cover">
+                    <div className="ml-[19px] mr-3">
+                        <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M15.6126 1.54687C15.4279 1.19585 15.127 0.919443 14.7611 0.764601C14.4325 0.597714 14.0699 0.508492 13.7012 0.503845H3.38963C3.00043 0.479613 2.61271 0.57031 2.27491 0.764601C2.06124 0.834608 1.8637 0.946387 1.69384 1.09341C1.52398 1.24043 1.38521 1.41975 1.28563 1.62087C1.06343 1.99699 0.966914 2.43385 1.01004 2.86828C1.04167 3.26941 1.18482 3.6538 1.42342 3.97825L7.81668 15.1133C7.8964 15.2297 8.003 15.3254 8.1275 15.3922C8.252 15.4591 8.39077 15.4951 8.53214 15.4974C8.67758 15.5095 8.82345 15.4797 8.95245 15.4116C9.08145 15.3436 9.18818 15.24 9.25997 15.1133L15.6815 3.97825C15.9071 3.62766 16.0176 3.21568 15.9977 2.79956C15.9768 2.35638 15.8444 1.92558 15.6126 1.54687ZM7.72128 11.6389L2.79782 3.06913C2.67063 2.80837 2.60526 2.67799 2.60526 2.67799C2.5868 2.56165 2.60994 2.44253 2.67063 2.34148C2.71991 2.22358 2.81388 2.12987 2.93208 2.08072H7.72128V11.6389ZM14.293 2.72556C14.3195 2.85698 14.3195 2.99234 14.293 3.12375L9.25997 11.6812V2.1371H13.6323C13.7868 2.1202 13.9432 2.14325 14.0863 2.20405L14.1552 2.27276C14.2241 2.27276 14.2241 2.39609 14.293 2.39609C14.3247 2.50364 14.3247 2.61802 14.293 2.72556Z" fill="#D4D3D8" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div className="text-xs font-semibold text-[#547658]">{formatNumber(dataItem?.currentTon)}</div>
+                        <div className="text-xs text-gray-400">TON</div>
+                    </div>
+                </div>
+
+                {/* <SettingButton /> */}
             </div>
 
-            <div className="text-center mb-5 relative top-[67px]">
+            {/* <div className="text-center mb-5 relative top-[67px]">
                 <div className="text-5xl font-bold text-[#96DC68]">
                     {dataItem?.currentTon}
                     <div className="inline-block w-8 h-8 ml-2">
@@ -135,7 +155,7 @@ export default function Header() {
                         </svg>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className="flex justify-between mb-5 relative top-[68px] h-[61px]">
                 <div className="bg-[url('../../public/left-2.svg')] bg-cover rounded-lg flex-1 mx-1 text-center flex flex-col justify-center items-center">

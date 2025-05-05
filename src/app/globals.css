@@ -34,9 +34,12 @@ body {
 
 .gradient-border {
   position: relative;
-  background: #2a2a3e; /* Inner background color */
-  border-radius: 9999px; /* Full rounded for pill shape */
-  padding: 6px; /* Space for the gradient border */
+  background: #2a2a3e;
+  /* Inner background color */
+  border-radius: 9999px;
+  /* Full rounded for pill shape */
+  padding: 6px;
+  /* Space for the gradient border */
 }
 
 .gradient-border::before {
@@ -46,18 +49,19 @@ body {
   left: -1px;
   right: -1px;
   bottom: -1px;
-  background: linear-gradient(90deg, #ff7e5f, #feb47b); /* Gradient border color */
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  /* Gradient border color */
   border-radius: 9999px;
   z-index: -1;
 }
 
 
 .gradient-border-bt {
-  background: transparent; 
-  border-radius: 12px; 
-  padding: 5px 13px; 
+  background: transparent;
+  border-radius: 12px;
+  padding: 5px 13px;
   border-image-slice: 1;
-  border: 1px solid rgba(255,255,255,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 
@@ -65,47 +69,66 @@ body {
   background: radial-gradient(circle, #3B2E14 0%, #131716 60%);
   border-radius: 24px;
 }
-.background-color-main{
-  background: radial-gradient(circle, #3B2E14 0%, #131716 60%) !important; ;
+
+.background-color-main {
+  background: radial-gradient(circle, #3B2E14 0%, #131716 60%) !important;
+  ;
 
 }
 
-.background-color-gra-green{
+.background-color-gra-green {
   background: linear-gradient(90deg, #afc043 0%, #55832b 100%) !important
 }
 
 
-.ant-btn-primary{
+.ant-btn-primary {
   background: linear-gradient(90deg, rgba(175, 192, 67, 1) 0%, rgba(85, 131, 43, 1) 100%) !important;
 
 }
 
 .grounded-radiants {
 
-    background:
-            linear-gradient(#181818  0 0) padding-box, /*this is your grey background*/
-            linear-gradient(to left, #00C853, #B2FF59) border-box;
+  background:
+    linear-gradient(#181818 0 0) padding-box,
+    /*this is your grey background*/
+    linear-gradient(to left, #00C853, #B2FF59) border-box;
 
-    border: 1px solid transparent;
-    border-radius: 40px;
+  border: 1px solid transparent;
+  border-radius: 40px;
 
-  }
-.ant-btn{
+}
+
+.grounded-radiants-input {
+
+  background:
+    linear-gradient(#181818 0 0) padding-box,
+    /*this is your grey background*/
+    linear-gradient(to left, #00C853, #B2FF59) border-box;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+}
+
+.ant-btn {
   height: 40px;
   border: none;
 }
 
-.bg-other{
+.bg-other {
   background: linear-gradient(0deg, rgba(99, 50, 81, 1) 0%, rgba(23, 33, 17, 1) 100%);
 }
-.ant-tabs-tab-btn{
+
+.ant-tabs-tab-btn {
   color: white !important;
   font-weight: bold !important;
   font-size: 18px !important;
 }
-.ant-tabs-tab-active{
+
+.ant-tabs-tab-active {
   color: wheat !important;
 }
-.ant-tabs-nav::before{
+
+.ant-tabs-nav::before {
   border: none !important;
 }

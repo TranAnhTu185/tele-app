@@ -3,13 +3,10 @@ import type React from "react";
 import Navbar from "../navbar/page";
 import { useEffect, useState } from "react";
 import { dataStatic } from "../utils/common";
-import Header from "../header/page";
 
 const PVPPage: React.FC = () => {
-	const childKey = 0;
 	return (
 		<div className="flex flex-col items-center">
-			<Header key={childKey} />
 			<StatisticPage />
 			<Navbar />
 		</div>
@@ -48,7 +45,7 @@ function StatisticPage() {
 		fetchData();
 	}, [])
 	return (
-		<div className="p-3 min-h-[500px] w-full relative top-[50px]">
+		<div className="p-3 min-h-[500px] w-full relative top-[10px]">
 			<div className="flex justify-between items-center">
 				<div className="mr-3">
 					<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +63,7 @@ function StatisticPage() {
 					<div className="text-[16px] text-white text-center">Egg</div>
 					<div className="text-[16px] text-white text-right">Profit/day</div>
 				</div>
-				<div className="h-[377px] overflow-y-auto">
+				<div className="max-h-[100vh] overflow-y-auto pb-[120px]">
 					{datalist.map(item => (
 						<div className="max-w-[390px] mx-auto grid grid-cols-3 gap-4 py-[12px] mb-[12px]" key={item.user_id}>
 							<div className="text-xs text-white text-left">{item.username}</div>

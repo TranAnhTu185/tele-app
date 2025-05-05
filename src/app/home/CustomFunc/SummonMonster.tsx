@@ -5,7 +5,6 @@ import close from "../../../../public/icons/close-red.png";
 import {CarouseSum, ChildProps, dataMe} from "@/app/utils/common";
 import img1 from "../../../../public/img-1.svg";
 import vuKhi from "../../../../public/btn/btn-vk.svg";
-import stats from "../../../../public/btn/btn-stats.svg";
 import info from "../../../../public/icons/info.svg";
 import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
@@ -217,14 +216,6 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                     <WhatInsideMonsterModal />
                 </div>
             </div>
-
-            <button className="absolute bottom-[136px] left-[13px]" onClick={() => onButtonClick("stats")}>
-                <Image
-                    src={stats}
-                    alt=""
-                    className="w-[44px] h-[46px]"
-                />
-            </button>
         </div>
     );
 }

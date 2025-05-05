@@ -25,7 +25,7 @@ export default function Navbar() {
     const pathname = usePathname();
 
     const isActive = (path: string) => {
-        return pathname === path;
+        return pathname === path + '/';
       };
 
     const handleClick = () => {

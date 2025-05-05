@@ -10,7 +10,6 @@ import "../page.style.css"
 import { dataMe, PropsCommon } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-import { StatisticPage } from "@/app/home/CustomFunc/Statistic";
 
 
 
@@ -135,7 +134,6 @@ export default function HomePage() {
                             </div>
                             <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
                                 <Spin spinning={loading}>
-                                    {isStatic === "stats" && <StatisticPage onButtonClick={handleChildClick} />}
                                     {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
                                     {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
 
