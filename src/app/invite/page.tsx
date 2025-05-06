@@ -70,7 +70,7 @@ const InvitePage: React.FC = () => {
                     <div className={' mt-3 ps-3 w-[95%] flex text-sm justify-between'} >
                        <span>Each Egg opened by your friend</span>
                         <span className={'text-amber-400 flex'}>
-                                10%
+                                5%
                                 <span className={'ms-1 mt-[3px]'}><Image
                                     src={diamond}
                                     alt=""
@@ -84,7 +84,7 @@ const InvitePage: React.FC = () => {
                         <span className={'text-amber-400 flex'}>
                                 +500
                                 <span className={'ms-1 mt-[2px] text-xs text-white'}>
-                                    RCAT
+                                eBH
                                     </span>
                         </span>
                     </div>
@@ -94,7 +94,7 @@ const InvitePage: React.FC = () => {
                         <span className={'text-amber-400 flex'}>
                                 +1,000
                                  <span className={'ms-1 mt-[2px] text-xs text-white'}>
-                                    RCAT
+                                 eBH
                                     </span>
                         </span>
                     </div>
