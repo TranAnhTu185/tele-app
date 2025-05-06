@@ -1,7 +1,5 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import icon1 from "../../../public/icons/icon-1.png";
 import { Spin } from 'antd';
 import Navbar from "../navbar/page";
 import Header from "../header/page";
@@ -131,19 +129,6 @@ export default function HomePage() {
                     <Header key={childKey} />
                     <div className="text-white w-full mx-auto">
                         <div className="mt-22">
-                            <div className="flex justify-between items-center m-3 rounded-[20px] pb-[3px] pt-[3px] pr-[8px] pl-[8px] bg-[#33321e]">
-                                <div className="mr-3">
-                                    <Image
-                                        src={icon1}
-                                        alt=""
-                                        className="w-[18px] h-[21px] mx-auto"
-                                        style={{
-                                            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-                                        }}
-                                    />
-                                </div>
-                                <div className="flex-1 text-xs text-left">Summon Monster and get 4 TON per day</div>
-                            </div>
                             <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
                                 <Spin spinning={loading}>
                                     {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}

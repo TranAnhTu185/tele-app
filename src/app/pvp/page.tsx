@@ -1,5 +1,6 @@
 "use client";
 import type React from "react";
+import Image from "next/image";
 import Navbar from "../navbar/page";
 import { useEffect, useState } from "react";
 import { dataStatic } from "../utils/common";
@@ -69,7 +70,11 @@ function StatisticPage() {
 							<div className="text-xs text-white text-left">{item.username}</div>
 							<div className="text-xs text-white text-center flex items-center justify-center">+1
 								<div className="ml-3">
-								
+									<Image
+										src={item.avatar}
+										alt=""
+										className="w-[24px] h-[24px] mx-auto"
+									/>
 								</div>
 							</div>
 							<div className="text-xs text-[#7cce00] text-right">{item.profit} TON</div>

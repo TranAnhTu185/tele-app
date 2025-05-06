@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getFromLocalStorage } from "../utils/localStorage";
 import { DataUser } from "@/app/utils/common";
 
+
 export default function Header() {
     const [dataItem, setDataItem] = useState<DataUser | null>(null);
     useEffect(() => {
@@ -22,13 +23,28 @@ export default function Header() {
     }, [])
 
     const formatNumber = (number: number | undefined) => {
-        if(number !== undefined) {
-            return (Math.round(number * 100)/100).toFixed(2);
-        }else {
+        if (number !== undefined) {
+            return (Math.round(number * 100) / 100).toFixed(0);
+        } else {
             return 0;
         }
-        
+
     };
+    const formatMoney = (amount: number | undefined): string => {
+        if (amount) {
+            if (amount >= 1_000_000_000) {
+                return (amount / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+            } else if (amount >= 1_000_000) {
+                return (amount / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+            } else if (amount >= 1_000) {
+                return (amount / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+            }
+            return (Math.round(amount * 100) / 100).toFixed(2).toString();
+        }else {
+            return "0";
+        }
+    
+    }
     return (
         <div className="text-white w-full mx-auto relative">
             <div className="bg-[url('../../public/Union.svg')] bg-cover flex justify-center items-center h-[56px]">
@@ -63,7 +79,7 @@ export default function Header() {
 
                     </div>
                     <div>
-                        <div className="text-xs font-semibold text-[#547658]">{dataItem?.currentPoint}</div>
+                        <div className="text-xs font-semibold text-[#547658]">{formatNumber(dataItem?.currentPoint)}</div>
                         <div className="text-xs text-gray-400">eBH</div>
                     </div>
                 </div>
@@ -138,7 +154,7 @@ export default function Header() {
                         </svg>
                     </div>
                     <div>
-                        <div className="text-xs font-semibold text-[#547658]">{formatNumber(dataItem?.currentTon)}</div>
+                        <div className="text-xs font-semibold text-[#547658]">{formatMoney(dataItem?.currentTon)}</div>
                         <div className="text-xs text-gray-400">TON</div>
                     </div>
                 </div>

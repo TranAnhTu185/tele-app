@@ -48,7 +48,6 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                                 item[`atlasUrl`] = "/export/egg3.atlas.txt";
                             }
                         })
-                        console.log(dataTest.rows);
                         setDataItem(dataTest.rows);
                     }
                 } catch (error) {
@@ -63,6 +62,9 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     }, [])
 
     const onClickByEgg = async (eggId: number) => {
+        if(animation !== "Idle") {
+            setAnimation('Idle');
+        }
         const response = await fetch('https://ton-war.bytebuffer.co/egg/buy', {
             method: 'POST',
             headers: {
