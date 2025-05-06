@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from 'antd';
 import "./globals.css";
-import Link from "next/link";
+import {useEffect, useState} from "react";
+import { useRouter} from "next/navigation";
+import { Spin} from "antd";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -19,19 +20,24 @@ declare global {
   }
 }
 export default function Home() {
+
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    setTimeout(()=>{
+      setLoading(true);
+      router.push('/home')
+    }, 5000)
+  })
   return (
-    <div>
-        <LoginPage/>
+    <div className={'h-[100vh] w-full flex flex-col items-center justify-center'}>
+      <Spin spinning={loading} size="large" >
+
+      </Spin>
     </div>
 
   );
 }
 
-function LoginPage() {
-  return (
-    <Link  href="/home" className="h-screen flex flex-col items-center justify-center">
-      <Button type={"primary"}> Login</Button>
-    </Link>
-  );
-}
+
 
