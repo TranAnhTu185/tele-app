@@ -8,6 +8,7 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
+import {BrowserView, MobileView} from "react-device-detect";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
@@ -123,7 +124,9 @@ export default function HomePage() {
 
 
     return (
-        <main className="w-full">
+        <main className="w-full  bg-black ">
+            <MobileView>
+
             {(initData && isAuTh == true) &&
                 <div className="w-full">
                     <Header key={childKey} />
@@ -144,6 +147,10 @@ export default function HomePage() {
             {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
                 <Spin percent={mergedPercent} size="large" />
             </div>}
+            </MobileView>
+            <BrowserView>
+                <div className="flex min-h-screen flex-col items-center justify-center text-white p-4"> War Ton  is currently only available on mobiles devices.</div>
+            </BrowserView>
         </main>
     )
 }
