@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import icon1 from "../../../public/icons/icon-1.png";
 import { Spin } from 'antd';
 import Navbar from "../navbar/page";
@@ -10,8 +10,6 @@ import "../page.style.css"
 import { dataMe, PropsCommon } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-
-
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
@@ -112,6 +110,23 @@ export default function HomePage() {
     const reloadChild = () => {
         setChildKey((prev) => prev + 1);
     };
+
+    const auto = false;
+    const [percent, setPercent] = useState(-50);
+    const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+    useEffect(() => {
+        timerRef.current = setTimeout(() => {
+            setPercent((v) => {
+                const nextPercent = v + 5;
+                return nextPercent > 150 ? -50 : nextPercent;
+            });
+        }, 100);
+        return () => clearTimeout(timerRef.current!);
+    }, [percent]);
+    const mergedPercent = auto ? 'auto' : percent;
+
+
     return (
         <main className="w-full">
             {(initData && isAuTh == true) &&
@@ -143,18 +158,11 @@ export default function HomePage() {
                     </div>
                     <Navbar />
                 </div>
-             }
-            {(!initData) && <NotUser dataString={initData + error} />}
+            }
+            {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
+                <Spin percent={mergedPercent} size="large" />
+            </div>}
         </main>
-    )
-}
-
-function NotUser({ dataString }: PropsCommon) {
-    return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-4">
-            <h1 className="text-4xl font-bold mb-8">Ton War</h1>
-            <p className="text-xl">intData: {dataString}</p>
-        </div>
     )
 }
 
