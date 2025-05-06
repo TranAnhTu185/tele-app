@@ -7,7 +7,7 @@ import Navbar from "../navbar/page";
 import Header from "../header/page";
 import { removeFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 import "../page.style.css"
-import { dataMe, PropsCommon } from "@/app/utils/common";
+import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
 
@@ -16,7 +16,6 @@ export default function HomePage() {
     const [loading, setLoading] = useState(false);
     const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
-    const [error, setError] = useState("");
 
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
@@ -43,7 +42,6 @@ export default function HomePage() {
                         if (!response.ok) {
                             const errorData = await response.json();
                             setisAuTh(false);
-                            setError(errorData);
                             throw new Error(errorData.error || 'Failed to check membership');
                         } else {
                             const data = await response.json();
@@ -73,7 +71,6 @@ export default function HomePage() {
                     } catch (error) {
                         console.error('Error loggin', error);
                         setisAuTh(false);
-                        setError("login false");
                     } finally {
                     }
                 }
