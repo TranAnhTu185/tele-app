@@ -5,12 +5,11 @@ import { FileTextOutlined, LinkOutlined, RedoOutlined } from "@ant-design/icons"
 import diamond from "../../../public/icons/diamond.svg";
 import wallet from "../../../public/icons/wallet.svg";
 import Image from "next/image";
-import { useTonAddress, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { useCallback, useEffect, useState } from "react";
 import { Address, beginCell, Cell, toNano } from "@ton/core";
 import { DataUser } from "../utils/common";
 import { getFromLocalStorage } from "../utils/localStorage";
-import { sendTonTransaction } from "../lib/ton";
 
 const WalletPage: React.FC = () => {
     const [tonConnectUI] = useTonConnectUI();
@@ -356,7 +355,7 @@ function Withdraw({ address, onButtonClick }: Props) {
 };
 
 
-function Deposit({ address, onButtonClick }: Props) {
+function Deposit({ onButtonClick }: Props) {
     const [tonConnectUI] = useTonConnectUI();
     const addressNhan = "0QDqpyz11y8BMxUi-PNUxgTdLiLIjFV1IcC3-1Bsc3Gt095c";
     const [formData, setFormData] = useState({
