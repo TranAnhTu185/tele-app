@@ -1,20 +1,25 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Carousel, Col, Modal,  Row} from "antd";
+import { Carousel, Col, Modal, Row } from "antd";
 import close from "../../../../public/icons/close-red.png";
-import {CarouseSum, ChildProps, dataMe} from "@/app/utils/common";
+import { CarouseSum, ChildProps, dataMe } from "@/app/utils/common";
 import img1 from "../../../../public/img-1.svg";
 import vuKhi from "../../../../public/btn/btn-vk.svg";
 import info from "../../../../public/icons/info.svg";
 import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
 import SpinePlayerComponent from "@/app/lib/SpineCanvas";
+import { fixedData } from "../dataMonster";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 
 export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     const [dataItem, setDataItem] = useState<CarouseSum[] | []>([]);
     const [token, setToken] = useState<string>("");
-    const [animation, setAnimation] = useState("Idle")
+    const [animation, setAnimation] = useState("Idle");
+    const [showMonster, setShowMonster] = useState(false);
+    const [monster, setMonster] = useState<string | StaticImport >();;
+    const dataMonster = fixedData;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,16 +37,16 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                         const dataTest = await response.json();
                         dataTest.rows.map((item: CarouseSum, index: number) => {
                             item[`image`] = img1;
-                            if(index === 0 || index === 3) {
+                            if (index === 0 || index === 3) {
                                 item[`jsonUrl`] = "/export/egg1.json";
                                 item[`atlasUrl`] = "/export/egg1.atlas.txt";
-                            }else if(index === 1 || index === 4) {
+                            } else if (index === 1 || index === 4) {
                                 item[`jsonUrl`] = "/export/egg2.json";
                                 item[`atlasUrl`] = "/export/egg2.atlas.txt";
-                            }else {
+                            } else {
                                 item[`jsonUrl`] = "/export/egg3.json";
                                 item[`atlasUrl`] = "/export/egg3.atlas.txt";
-                            } 
+                            }
                         })
                         console.log(dataTest.rows);
                         setDataItem(dataTest.rows);
@@ -91,8 +96,16 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                 }, 1000);
 
                 setTimeout(() => {
+                    const monsterData = dataMonster.find(x => x.name == dataOpen.monster.name);
+                    setMonster(monsterData?.monsterImg);
+                    setShowMonster(true);
+                }, 2000);
+
+                setTimeout(() => {
+                    setMonster("");
+                    setShowMonster(false);
                     setAnimation('Idle');
-                }, 3000);
+                }, 6000);
                 const responseMe = await fetch('https://ton-war.bytebuffer.co/account/me', {
                     method: 'GET',
                     headers: {
@@ -147,35 +160,45 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
             </div>
             <div className="mt-[34px]">
                 <Carousel arrows dots={false}
-                          nextArrow={<button>
-                              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path fillRule="evenodd" clipRule="evenodd" d="M6 2C6.55228 2 7 2.44771 7 3V28C7 28.5523 6.55228 29 6 29C5.44772 29 5 28.5523 5 28V3C5 2.44772 5.44772 2 6 2ZM8.03567 27.35V19.9999C10.5045 19.9807 12.5 17.9734 12.5 15.5C12.5 13.0266 10.5045 11.0193 8.03567 11.0001V3.35003C8.03643 3.10704 8.10345 2.86886 8.22951 2.66113C8.35556 2.4534 8.53589 2.28398 8.75107 2.1711C8.96626 2.05823 9.20815 2.00618 9.45071 2.02056C9.69328 2.03494 9.92733 2.1152 10.1277 2.2527L27.461 14.2527C28.1797 14.75 28.1797 15.9474 27.461 16.446L10.1277 28.446C9.92774 28.5849 9.69357 28.6664 9.45061 28.6815C9.20764 28.6967 8.96516 28.645 8.74953 28.532C8.53389 28.419 8.35333 28.2491 8.22748 28.0407C8.10162 27.8324 8.03528 27.5935 8.03567 27.35Z" fill="url(#paint0_linear_2001_261)" />
-                                  <defs>
-                                      <linearGradient id="paint0_linear_2001_261" x1="28" y1="15" x2="5" y2="15" gradientUnits="userSpaceOnUse">
-                                          <stop stopColor="#C2EEA6" stopOpacity="0.8" />
-                                          <stop offset="1" stopColor="#C2EEA6" stopOpacity="0.3" />
-                                      </linearGradient>
-                                  </defs>
-                              </svg>
-                          </button>}
-                          prevArrow={<button>
-                              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path fillRule="evenodd" clipRule="evenodd" d="M26 2C25.4477 2 25 2.44771 25 3V28C25 28.5523 25.4477 29 26 29C26.5523 29 27 28.5523 27 28V3C27 2.44772 26.5523 2 26 2ZM23.9643 27.35V19.9999C21.4955 19.9807 19.5 17.9734 19.5 15.5C19.5 13.0266 21.4955 11.0193 23.9643 11.0001V3.35003C23.9636 3.10704 23.8966 2.86886 23.7705 2.66113C23.6444 2.4534 23.4641 2.28398 23.2489 2.1711C23.0337 2.05823 22.7919 2.00618 22.5493 2.02056C22.3067 2.03494 22.0727 2.1152 21.8723 2.2527L4.539 14.2527C3.82033 14.75 3.82033 15.9474 4.539 16.446L21.8723 28.446C22.0723 28.5849 22.3064 28.6664 22.5494 28.6815C22.7924 28.6967 23.0348 28.645 23.2505 28.532C23.4661 28.419 23.6467 28.2491 23.7725 28.0407C23.8984 27.8324 23.9647 27.5935 23.9643 27.35Z" fill="url(#paint0_linear_2001_255)" />
-                                  <defs>
-                                      <linearGradient id="paint0_linear_2001_255" x1="4" y1="15" x2="27" y2="15" gradientUnits="userSpaceOnUse">
-                                          <stop stopColor="#C2EEA6" stopOpacity="0.8" />
-                                          <stop offset="1" stopColor="#C2EEA6" stopOpacity="0.3" />
-                                      </linearGradient>
-                                  </defs>
-                              </svg>
-                          </button>}
+                    nextArrow={<button>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M6 2C6.55228 2 7 2.44771 7 3V28C7 28.5523 6.55228 29 6 29C5.44772 29 5 28.5523 5 28V3C5 2.44772 5.44772 2 6 2ZM8.03567 27.35V19.9999C10.5045 19.9807 12.5 17.9734 12.5 15.5C12.5 13.0266 10.5045 11.0193 8.03567 11.0001V3.35003C8.03643 3.10704 8.10345 2.86886 8.22951 2.66113C8.35556 2.4534 8.53589 2.28398 8.75107 2.1711C8.96626 2.05823 9.20815 2.00618 9.45071 2.02056C9.69328 2.03494 9.92733 2.1152 10.1277 2.2527L27.461 14.2527C28.1797 14.75 28.1797 15.9474 27.461 16.446L10.1277 28.446C9.92774 28.5849 9.69357 28.6664 9.45061 28.6815C9.20764 28.6967 8.96516 28.645 8.74953 28.532C8.53389 28.419 8.35333 28.2491 8.22748 28.0407C8.10162 27.8324 8.03528 27.5935 8.03567 27.35Z" fill="url(#paint0_linear_2001_261)" />
+                            <defs>
+                                <linearGradient id="paint0_linear_2001_261" x1="28" y1="15" x2="5" y2="15" gradientUnits="userSpaceOnUse">
+                                    <stop stopColor="#C2EEA6" stopOpacity="0.8" />
+                                    <stop offset="1" stopColor="#C2EEA6" stopOpacity="0.3" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </button>}
+                    prevArrow={<button>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M26 2C25.4477 2 25 2.44771 25 3V28C25 28.5523 25.4477 29 26 29C26.5523 29 27 28.5523 27 28V3C27 2.44772 26.5523 2 26 2ZM23.9643 27.35V19.9999C21.4955 19.9807 19.5 17.9734 19.5 15.5C19.5 13.0266 21.4955 11.0193 23.9643 11.0001V3.35003C23.9636 3.10704 23.8966 2.86886 23.7705 2.66113C23.6444 2.4534 23.4641 2.28398 23.2489 2.1711C23.0337 2.05823 22.7919 2.00618 22.5493 2.02056C22.3067 2.03494 22.0727 2.1152 21.8723 2.2527L4.539 14.2527C3.82033 14.75 3.82033 15.9474 4.539 16.446L21.8723 28.446C22.0723 28.5849 22.3064 28.6664 22.5494 28.6815C22.7924 28.6967 23.0348 28.645 23.2505 28.532C23.4661 28.419 23.6467 28.2491 23.7725 28.0407C23.8984 27.8324 23.9647 27.5935 23.9643 27.35Z" fill="url(#paint0_linear_2001_255)" />
+                            <defs>
+                                <linearGradient id="paint0_linear_2001_255" x1="4" y1="15" x2="27" y2="15" gradientUnits="userSpaceOnUse">
+                                    <stop stopColor="#C2EEA6" stopOpacity="0.8" />
+                                    <stop offset="1" stopColor="#C2EEA6" stopOpacity="0.3" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </button>}
                 >
                     {(() => {
                         if (dataItem.length > 0) {
                             const arr = [];
                             for (let i = 0; i < dataItem.length; i++) {
                                 arr.push(
-                                    <div key={i} className="mt-[50px]">
+                                    <div key={i} className="mt-[80px] relative">
+                                        {(showMonster == true && monster) &&
+                                            <Image
+                                                src={monster}
+                                                alt=""
+                                                className="w-[168px] h-[168px] mx-auto absolute left-[27%] z-[100] top-[-20%]"
+                                                style={{
+                                                    filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+                                                }}
+                                            />
+                                        }
                                         <SpinePlayerComponent
                                             jsonUrl={dataItem[i]?.jsonUrl}
                                             atlasUrl={dataItem[i]?.atlasUrl}
@@ -279,17 +302,17 @@ function WhatInsideMonsterModal() {
                 <Image src={info} alt="" className={'me-2'} />
                 <span style={{ color: '#ffffff', paddingTop: '5px' }}> What’s Inside</span></div>
         </>}
-               width={"100%"}
-               closeIcon={<Image src={close} alt="" />}
-               open={isModalOpen}
-               className={'monster-modal'}
-               footer={null}
-               style={{ top: 180 }}
-               onCancel={hideModal}>
+            width={"100%"}
+            closeIcon={<Image src={close} alt="" />}
+            open={isModalOpen}
+            className={'monster-modal'}
+            footer={null}
+            style={{ top: 180 }}
+            onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')]  min-h-[350px] pt-5"}>
                 <Carousel arrows
-                          nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
-                          prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
+                    nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
+                    prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
                 >
                     {(() => {
                         const arr = [];

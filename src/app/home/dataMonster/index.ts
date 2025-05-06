@@ -72,7 +72,7 @@ export const fixedData = [
         monsterImg: Voltaron
     },
     {
-        name: "froken",
+        name: "Froken",
         monsterImg: froken
     }
 ];
