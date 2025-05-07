@@ -143,7 +143,7 @@ export default function HomePage() {
         <main className="w-full  bg-black ">
             <MobileView>
 
-            {(initData && isAuTh == true) &&
+                {(initData && isAuTh == true) &&
                     <div className="w-full">
                         <Header key={childKey} />
                         <div className="text-white w-full mx-auto">
@@ -159,10 +159,10 @@ export default function HomePage() {
                         </div>
                         <Navbar />
                     </div>
-            }
+                }
                 {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
                     <Spin percent={mergedPercent} size="large" />
-            </div>}
+                </div>}
             </MobileView>
             <BrowserView>
                 <div className="flex min-h-screen flex-col items-center justify-center text-white p-4"> War Ton  is currently only available on mobiles devices.</div>
