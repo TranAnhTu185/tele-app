@@ -27,6 +27,7 @@ export default function HomePage() {
                     const params = new URLSearchParams(initDataUnsafe);
                     const startParam = params.get('start_param'); // ✅ this works
                     setinitData(tgApp.initData);
+                    removeFromLocalStorage("userInfo");
                     try {
                         const response = await fetch('https://ton-war.bytebuffer.co/auth', {
                             method: 'POST',
@@ -45,7 +46,6 @@ export default function HomePage() {
                         } else {
                             const data = await response.json();
                             saveToLocalStorage("initData", tgApp.initData);
-                            saveToLocalStorage("userInfo", data.userInfo);
                             saveToLocalStorage("token", data.token);
                             try {
                                 const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
@@ -59,7 +59,20 @@ export default function HomePage() {
                                     throw new Error(errorData.error || 'Failed to check');
                                 } else {
                                     const dataItem = await response.json();
-                                    console.log(dataItem);
+                                    const dataInfor = dataItem.data;
+                                    const userInfor = {
+                                        userId: dataInfor.user_id,
+                                        userName: dataInfor.username ? dataInfor.username : dataInfor.firstName + " " + dataInfor.lastName,
+                                        avatar: dataInfor.photoUrl,
+                                        currentTon: dataInfor.currentTon,
+                                        currentPoint: dataInfor.currentPoint,
+                                        currentKey: dataInfor.currentKey,
+                                        level: dataInfor.level,
+                                        totalReward: dataInfor.totalReward,
+                                        dailyReward: dataInfor.dailyReward,
+                                        languageCode: dataInfor.languageCode
+                                    }
+                                    saveToLocalStorage("userInfo", userInfor);
                                 }
                             } catch (error) {
                                 console.error('Error loggin', error);
@@ -97,7 +110,10 @@ export default function HomePage() {
             currentTon: data.current_ton,
             currentPoint: data.current_point,
             currentKey: data.current_key,
-            level: data.level
+            level: data.level,
+            totalReward: data.totalReward,
+            dailyReward: data.dailyReward,
+            languageCode: data.language_code
         }
         saveToLocalStorage("userInfo", userInfor);
         reloadChild();
@@ -128,24 +144,24 @@ export default function HomePage() {
             <MobileView>
 
             {(initData && isAuTh == true) &&
-                <div className="w-full">
-                    <Header key={childKey} />
-                    <div className="text-white w-full mx-auto">
-                        <div className="mt-22">
-                            <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
-                                <Spin spinning={loading}>
-                                    {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-                                    {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                    <div className="w-full">
+                        <Header key={childKey} />
+                        <div className="text-white w-full mx-auto">
+                            <div className="mt-22">
+                                <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
+                                    <Spin spinning={loading}>
+                                        {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                                        {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
 
-                                </Spin>
+                                    </Spin>
+                                </div>
                             </div>
                         </div>
+                        <Navbar />
                     </div>
-                    <Navbar />
-                </div>
             }
-            {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
-                <Spin percent={mergedPercent} size="large" />
+                {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
+                    <Spin percent={mergedPercent} size="large" />
             </div>}
             </MobileView>
             <BrowserView>

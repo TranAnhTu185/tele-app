@@ -131,10 +131,9 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                         last_name: data.lastName,
                         language_code: data.languageCode,
                         weapon_level: data.weaponLevel,
-                        last_login_at: data.last_login_at,
-                        updated_at: data.updated_at,
-                        created_at: data.created_at,
-                        photo_url: data.photoUrl
+                        photo_url: data.photoUrl,
+                        dailyReward: data.dailyReward,
+                        totalReward: data.totalReward
                     }
                     if (onVoidData) {
                         onVoidData(dataMe);

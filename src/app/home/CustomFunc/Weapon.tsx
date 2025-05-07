@@ -97,22 +97,21 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
                 const datatt = await responseMe.json();
                 const data = datatt.data;
                 const dataMe: dataMe = {
-                    current_ton: data.current_ton,
-                    current_key: data.current_key,
-                    current_point: data.current_point,
-                    username: data.username,
+                    current_ton: data.currentTon,
+                    current_key: data.currentKey,
+                    current_point: data.currentPoint,
+                    username: data.username ? data.username : data.firstName + " " + data.lastName,
                     level: data.level,
-                    user_id: data.user_id,
-                    first_name: data.first_name,
-                    last_name: data.last_name,
-                    language_code: data.language_code,
-                    weapon_level: data.weapon_level,
-                    last_login_at: data.last_login_at,
-                    updated_at: data.updated_at,
-                    created_at: data.created_at,
-                    photo_url: data.photo_url
+                    user_id: data.userId,
+                    first_name: data.firstName,
+                    last_name: data.lastName,
+                    language_code: data.languageCode,
+                    weapon_level: data.weaponLevel,
+                    photo_url: data.photoUrl,
+                    dailyReward: data.dailyReward,
+                    totalReward: data.totalReward
                 }
-                setKey(data.current_key);
+                setKey(data.currentKey);
                 if (onVoidData) {
                     onVoidData(dataMe);
                 }
@@ -168,12 +167,12 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
                         percentPosition={{ align: 'end', type: 'inner' }}
                         size={[240, 20]} />
                     <span className={'absolute '}
-                          style={{
-                              fontWeight: 400,
-                              fontSize: '10px',
-                              bottom: '8px',
-                              right: '8px'
-                          }}>XP: <b>37/72</b></span>
+                        style={{
+                            fontWeight: 400,
+                            fontSize: '10px',
+                            bottom: '8px',
+                            right: '8px'
+                        }}>XP: <b>37/72</b></span>
                 </div>
 
                 <div className="flex justify-center items-center mt-[0px] mb-[10px] ">
@@ -238,13 +237,13 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
                 <Image src={backPack} height={24}  alt="" className={'me-2'}/>
                 <span style={{color:'#ffffff', paddingTop:'5px'}}> Inventory</span></div>
         </>}
-                width={"100%"}
+            width={"100%"}
                 closeIcon={   <Image src={close}  alt="" />}
-                open={isModalOpen}
-                className={'monster-modal'}
-                footer={null}
-                centered
-                onCancel={hideModal}>
+            open={isModalOpen}
+            className={'monster-modal'}
+            footer={null}
+            centered
+            onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')] bg-no-repeat bg-center h-[380px] relative "}>
                 <div className={'max-h-[330px] overscroll-x-auto'}>
                     <Row gutter={12}>

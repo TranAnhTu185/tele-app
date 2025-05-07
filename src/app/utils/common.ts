@@ -18,10 +18,9 @@ export type dataMe = {
     last_name: string,
     language_code: string,
     weapon_level: number,
-    last_login_at: number,
-    updated_at: number,
-    created_at: number,
-    photo_url: string
+    photo_url: string,
+    dailyReward: number,
+    totalReward: number
 };
 export type dataStatic = {
     user_id: string,
@@ -72,7 +71,9 @@ export type DataUser = {
     currentTon?: number,
     level?: number,
     userId?: string
-    userName?: string
+    userName?: string,
+    dailyReward?: number,
+    totalReward?: number
 };
 export  interface ItemEarn{
     title:string,
