@@ -121,20 +121,20 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                     const datatt = await responseMe.json();
                     const data = datatt.data;
                     const dataMe: dataMe = {
-                        current_ton: data.current_ton,
-                        current_key: data.current_key,
-                        current_point: data.current_point,
-                        username: data.username,
+                        current_ton: data.currentTon,
+                        current_key: data.currentKey,
+                        current_point: data.currentPoint,
+                        username: data.username ? data.username : data.firstName + " " + data.lastName,
                         level: data.level,
-                        user_id: data.user_id,
-                        first_name: data.first_name,
-                        last_name: data.last_name,
-                        language_code: data.language_code,
-                        weapon_level: data.weapon_level,
+                        user_id: data.userId,
+                        first_name: data.firstName,
+                        last_name: data.lastName,
+                        language_code: data.languageCode,
+                        weapon_level: data.weaponLevel,
                         last_login_at: data.last_login_at,
                         updated_at: data.updated_at,
                         created_at: data.created_at,
-                        photo_url: data.photo_url
+                        photo_url: data.photoUrl
                     }
                     if (onVoidData) {
                         onVoidData(dataMe);
