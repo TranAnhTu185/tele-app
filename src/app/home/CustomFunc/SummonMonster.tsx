@@ -18,7 +18,7 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     const [token, setToken] = useState<string>("");
     const [animation, setAnimation] = useState("Idle");
     const [showMonster, setShowMonster] = useState(false);
-    const [monster, setMonster] = useState<string | StaticImport >();;
+    const [monster, setMonster] = useState<string | StaticImport>();
     const dataMonster = fixedData;
 
     useEffect(() => {
@@ -62,8 +62,10 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
     }, [])
 
     const onClickByEgg = async (eggId: number) => {
-        if(animation !== "Idle") {
+        if (animation !== "Idle") {
             setAnimation('Idle');
+            setMonster("");
+            setShowMonster(false);
         }
         const response = await fetch('https://ton-war.bytebuffer.co/egg/buy', {
             method: 'POST',
@@ -256,7 +258,9 @@ type dataMon = {
 
 function WhatInsideMonsterModal() {
     const [isModalOpen, setIsOpenModal] = useState(false);
+    const [page, setPage] = useState(1);
     const [datalist, setDataList] = useState<dataMon[] | []>([]);
+    const dataMonster = fixedData;
     const showModal = () => {
         setIsOpenModal(true);
     };
@@ -266,7 +270,7 @@ function WhatInsideMonsterModal() {
             const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
                 try {
-                    const responListMon = await fetch('https://ton-war.bytebuffer.co/monster/list', {
+                    const responListMon = await fetch(`https://ton-war.bytebuffer.co/monster/list`, {
                         method: 'GET',
                         headers: {
                             'Authorization': JSON.parse(stored),
@@ -287,8 +291,45 @@ function WhatInsideMonsterModal() {
 
         fetchData();
     }, [])
+
+    const getImg = (name: string) => {
+        const monsterData = dataMonster.find(x => x.name == name);
+        if (monsterData) {
+            return monsterData?.monsterImg;
+        } else {
+            return img1;
+        }
+    }
     const hideModal = () => {
         setIsOpenModal(false);
+    };
+
+    const onChange = async (currentSlide: number) => {
+        console.log(currentSlide);
+        if (currentSlide === datalist.length - 1) {
+            setPage(page + 1);
+            const stored = localStorage.getItem('token');
+            if (stored !== null && stored !== undefined) {
+                try {
+                    const responListMon = await fetch(`https://ton-war.bytebuffer.co/monster/list?page=${page}&size=10`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': JSON.parse(stored),
+                        },
+                    })
+
+                    if (responListMon.ok) {
+                        const dataTest = await responListMon.json();
+                        console.log(dataTest.rows);
+                        setDataList([...datalist ,dataTest.rows]);
+                    }
+                } catch (error) {
+                    console.error('GET failed:', error);
+                }
+            } else {
+                console.error("no token");
+            }
+        }
     };
     return <>
         <div className="flex text-xs text-left cursor-pointer" onClick={showModal}>
@@ -312,7 +353,7 @@ function WhatInsideMonsterModal() {
             style={{ top: 180 }}
             onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')]  min-h-[350px] pt-5"}>
-                <Carousel arrows
+                <Carousel arrows afterChange={onChange} dots={false} infinite={false}
                     nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
                     prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
                 >
@@ -322,9 +363,9 @@ function WhatInsideMonsterModal() {
                             arr.push(
                                 <div className={' min-h-[350px]'}>
                                     <Image
-                                        src={img1}
+                                        src={getImg(datalist[i].name)}
                                         alt=""
-                                        className="mx-auto mt-5"
+                                        className="mx-auto mt-5 max-h-[212px] w-auto"
                                         style={{
                                             filter: "drop-shadow(0px 0px 24px #3B2E14)",
                                         }}
