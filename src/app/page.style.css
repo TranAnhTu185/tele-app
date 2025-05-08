@@ -5,17 +5,25 @@
 }
 .ant-progress-inner{
    background: #131716 !important;
+    border: 1px solid darkgreen ;
    border-bottom-left-radius:0px !important;
    border-bottom-right-radius:0px !important;
    border-top-right-radius:12px !important;
    border-top-left-radius:12px !important;
+    .ant-progress-bg-inner{
+        border-bottom-left-radius:0px !important;
+        border-bottom-right-radius:0px !important;
+        border-top-right-radius:0px !important;
+        border-top-left-radius:12px !important;
+    }
+
   /*border-radius: 12px 12px 0px 0px !important;*/
 }
 .ButtonOpen1{
-    width: 116px ;
-    border-radius: 999px 64px 64px  999px !important;
+    width:150px ;
+    border-radius:  999px !important;
     font-size: 16px !important;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
 }
 .ButtonOpenAll{
     width: 116px ;

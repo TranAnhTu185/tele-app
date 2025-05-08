@@ -5,7 +5,10 @@ export type Weapons = {
     name: string,
     type: string,
     level: number,
-    quality: number
+    quality: number,
+    exp:number,
+    totalExp:number
+    img: string,
 }
 export type dataMe = {
     current_ton: number,

@@ -2,18 +2,186 @@ import {useEffect, useState} from "react";
 import Image from "next/image";
 import monster from "../../../../public/btn/monster.svg";
 import key from "../../../../public/icons/key.svg";
-import img11 from "../../../../public/img-11.svg";
-import {Button, Col, Modal, Progress, Row} from "antd";
+import {Button, Carousel, Col, Modal, Progress, Row} from "antd";
 import backPack1 from "../../../../public/icons/Backpack-1.svg";
 import backPack from "../../../../public/icons/BackPack.svg";
 import close from "../../../../public/icons/close-red.png";
 import knife1 from "../../../../public/icons/knife1.svg";
+
+import awp from "../../../../public/weapon/awp.svg";
+import cung from "../../../../public/weapon/cung.svg";
+import daiBac from "../../../../public/weapon/dai-bac.svg";
+import gayDauDo from "../../../../public/weapon/gay-dau-do.svg";
+import gayNgan from "../../../../public/weapon/gay-ngan.svg";
+import haiKiemNho from "../../../../public/weapon/hai-kiem-nho.svg";
+import haiKiemTo from "../../../../public/weapon/hai-kiem-to.svg";
+import khien from "../../../../public/weapon/khien.svg";
+import kiemXanhTo from "../../../../public/weapon/kiem-xanh-to.svg";
+import liemDefault from "../../../../public/weapon/liem-default.svg";
+import liemThanChet from "../../../../public/weapon/liem-than-chet.svg";
+import noThan from "../../../../public/weapon/no-than.svg";
+import sauNong from "../../../../public/weapon/sau-nong.svg";
+import thuongDo from "../../../../public/weapon/thuong-do.svg";
+
 import {  ChildProps, dataMe,  PropsWeapon, Weapons} from "@/app/utils/common";
+import arrowRight from "../../../../public/icons/Arrow-right.png";
+import arrowLeft from "../../../../public/icons/Arrow-left.png";
 
 export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
     const [token, setToken] = useState<string>("");
     const [dataWeapon, setDataWeapon] = useState<Weapons[] | []>([]);
+    const [dataWeapon1, setDataWeapon1] = useState<Weapons[] | []>([]);
+
+    useEffect(() => {
+
+        const dataTest:Weapons[]=
+            [
+                {
+                    exp:50,
+                    level:1,
+                    name:"awp",
+                    img:awp,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"1"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"cung",
+                    img:cung,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"2"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"daiBac",
+                    img:daiBac,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"3"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"gayDauDo",
+                    img:gayDauDo,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"4"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"gayNgan",
+                    img:gayNgan,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"5"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"haiKiemNho",
+                    img:haiKiemNho,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"6"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"haiKiemTo",
+                    img:haiKiemTo,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"7"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"khien",
+                    img:khien,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"8"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"kiemXanhTo",
+                    img:kiemXanhTo,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"9"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"liemDefault",
+                    img:liemDefault,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"10"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"liemThanChet",
+                    img:liemThanChet,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"11"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"noThan",
+                    img:noThan,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"12"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"sauNong",
+                    img:sauNong,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"13"
+                },
+                {
+                    exp:0,
+                    level:1,
+                    name:"thuongDo",
+                    img:thuongDo,
+                    type:"",
+                    quality:1,
+                    totalExp:72,
+                    id:"14"
+                },
+            ]
+        setDataWeapon1(dataTest)
+    }, []);
+
+
     useEffect(() => {
         const fetchData = async () => {
             const stored = localStorage.getItem('token');
@@ -121,6 +289,10 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
         await getListWeapons();
     }
 
+    const onChange= async () => {
+
+    }
+
     return (
         <div className="p-3 bg-no-repeat bg-center rounded-lg bg-[url('../../public/image.svg')]  min-h-[540px] relative">
             <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
@@ -149,58 +321,81 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
                     {keyData}
                 </div>
             </div>
-            <div className="flex justify-center items-center mt-[34px] mb-[10px]">
-                <Image
-                    src={img11}
-                    alt=""
-                    className="w-[104px] h-[160px] mx-auto"
-                    style={{
-                        filter: "drop-shadow(0px 0px 24px #3B2E14)",
-                    }}
-                />
-            </div>
+
+
+
+            <Carousel className={'mt-10 mb-0 h-[300px]'} arrows afterChange={onChange} dots={false} infinite={false}
+                      nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
+                      prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
+            >
+                {(() => {
+                    const arr = [];
+                    for (let i = 0; i < dataWeapon1.length; i++) {
+                        arr.push(
+                            <div className={' min-h-[350px]'}>
+                                <div className="flex justify-center items-center mt-[34px] mb-[10px]">
+                                    <Image
+                                        src={dataWeapon1[i].img}
+                                        alt=""
+                                        className="w-[224px] h-[160px] mx-auto"
+                                        style={{
+                                            filter: "drop-shadow(0px 0px 24px #3B2E14)",
+                                        }}
+                                    />
+                                </div>
+                                <div className="flex flex-col justify-center items-center">
+                                    <div className="flex flex-col justify-center items-center mt-[20px] mb-[5px] relative">
+                                        <Progress
+                                            percent={(dataWeapon1[i].exp * 100) / dataWeapon1[i].totalExp}
+                                            showInfo={false}
+                                            percentPosition={{ align: 'end', type: 'inner' }}
+                                            size={[240, 20]} />
+                                        <span className={'absolute '}
+                                              style={{
+                                                  color: 'white',
+                                                  fontWeight: 400,
+                                                  fontSize: '10px',
+                                                  bottom: '8px',
+                                                  right: '8px'
+                                              }}>XP: <b>{dataWeapon1[i].exp}/{dataWeapon1[i].totalExp}</b></span>
+                                    </div>
+
+                                    <div className="flex justify-center items-center mt-[0px] mb-[10px] ">
+                                        <span style={{
+                                            color: 'white',
+                                            fontWeight: 400,
+                                            fontSize: '14px',
+                                            marginTop: '2px'
+                                        }}>
+                                            Level:
+                                        </span> &nbsp;
+                                                        <span
+                                                            style={{
+                                                                fontWeight: 600,
+                                                                fontSize: '16px',
+                                                                color: '#96DC6B'
+                                                            }}>
+                                            {dataWeapon1[i].level}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    }
+                    return arr;
+                })()}
+
+            </Carousel>
+
             <div className="flex flex-col justify-center items-center">
-                <div className="flex flex-col justify-center items-center mt-[20px] mb-[5px] relative">
-                    <Progress
-                        percent={(36 * 100) / 72}
-                        showInfo={false}
-                        percentPosition={{ align: 'end', type: 'inner' }}
-                        size={[240, 20]} />
-                    <span className={'absolute '}
-                        style={{
-                            fontWeight: 400,
-                            fontSize: '10px',
-                            bottom: '8px',
-                            right: '8px'
-                        }}>XP: <b>37/72</b></span>
-                </div>
-
-                <div className="flex justify-center items-center mt-[0px] mb-[10px] ">
-                    <span style={{
-                        fontWeight: 400,
-                        fontSize: '12px',
-                        marginTop: '2px'
-                    }}>
-                        Level:
-                    </span> &nbsp;
-                    <span
-                        style={{
-                            fontWeight: 600,
-                            fontSize: '16px',
-                            color: '#96DC6B'
-                        }}>
-                        1
-                    </span>
-                </div>
-
                 <div className="flex justify-center items-center mt-[1px] mb-[10px] ">
                     <Button type={'primary'} className={'ButtonOpen1'} onClick={() => handleOpenWeapon(2)}>
-                        Open 1
+                        100<Image
+                        src={key}
+                        alt=""
+                        className="w-[22px] h-[22px]"
+                    />
                     </Button>
-                    <Button className={'ButtonOpenAll'} onClick={() => handleOpenWeapon(key)}>
-                        Open All
-                    </Button>
-
                 </div>
                 <div className="flex justify-between items-center pt-[12px]">
                     <div className="flex-1 text-xs text-left mr-2">What’s Inside</div>
