@@ -1,12 +1,11 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import monster from "../../../../public/btn/monster.svg";
 import key from "../../../../public/icons/key.svg";
-import {Button, Carousel, Col, Modal, Progress, Row} from "antd";
+import { Button, Carousel, Col, Modal, Progress, Row } from "antd";
 import backPack1 from "../../../../public/icons/Backpack-1.svg";
 import backPack from "../../../../public/icons/BackPack.svg";
 import close from "../../../../public/icons/close-red.png";
-import knife1 from "../../../../public/icons/knife1.svg";
 
 import awp from "../../../../public/weapon/awp.svg";
 import cung from "../../../../public/weapon/cung.svg";
@@ -23,166 +22,161 @@ import noThan from "../../../../public/weapon/no-than.svg";
 import sauNong from "../../../../public/weapon/sau-nong.svg";
 import thuongDo from "../../../../public/weapon/thuong-do.svg";
 
-import {  ChildProps, dataMe,  PropsWeapon, Weapons} from "@/app/utils/common";
+import { ChildProps, dataMe, PropsWeapon, Weapons } from "@/app/utils/common";
 import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
 
-export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
+export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
     const [token, setToken] = useState<string>("");
     const [dataWeapon, setDataWeapon] = useState<Weapons[] | []>([]);
     const [dataWeapon1, setDataWeapon1] = useState<Weapons[] | []>([]);
 
     useEffect(() => {
-
-        const dataTest:Weapons[]=
+        const dataTest: Weapons[] =
             [
                 {
-                    exp:50,
-                    level:1,
-                    name:"awp",
-                    img:awp,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"1"
+                    exp: 50,
+                    level: 1,
+                    name: "awp",
+                    img: awp,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "1"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"cung",
-                    img:cung,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"2"
+                    exp: 0,
+                    level: 1,
+                    name: "cung",
+                    img: cung,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "2"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"daiBac",
-                    img:daiBac,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"3"
+                    exp: 0,
+                    level: 1,
+                    name: "daiBac",
+                    img: daiBac,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "3"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"gayDauDo",
-                    img:gayDauDo,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"4"
+                    exp: 0,
+                    level: 1,
+                    name: "gayDauDo",
+                    img: gayDauDo,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "4"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"gayNgan",
-                    img:gayNgan,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"5"
+                    exp: 0,
+                    level: 1,
+                    name: "gayNgan",
+                    img: gayNgan,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "5"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"haiKiemNho",
-                    img:haiKiemNho,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"6"
+                    exp: 0,
+                    level: 1,
+                    name: "haiKiemNho",
+                    img: haiKiemNho,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "6"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"haiKiemTo",
-                    img:haiKiemTo,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"7"
+                    exp: 0,
+                    level: 1,
+                    name: "haiKiemTo",
+                    img: haiKiemTo,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "7"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"khien",
-                    img:khien,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"8"
+                    exp: 0,
+                    level: 1,
+                    name: "khien",
+                    img: khien,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "8"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"kiemXanhTo",
-                    img:kiemXanhTo,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"9"
+                    exp: 0,
+                    level: 1,
+                    name: "kiemXanhTo",
+                    img: kiemXanhTo,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "9"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"liemDefault",
-                    img:liemDefault,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"10"
+                    exp: 0,
+                    level: 1,
+                    name: "liemDefault",
+                    img: liemDefault,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "10"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"liemThanChet",
-                    img:liemThanChet,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"11"
+                    exp: 0,
+                    level: 1,
+                    name: "liemThanChet",
+                    img: liemThanChet,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "11"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"noThan",
-                    img:noThan,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"12"
+                    exp: 0,
+                    level: 1,
+                    name: "noThan",
+                    img: noThan,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "12"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"sauNong",
-                    img:sauNong,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"13"
+                    exp: 0,
+                    level: 1,
+                    name: "sauNong",
+                    img: sauNong,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "13"
                 },
                 {
-                    exp:0,
-                    level:1,
-                    name:"thuongDo",
-                    img:thuongDo,
-                    type:"",
-                    quality:1,
-                    totalExp:72,
-                    id:"14"
+                    exp: 0,
+                    level: 1,
+                    name: "thuongDo",
+                    img: thuongDo,
+                    type: "",
+                    quality: 1,
+                    totalExp: 72,
+                    id: "14"
                 },
             ]
         setDataWeapon1(dataTest)
-    }, []);
-
-
-    useEffect(() => {
         const fetchData = async () => {
             const stored = localStorage.getItem('token');
             if (stored !== null && stored !== undefined) {
@@ -202,8 +196,14 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
                     })
 
                     if (responWeapon.ok) {
-                        const dataTest = await responWeapon.json();
-                        setDataWeapon(dataTest.weapons);
+                        const dataList = await responWeapon.json();
+                        dataList.weapons.forEach((item: Weapons, index: number) => {
+                            item.exp = item.quality;
+                            item.totalExp = item.quality > 4 ** item.level ? 4 ** (item.level + 1) : 4 ** item.level;
+                            item.img = dataTest[index].img;
+                            item.level = item.quality > 4 ** item.level ? item.level + 1 : item.level;
+                        });
+                        setDataWeapon(dataList.weapons);
                     }
                 } catch (error) {
                     console.error('GET failed:', error);
@@ -235,7 +235,12 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
         })
         if (response.ok) {
             const dataList = await response.json();
-            console.log(dataList.weapons);
+            dataList.weapons.forEach((item: Weapons, index: number) => {
+                item.exp = item.quality;
+                item.totalExp = item.quality > 4 ** item.level ? 4 ** (item.level + 1) : 4 ** item.level;
+                item.img = dataWeapon1[index].img;
+                item.level = item.quality > 4 ** item.level ? item.level + 1 : item.level;
+            });
             setDataWeapon(dataList.weapons);
         }
     }
@@ -289,7 +294,7 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
         await getListWeapons();
     }
 
-    const onChange= async () => {
+    const onChange = async () => {
 
     }
 
@@ -325,17 +330,17 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
 
 
             <Carousel className={'mt-10 mb-0 h-[300px]'} arrows afterChange={onChange} dots={false} infinite={false}
-                      nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
-                      prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
+                nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
+                prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
             >
                 {(() => {
                     const arr = [];
-                    for (let i = 0; i < dataWeapon1.length; i++) {
+                    for (let i = 0; i < dataWeapon.length; i++) {
                         arr.push(
                             <div className={' min-h-[350px]'}>
                                 <div className="flex justify-center items-center mt-[34px] mb-[10px]">
                                     <Image
-                                        src={dataWeapon1[i].img}
+                                        src={dataWeapon[i].img}
                                         alt=""
                                         className="w-[224px] h-[160px] mx-auto"
                                         style={{
@@ -346,18 +351,18 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
                                 <div className="flex flex-col justify-center items-center">
                                     <div className="flex flex-col justify-center items-center mt-[20px] mb-[5px] relative">
                                         <Progress
-                                            percent={(dataWeapon1[i].exp * 100) / dataWeapon1[i].totalExp}
+                                            percent={(dataWeapon[i].exp * 100) / dataWeapon[i].totalExp}
                                             showInfo={false}
                                             percentPosition={{ align: 'end', type: 'inner' }}
                                             size={[240, 20]} />
                                         <span className={'absolute '}
-                                              style={{
-                                                  color: 'white',
-                                                  fontWeight: 400,
-                                                  fontSize: '10px',
-                                                  bottom: '8px',
-                                                  right: '8px'
-                                              }}>XP: <b>{dataWeapon1[i].exp}/{dataWeapon1[i].totalExp}</b></span>
+                                            style={{
+                                                color: 'white',
+                                                fontWeight: 400,
+                                                fontSize: '10px',
+                                                bottom: '8px',
+                                                right: '8px'
+                                            }}>XP: <b>{dataWeapon[i].exp}/{dataWeapon[i].totalExp}</b></span>
                                     </div>
 
                                     <div className="flex justify-center items-center mt-[0px] mb-[10px] ">
@@ -369,13 +374,13 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
                                         }}>
                                             Level:
                                         </span> &nbsp;
-                                                        <span
-                                                            style={{
-                                                                fontWeight: 600,
-                                                                fontSize: '16px',
-                                                                color: '#96DC6B'
-                                                            }}>
-                                            {dataWeapon1[i].level}
+                                        <span
+                                            style={{
+                                                fontWeight: 600,
+                                                fontSize: '16px',
+                                                color: '#96DC6B'
+                                            }}>
+                                            {dataWeapon[i].level}
                                         </span>
                                     </div>
                                 </div>
@@ -389,12 +394,12 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
 
             <div className="flex flex-col justify-center items-center">
                 <div className="flex justify-center items-center mt-[1px] mb-[10px] ">
-                    <Button type={'primary'} className={'ButtonOpen1'} onClick={() => handleOpenWeapon(2)}>
+                    <Button type={'primary'} className={'ButtonOpen1'} onClick={() => handleOpenWeapon(100)}>
                         100<Image
-                        src={key}
-                        alt=""
-                        className="w-[22px] h-[22px]"
-                    />
+                            src={key}
+                            alt=""
+                            className="w-[22px] h-[22px]"
+                        />
                     </Button>
                 </div>
                 <div className="flex justify-between items-center pt-[12px]">
@@ -411,7 +416,7 @@ export function  Weapon({ onButtonClick, onVoidData }: ChildProps) {
 }
 
 function InventoryItemModal({ dataList }: PropsWeapon) {
-    const [isModalOpen , setIsOpenModal]=useState(false);
+    const [isModalOpen, setIsOpenModal] = useState(false);
     const showModal = () => {
         setIsOpenModal(true);
     };
@@ -427,20 +432,20 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
                 className="w-[44px] h-[46px]"
             />
         </div>
-        <Modal  title={<>
+        <Modal title={<>
             <div className={'flex'}>
-                <Image src={backPack} height={24}  alt="" className={'me-2'}/>
-                <span style={{color:'#ffffff', paddingTop:'5px'}}> Inventory</span></div>
+                <Image src={backPack} height={24} alt="" className={'me-2'} />
+                <span style={{ color: '#ffffff', paddingTop: '5px' }}> Inventory</span></div>
         </>}
             width={"100%"}
-                closeIcon={   <Image src={close}  alt="" />}
+            closeIcon={<Image src={close} alt="" />}
             open={isModalOpen}
             className={'monster-modal'}
             footer={null}
             centered
             onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')] bg-no-repeat bg-center h-[380px] relative "}>
-                <div className={'max-h-[330px] overscroll-x-auto'}>
+                <div className={'max-h-[330px] overscroll-y-auto'}>
                     <Row gutter={12}>
                         {(() => {
                             const arr = [];
@@ -448,16 +453,16 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
                                 arr.push(
 
                                     <Col span={6} className={'mt-3'}  >
-                                        <div className={"py-[6px] text-size-info bg-no-repeat bg-center text-amber-50 text-center  h-[70px] bg-[url('../../public/icons/inventory-item-bg.png')] justify-center grid "}>
+                                        <div className={"py-[6px] text-size-info bg-no-repeat bg-center text-amber-50 text-center  h-[70px] justify-center grid "}>
                                             <Image
-                                                src={knife1}
+                                                src={dataList[i].img}
                                                 alt=""
                                                 className="mx-auto mt-3"
                                                 style={{
                                                     filter: "drop-shadow(0px 0px 24px #3B2E14)",
                                                 }}
                                             />
-                                            <span className={'mt-4'}> Lv: {dataList[i].level} </span> &nbsp;
+                                            <span className={'mt-2'}> Lv: {dataList[i].level} </span> &nbsp;
                                         </div>
                                     </Col>
 
@@ -468,7 +473,7 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
                     </Row>
                 </div>
                 <div className={'absolute w-full bottom-0 px-3'}>
-                    <Button style={{borderRadius:'999px'}}  className={'w-full bottom-0'} type={'primary'}> Upgrade All</Button>
+                    <Button style={{ borderRadius: '999px' }} className={'w-full bottom-0'} type={'primary'}> Upgrade All</Button>
                 </div>
             </div>
         </Modal>
