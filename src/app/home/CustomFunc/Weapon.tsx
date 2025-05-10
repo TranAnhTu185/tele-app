@@ -32,6 +32,11 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [dataWeapon, setDataWeapon] = useState<Weapons[] | []>([]);
     const [dataWeapon1, setDataWeapon1] = useState<Weapons[] | []>([]);
 
+    function getBaseLog(x: number, y: number) {
+        const test = Math.floor(Math.log(y) / Math.log(x));
+        return test + 1;
+      }
+
     useEffect(() => {
         const dataTest: Weapons[] =
             [
@@ -199,9 +204,9 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                         const dataList = await responWeapon.json();
                         dataList.weapons.forEach((item: Weapons, index: number) => {
                             item.exp = item.quality;
-                            item.totalExp = item.quality > 4 ** item.level ? 4 ** (item.level + 1) : 4 ** item.level;
+                            item.totalExp =  4 ** getBaseLog(4, item.quality);
                             item.img = dataTest[index].img;
-                            item.level = item.quality > 4 ** item.level ? item.level + 1 : item.level;
+                            item.level = getBaseLog(4, item.quality);
                         });
                         setDataWeapon(dataList.weapons);
                     }
@@ -237,9 +242,9 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
             const dataList = await response.json();
             dataList.weapons.forEach((item: Weapons, index: number) => {
                 item.exp = item.quality;
-                item.totalExp = item.quality > 4 ** item.level ? 4 ** (item.level + 1) : 4 ** item.level;
+                item.totalExp = 4 ** getBaseLog(4, item.quality);
                 item.img = dataWeapon1[index].img;
-                item.level = item.quality > 4 ** item.level ? item.level + 1 : item.level;
+                item.level = getBaseLog(4, item.quality);
             });
             setDataWeapon(dataList.weapons);
         }
