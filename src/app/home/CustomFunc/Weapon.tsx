@@ -199,6 +199,13 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                             'Authorization': JSON.parse(stored),
                         },
                     })
+                    const responKey = await fetch('https://ton-war.bytebuffer.co/key/claim', {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': JSON.parse(stored),
+                        },
+                    })
+
 
                     if (responWeapon.ok) {
                         const dataList = await responWeapon.json();
@@ -209,6 +216,11 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                             item.level = getBaseLog(4, item.quality);
                         });
                         setDataWeapon(dataList.weapons);
+                    }
+
+                    if(responKey.ok){
+                        const data = await responKey.json();
+                        setKey(data.rc);
                     }
                 } catch (error) {
                     console.error('GET failed:', error);

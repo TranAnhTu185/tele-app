@@ -1,3 +1,4 @@
+import {StaticImageData} from "next/image";
 
 
 export type Weapons = {
@@ -88,8 +89,8 @@ export  interface ItemEarn{
 
 export  interface SummonMonster{
     name:string,
-    img:string,
-    totalEarns:number
-    diamonds:number,
+    img:string | StaticImageData,
+    totalEarns:number,
+    diamonds:number|string,
 
 }

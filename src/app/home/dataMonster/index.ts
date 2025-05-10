@@ -77,7 +77,7 @@ export const fixedData = [
         monsterImg: froken
     },
     {
-        name: "Syrenix",
+        name: "syrenix",
         monsterImg: Syrenix
     }
 ];
