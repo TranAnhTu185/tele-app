@@ -24,8 +24,9 @@ export function InventoryMonster() {
                         const _data = await response.json();
                         if(_data?.rows?.length>0){
 
-                            const _list = _data.rows.map((x:{name:string,count:number, dailyReward:string|number })=>{
+                            const _list:SummonMonster[] = _data.rows.map((x:{name:string,count:number, dailyReward:number })=>{
                                 const _fixed =fixedData.find(y=>y.name===x.name);
+
                                 const ret: SummonMonster={
                                     img:_fixed?.monsterImg??"",
                                     totalEarns:x.count,
@@ -34,7 +35,9 @@ export function InventoryMonster() {
                                 }
                                 return ret
                             })
-                            setData(_list);
+                            const _sort = _list.sort((a,b)=>b.totalEarns-a.totalEarns)
+
+                            setData(_sort);
                         }
 
                     }
