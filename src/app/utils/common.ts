@@ -92,6 +92,6 @@ export  interface SummonMonster{
     name:string,
     img:string | StaticImageData,
     totalEarns:number,
-    diamonds:number|string,
+    diamonds:number,
 
 }

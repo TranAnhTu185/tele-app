@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import monster from "../../../../public/btn/monster.svg";
 import key from "../../../../public/icons/key.svg";
-import { Button, Carousel, Col, Modal, Progress, Row } from "antd";
-import backPack1 from "../../../../public/icons/Backpack-1.svg";
+import {Badge, Button, Carousel,  Modal, Progress} from "antd";
 import backPack from "../../../../public/icons/BackPack.svg";
 import close from "../../../../public/icons/close-red.png";
 
@@ -22,9 +21,10 @@ import noThan from "../../../../public/weapon/no-than.svg";
 import sauNong from "../../../../public/weapon/sau-nong.svg";
 import thuongDo from "../../../../public/weapon/thuong-do.svg";
 
-import { ChildProps, dataMe, PropsWeapon, Weapons } from "@/app/utils/common";
+import { ChildProps, dataMe,  Weapons } from "@/app/utils/common";
 import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
+import {ExclamationCircleFilled} from "@ant-design/icons";
 
 export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
@@ -316,17 +316,14 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     }
 
     return (
-        <div className="p-3 bg-no-repeat bg-center rounded-lg bg-[url('../../public/image.svg')]  min-h-[540px] relative">
-            <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
-                <Image
-                    src={monster}
-                    alt=""
-                    className="w-[56px] h-[60px]"
-                />
-            </button>
-            <div className="absolute top-[54px] right-[26px] cursor-pointer">
-                <InventoryItemModal dataList={dataWeapon} />
-            </div>
+        <div className="p-3 bg-no-repeat bg-center rounded-lg bg-[url('../../public/image.svg')]  min-h-[480px] relative">
+                <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
+                    <Image
+                        src={monster}
+                        alt=""
+                        className="w-[56px] h-[60px]"
+                    />
+                </button>
             <div className="flex justify-between items-center">
                 <div className="mr-3">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -403,7 +400,7 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
             </Carousel>
 
             <div className="flex flex-col justify-center items-center">
-                <div className="flex justify-center items-center mt-[1px] mb-[10px] ">
+                <div className="flex justify-center items-center mt-[10px] mb-[10px] ">
                     <Button type={'primary'} className={'ButtonOpen1'} onClick={() => handleOpenWeapon(100)}>
                         100<Image
                             src={key}
@@ -412,85 +409,11 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                         />
                     </Button>
                 </div>
-                <div className="flex justify-between items-center pt-[12px]">
-                    <div className="flex-1 text-xs text-left mr-2">What’s Inside</div>
-                    <div className="">
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M6.075 15.909C6.9875 16.303 7.9625 16.5 9 16.5C10.0385 16.501 11.0135 16.3042 11.925 15.9097C12.8365 15.5152 13.6303 14.9808 14.3063 14.3063C14.9823 13.6318 15.5165 12.838 15.909 11.925C16.3015 11.012 16.4985 10.037 16.5 9C16.5015 7.963 16.3048 6.988 15.9098 6.075C15.5148 5.162 14.9803 4.36825 14.3063 3.69375C13.6323 3.01925 12.8385 2.485 11.925 2.091C11.0115 1.697 10.0365 1.5 9 1.5C7.9635 1.5 6.9885 1.697 6.075 2.091C5.1615 2.485 4.36775 3.01925 3.69375 3.69375C3.01975 4.36825 2.4855 5.162 2.091 6.075C1.6965 6.988 1.4995 7.963 1.5 9C1.5005 10.037 1.6975 11.012 2.091 11.925C2.4845 12.838 3.01875 13.6318 3.69375 14.3063C4.36875 14.9808 5.1625 15.515 6.075 15.909ZM9 6.75C9.2125 6.75 9.39075 6.678 9.53475 6.534C9.67875 6.39 9.7505 6.212 9.75 6C9.7495 5.788 9.6775 5.61 9.534 5.466C9.3905 5.322 9.2125 5.25 9 5.25C8.7875 5.25 8.6095 5.322 8.466 5.466C8.3225 5.61 8.2505 5.788 8.25 6C8.2495 6.212 8.3215 6.39025 8.466 6.53475C8.6105 6.67925 8.7885 6.751 9 6.75ZM8.25 8.25V12.75H9.75V8.25H8.25Z" fill="white" />
-                        </svg>
-                    </div>
-                </div>
+
             </div>
         </div>
     )
 }
-
-function InventoryItemModal({ dataList }: PropsWeapon) {
-    const [isModalOpen, setIsOpenModal] = useState(false);
-    const showModal = () => {
-        setIsOpenModal(true);
-    };
-    const hideModal = () => {
-        setIsOpenModal(false);
-    };
-    return <>
-
-        <div onClick={showModal}>
-            <Image
-                src={backPack1}
-                alt=""
-                className="w-[44px] h-[46px]"
-            />
-        </div>
-        <Modal title={<>
-            <div className={'flex'}>
-                <Image src={backPack} height={24} alt="" className={'me-2'} />
-                <span style={{ color: '#ffffff', paddingTop: '5px' }}> Inventory</span></div>
-        </>}
-            width={"100%"}
-            closeIcon={<Image src={close} alt="" />}
-            open={isModalOpen}
-            className={'monster-modal'}
-            footer={null}
-            centered
-            onCancel={hideModal}>
-            <div className={"bg-[url('../../public/image.svg')] bg-no-repeat bg-center h-[380px] relative "}>
-                <div className={'max-h-[330px] overscroll-y-auto'}>
-                    <Row gutter={12}>
-                        {(() => {
-                            const arr = [];
-                            for (let i = 0; i < dataList.length; i++) {
-                                arr.push(
-
-                                    <Col span={6} className={'mt-3'}  >
-                                        <div className={"py-[6px] text-size-info bg-no-repeat bg-center text-amber-50 text-center  h-[70px] justify-center grid "}>
-                                            <Image
-                                                src={dataList[i].img}
-                                                alt=""
-                                                className="mx-auto mt-3"
-                                                style={{
-                                                    filter: "drop-shadow(0px 0px 24px #3B2E14)",
-                                                }}
-                                            />
-                                            <span className={'mt-2'}> Lv: {dataList[i].level} </span> &nbsp;
-                                        </div>
-                                    </Col>
-
-                                );
-                            }
-                            return arr;
-                        })()}
-                    </Row>
-                </div>
-                <div className={'absolute w-full bottom-0 px-3'}>
-                    <Button style={{ borderRadius: '999px' }} className={'w-full bottom-0'} type={'primary'}> Upgrade All</Button>
-                </div>
-            </div>
-        </Modal>
-    </>
-}
-
-
 function RewardModal({ keyData}:{keyData:number}) {
     const [isModalOpen, setIsOpenModal] = useState(false);
     const [claimableKeys, setClaimableKeys]= useState<number>(0)
@@ -530,14 +453,23 @@ function RewardModal({ keyData}:{keyData:number}) {
     }, [isModalOpen]);
     return <>
 
-        <div onClick={showModal} className="flex text-xs justify-center items-center w-[61px] h-[30px] border border-solid border-[#7cce00] text-[#7cce00] rounded-[20px]">
-            <Image
-                src={key}
-                alt=""
-                className="w-[20px] h-[20px] mr-[3px]"
-            />
-            {keyData}
+
+        <div onClick={showModal} className="flex text-xs justify-center items-center w-[61px] h-[30px] border border-solid border-[#7cce00]  rounded-[20px]">
+            <Badge  count={claimableKeys>0?<ExclamationCircleFilled  style={{ color: 'red', fontSize:'18px' }}/>:undefined }>
+                <div className="flex justify-center items-center text-[#7cce00]">
+                    {keyData}
+
+                            <Image
+                                src={key}
+                                alt=""
+                                className="w-[20px] h-[20px] mr-[3px]"
+                            />
+
+
+                </div>
+            </Badge>
         </div>
+
         <Modal title={<>
             <div className={'flex'}>
                 <Image src={backPack} height={24} alt="" className={'me-2'} />
