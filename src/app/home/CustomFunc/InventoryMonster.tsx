@@ -3,6 +3,7 @@ import Image from "next/image";
 import img1 from "../../../../public/img-1.svg";
 import diamond from "../../../../public/icons/diamond.svg";
 import {SummonMonster} from "@/app/utils/common";
+import "flickity/css/flickity.css";
 import {Badge} from "antd";
 export function InventoryMonster() {
 
