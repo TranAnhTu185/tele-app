@@ -25,7 +25,7 @@ export function InventoryMonster() {
                         if(_data?.rows?.length>0){
 
                             const _list:SummonMonster[] = _data.rows.map((x:{name:string,count:number, dailyReward:number })=>{
-                                const _fixed =fixedData.find(y=>y.name===x.name);
+                                const _fixed =fixedData.find(y=>y.name.toUpperCase()===x.name.toUpperCase());
 
                                 const ret: SummonMonster={
                                     img:_fixed?.monsterImg??"",
