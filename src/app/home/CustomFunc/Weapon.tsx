@@ -334,14 +334,7 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                     </svg>
                 </div>
                 <div className="flex-1 text-lg font-semibold text-left">Weapon</div>
-                <div className="flex text-xs justify-center items-center w-[61px] h-[30px] border border-solid border-[#7cce00] text-[#7cce00] rounded-[20px]">
-                    <Image
-                        src={key}
-                        alt=""
-                        className="w-[20px] h-[20px] mr-[3px]"
-                    />
-                    {keyData}
-                </div>
+                <RewardModal keyData={keyData} />
             </div>
 
 
@@ -496,3 +489,98 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
         </Modal>
     </>
 }
+
+
+function RewardModal({ keyData}:{keyData:number}) {
+    const [isModalOpen, setIsOpenModal] = useState(false);
+    const [claimableKeys, setClaimableKeys]= useState<number>(0)
+
+    const showModal = () => {
+        setIsOpenModal(true);
+    };
+    const hideModal = () => {
+        setIsOpenModal(false);
+    };
+    useEffect(() => {
+
+        if(isModalOpen){
+            const fetchData=async()=>{
+                const stored = localStorage.getItem('token');
+                if (stored !== null && stored !== undefined) {
+                    try {
+                        const respond = await fetch('https://ton-war.bytebuffer.co/key', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': JSON.parse(stored)
+                            },
+                        })
+                        if (respond.ok) {
+                            const data = await respond.json();
+                            setClaimableKeys(data?.claimableKeys??0);
+                        }
+                    } catch (error) {
+                        console.error('GET failed:', error);
+                    }
+                } else {
+                    console.error("no token");
+                }
+            }
+            fetchData().then();
+        }
+    }, [isModalOpen]);
+    return <>
+
+        <div onClick={showModal} className="flex text-xs justify-center items-center w-[61px] h-[30px] border border-solid border-[#7cce00] text-[#7cce00] rounded-[20px]">
+            <Image
+                src={key}
+                alt=""
+                className="w-[20px] h-[20px] mr-[3px]"
+            />
+            {keyData}
+        </div>
+        <Modal title={<>
+            <div className={'flex'}>
+                <Image src={backPack} height={24} alt="" className={'me-2'} />
+                <span style={{ color: '#ffffff', paddingTop: '5px' }}> Inventory</span></div>
+        </>}
+               width={"100%"}
+               closeIcon={<Image src={close} alt="" />}
+               open={isModalOpen}
+               className={'monster-modal'}
+               footer={null}
+               centered
+               onCancel={hideModal}>
+            <div className={"bg-[url('../../public/image.svg')] bg-no-repeat bg-center h-[330px] relative "}>
+                <div className={'w-full flex justify-center mt-5'}>
+                    <span className={'text-4xl text-yellow-400 font-bold flex'}>
+                        {claimableKeys}
+                        <Image
+                            src={key}
+                            alt=""
+                            className="w-[35px] mt-1 h-[35px] mr-[3px]"
+                        />
+                    </span>
+                </div>
+                <div className={'w-full flex justify-center mt-5'}>
+                    <Image
+                        src={key}
+                        alt=""
+                        className="w-[105px] mt-1 h-[105px] mr-[3px]"
+                    />
+                </div>
+
+                <div className={'w-full flex  justify-center font-bold text-center mt-7 text-lg text-yellow-400'}>
+                    <span className={'w-[60%]'}>
+                            The higher your level the more Key you receive
+                     </span>
+                </div>
+
+                <div className={'absolute w-full bottom-0 px-3'}>
+                    <Button style={{ borderRadius: '999px' }} className={'w-full bottom-0'} type={'primary'}> Claim</Button>
+                </div>
+            </div>
+        </Modal>
+    </>
+}
+
+

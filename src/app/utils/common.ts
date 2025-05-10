@@ -42,6 +42,7 @@ export interface ChildProps {
 
 export  interface PropsWeapon {
     dataList: Weapons[];
+    keyData?:number ;
 }
 
 export interface PropsCommon {
