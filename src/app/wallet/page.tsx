@@ -370,7 +370,6 @@ function Deposit({ onButtonClick }: Props) {
     const handleDeposit = async () => {
         try {
             const stored = getFromLocalStorage<DataUser>('userInfo');
-            debugger;
             if (stored) {
                 const payload = beginCell()
                     .storeUint(0, 32)
@@ -389,8 +388,9 @@ function Deposit({ onButtonClick }: Props) {
                 console.log("result: " + JSON.stringify(result));
                 const bocBase64 = result.boc;
                 const cell = Cell.fromBase64(bocBase64);
-                const slice = cell.beginParse();
-                console.log(slice);
+                const buffer = cell.hash();
+                const hashHex = buffer.toString("hex");
+                console.log("Transaction Hash:", hashHex);
             }
         } catch (error) {
             console.log(error);

@@ -23,8 +23,6 @@ import sauNong from "../../../../public/weapon/sau-nong.svg";
 import thuongDo from "../../../../public/weapon/thuong-do.svg";
 
 import { ChildProps, dataMe, PropsWeapon, Weapons } from "@/app/utils/common";
-import arrowRight from "../../../../public/icons/Arrow-right.png";
-import arrowLeft from "../../../../public/icons/Arrow-left.png";
 
 export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
@@ -35,7 +33,7 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     function getBaseLog(x: number, y: number) {
         const test = Math.floor(Math.log(y) / Math.log(x));
         return test + 1;
-      }
+    }
 
     useEffect(() => {
         const dataTest: Weapons[] =
@@ -211,14 +209,14 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                         const dataList = await responWeapon.json();
                         dataList.weapons.forEach((item: Weapons, index: number) => {
                             item.exp = item.quality;
-                            item.totalExp =  4 ** getBaseLog(4, item.quality);
+                            item.totalExp = 4 ** getBaseLog(4, item.quality);
                             item.img = dataTest[index].img;
                             item.level = getBaseLog(4, item.quality);
                         });
                         setDataWeapon(dataList.weapons);
                     }
 
-                    if(responKey.ok){
+                    if (responKey.ok) {
                         const data = await responKey.json();
                         setKey(data.rc);
                     }
@@ -339,9 +337,29 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
 
 
 
-            <Carousel className={'mt-10 mb-0 h-[300px]'} arrows afterChange={onChange} dots={false} infinite={false}
-                nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
-                prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
+            <Carousel className={'mt-10 mb-0 h-[300px]'} arrows dots={false} infinite={false}
+                nextArrow={<button>
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M6 2C6.55228 2 7 2.44771 7 3V28C7 28.5523 6.55228 29 6 29C5.44772 29 5 28.5523 5 28V3C5 2.44772 5.44772 2 6 2ZM8.03567 27.35V19.9999C10.5045 19.9807 12.5 17.9734 12.5 15.5C12.5 13.0266 10.5045 11.0193 8.03567 11.0001V3.35003C8.03643 3.10704 8.10345 2.86886 8.22951 2.66113C8.35556 2.4534 8.53589 2.28398 8.75107 2.1711C8.96626 2.05823 9.20815 2.00618 9.45071 2.02056C9.69328 2.03494 9.92733 2.1152 10.1277 2.2527L27.461 14.2527C28.1797 14.75 28.1797 15.9474 27.461 16.446L10.1277 28.446C9.92774 28.5849 9.69357 28.6664 9.45061 28.6815C9.20764 28.6967 8.96516 28.645 8.74953 28.532C8.53389 28.419 8.35333 28.2491 8.22748 28.0407C8.10162 27.8324 8.03528 27.5935 8.03567 27.35Z" fill="url(#paint0_linear_2001_261)" />
+                        <defs>
+                            <linearGradient id="paint0_linear_2001_261" x1="28" y1="15" x2="5" y2="15" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#C2EEA6" stopOpacity="0.8" />
+                                <stop offset="1" stopColor="#C2EEA6" stopOpacity="0.3" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </button>}
+                prevArrow={<button>
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M26 2C25.4477 2 25 2.44771 25 3V28C25 28.5523 25.4477 29 26 29C26.5523 29 27 28.5523 27 28V3C27 2.44772 26.5523 2 26 2ZM23.9643 27.35V19.9999C21.4955 19.9807 19.5 17.9734 19.5 15.5C19.5 13.0266 21.4955 11.0193 23.9643 11.0001V3.35003C23.9636 3.10704 23.8966 2.86886 23.7705 2.66113C23.6444 2.4534 23.4641 2.28398 23.2489 2.1711C23.0337 2.05823 22.7919 2.00618 22.5493 2.02056C22.3067 2.03494 22.0727 2.1152 21.8723 2.2527L4.539 14.2527C3.82033 14.75 3.82033 15.9474 4.539 16.446L21.8723 28.446C22.0723 28.5849 22.3064 28.6664 22.5494 28.6815C22.7924 28.6967 23.0348 28.645 23.2505 28.532C23.4661 28.419 23.6467 28.2491 23.7725 28.0407C23.8984 27.8324 23.9647 27.5935 23.9643 27.35Z" fill="url(#paint0_linear_2001_255)" />
+                        <defs>
+                            <linearGradient id="paint0_linear_2001_255" x1="4" y1="15" x2="27" y2="15" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#C2EEA6" stopOpacity="0.8" />
+                                <stop offset="1" stopColor="#C2EEA6" stopOpacity="0.3" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </button>}
             >
                 {(() => {
                     const arr = [];
@@ -491,9 +509,9 @@ function InventoryItemModal({ dataList }: PropsWeapon) {
 }
 
 
-function RewardModal({ keyData}:{keyData:number}) {
+function RewardModal({ keyData }: { keyData: number }) {
     const [isModalOpen, setIsOpenModal] = useState(false);
-    const [claimableKeys, setClaimableKeys]= useState<number>(0)
+    const [claimableKeys, setClaimableKeys] = useState<number>(0)
 
     const showModal = () => {
         setIsOpenModal(true);
@@ -503,8 +521,8 @@ function RewardModal({ keyData}:{keyData:number}) {
     };
     useEffect(() => {
 
-        if(isModalOpen){
-            const fetchData=async()=>{
+        if (isModalOpen) {
+            const fetchData = async () => {
                 const stored = localStorage.getItem('token');
                 if (stored !== null && stored !== undefined) {
                     try {
@@ -516,7 +534,7 @@ function RewardModal({ keyData}:{keyData:number}) {
                         })
                         if (respond.ok) {
                             const data = await respond.json();
-                            setClaimableKeys(data?.claimableKeys??0);
+                            setClaimableKeys(data?.claimableKeys ?? 0);
                         }
                     } catch (error) {
                         console.error('GET failed:', error);
@@ -543,13 +561,13 @@ function RewardModal({ keyData}:{keyData:number}) {
                 <Image src={backPack} height={24} alt="" className={'me-2'} />
                 <span style={{ color: '#ffffff', paddingTop: '5px' }}> Inventory</span></div>
         </>}
-               width={"100%"}
-               closeIcon={<Image src={close} alt="" />}
-               open={isModalOpen}
-               className={'monster-modal'}
-               footer={null}
-               centered
-               onCancel={hideModal}>
+            width={"100%"}
+            closeIcon={<Image src={close} alt="" />}
+            open={isModalOpen}
+            className={'monster-modal'}
+            footer={null}
+            centered
+            onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')] bg-no-repeat bg-center h-[330px] relative "}>
                 <div className={'w-full flex justify-center mt-5'}>
                     <span className={'text-4xl text-yellow-400 font-bold flex'}>
@@ -571,8 +589,8 @@ function RewardModal({ keyData}:{keyData:number}) {
 
                 <div className={'w-full flex  justify-center font-bold text-center mt-7 text-lg text-yellow-400'}>
                     <span className={'w-[60%]'}>
-                            The higher your level the more Key you receive
-                     </span>
+                        The higher your level the more Key you receive
+                    </span>
                 </div>
 
                 <div className={'absolute w-full bottom-0 px-3'}>

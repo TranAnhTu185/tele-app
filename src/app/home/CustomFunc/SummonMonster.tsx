@@ -10,8 +10,8 @@ import arrowRight from "../../../../public/icons/Arrow-right.png";
 import arrowLeft from "../../../../public/icons/Arrow-left.png";
 import SpinePlayerComponent from "@/app/lib/SpineCanvas";
 import { fixedData } from "../dataMonster";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import {InventoryMonster} from "@/app/home/CustomFunc/InventoryMonster";
+import { StaticImageData, StaticImport } from "next/dist/shared/lib/get-img-props";
+import { InventoryMonster } from "@/app/home/CustomFunc/InventoryMonster";
 
 
 export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
@@ -228,6 +228,12 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                                                 </svg>
                                             </div>
                                         </button>
+                                        <div className="flex flex-col justify-center items-center">
+                                            <div className="flex justify-between items-center pt-[16px]">
+                                                {/*<div className="flex-1 text-xs text-left mr-2">What’s Inside</div>*/}
+                                                <WhatInsideMonsterModal ton={dataItem[i]?.price} />
+                                            </div>
+                                        </div>
                                     </div>
                                 );
                             }
@@ -237,64 +243,45 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
 
                 </Carousel>
             </div>
-            <div className="flex flex-col justify-center items-center">
-                <div className="flex justify-between items-center pt-[12px]">
-                    {/*<div className="flex-1 text-xs text-left mr-2">What’s Inside</div>*/}
-                    <WhatInsideMonsterModal />
-                </div>
-            </div>
             <div className="w-full mt-3">
 
-                <InventoryMonster/>
+                <InventoryMonster />
             </div>
         </div>
     );
 }
 
 type dataMon = {
-    id: string,
-    name: string,
-    image: string,
-    level: number,
-    status: string,
-    dailyReward: number
+    name: string;
+    monsterImg: StaticImageData;
+    dailyRe: number;
+    show1: boolean;
+    show2: boolean;
+    show3: boolean;
 }
 
-function WhatInsideMonsterModal() {
+type Props = {
+    ton: number;
+};
+
+function WhatInsideMonsterModal({ ton }: Props) {
     const [isModalOpen, setIsOpenModal] = useState(false);
-    const [page, setPage] = useState(1);
     const [datalist, setDataList] = useState<dataMon[] | []>([]);
     const dataMonster = fixedData;
     const showModal = () => {
+        if (ton === 0.1) {
+            const dataListShow = dataMonster.filter(x => x.show1 == true);
+            setDataList(dataListShow);
+        } else if (ton === 1) {
+            const dataListShow = dataMonster.filter(x => x.show2 == true);
+            setDataList(dataListShow);
+        } else {
+            const dataListShow = dataMonster.filter(x => x.show3 == true);
+            setDataList(dataListShow);
+        }
+
         setIsOpenModal(true);
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const stored = localStorage.getItem('token');
-            if (stored !== null && stored !== undefined) {
-                try {
-                    const responListMon = await fetch(`https://ton-war.bytebuffer.co/monster/list`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': JSON.parse(stored),
-                        },
-                    })
-
-                    if (responListMon.ok) {
-                        const dataTest = await responListMon.json();
-                        setDataList(dataTest.rows);
-                    }
-                } catch (error) {
-                    console.error('GET failed:', error);
-                }
-            } else {
-                console.error("no token");
-            }
-        };
-
-        fetchData();
-    }, [])
 
     const getImg = (name: string) => {
         const monsterData = dataMonster.find(x => x.name == name);
@@ -307,36 +294,8 @@ function WhatInsideMonsterModal() {
     const hideModal = () => {
         setIsOpenModal(false);
     };
-
-    const onChange = async (currentSlide: number) => {
-        console.log(currentSlide);
-        if (currentSlide === datalist.length - 1) {
-            setPage(page + 1);
-            const stored = localStorage.getItem('token');
-            if (stored !== null && stored !== undefined) {
-                try {
-                    const responListMon = await fetch(`https://ton-war.bytebuffer.co/monster/list?page=${page}&size=10`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': JSON.parse(stored),
-                        },
-                    })
-
-                    if (responListMon.ok) {
-                        const dataTest = await responListMon.json();
-                        console.log(dataTest.rows);
-                        setDataList([...datalist ,dataTest.rows]);
-                    }
-                } catch (error) {
-                    console.error('GET failed:', error);
-                }
-            } else {
-                console.error("no token");
-            }
-        }
-    };
     return <>
-        <div className="flex text-xs text-left cursor-pointer" onClick={showModal}>
+        <div className="flex text-xs text-left cursor-pointer text-white" onClick={showModal}>
             What’s Inside
             <div className="ml-2">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -357,7 +316,7 @@ function WhatInsideMonsterModal() {
             style={{ top: 180 }}
             onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')]  min-h-[350px] pt-5"}>
-                <Carousel arrows afterChange={onChange} dots={false} infinite={false}
+                <Carousel arrows dots={false} infinite={false}
                     nextArrow={<Image src={arrowRight} alt="" className={'me-2 btnArrow '} />}
                     prevArrow={<Image src={arrowLeft} alt="" className={'me-2 btnArrow'} />}
                 >
@@ -374,32 +333,22 @@ function WhatInsideMonsterModal() {
                                             filter: "drop-shadow(0px 0px 24px #3B2E14)",
                                         }}
                                     />
-                                    <Row gutter={30}>
-                                        <Col span={12}  >
-                                            <div className={"py-[6px] text-size-info text-amber-50 text-center bg-[url('../../public/Rectangle-left.png')]  h-[53px]  justify-center grid ms-[36px]"}>
-                                                <div className={'flex'}>
-                                                    <span className={'color-green'}> {datalist[i].dailyReward} </span> &nbsp;
-                                                    <svg className={'mt-[1px]'} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clipPath="url(#clip0_12_66)">
-                                                            <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_12_66">
-                                                                <rect width="24" height="24" fill="white" />
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg> /day
-                                                </div>
-                                                <span> Reward </span>
-                                            </div>
-                                        </Col>
-                                        <Col span={12}>
-                                            <div className={"py-[6px] text-size-info text-amber-50 text-center justify-center grid bg-[url('../../public/Rectangle-right.png')] me-[36px] h-[53px]"}>
-                                                <span className={'color-green'}> {datalist[i].dailyReward}% </span>
-                                                <span> Winning Rate </span>
-                                            </div>
-                                        </Col>
-                                    </Row>
+                                    <div className={"py-[6px] text-size-info text-amber-50 text-center bg-[url('../../public/Rectangle-left.png')] bg-no-repeat w-[149px] mx-auto h-[53px]  justify-center grid "}>
+                                        <div className={'flex'}>
+                                            <span className={'color-green'}> {datalist[i].dailyRe} </span> &nbsp;
+                                            <svg className={'mt-[1px]'} width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clipPath="url(#clip0_12_66)">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M22.6689 2.32031C22.3918 1.79378 21.9405 1.37916 21.3917 1.1469C20.8988 0.896571 20.3548 0.762739 19.8017 0.755768H4.33444C3.75065 0.71942 3.16907 0.855464 2.66237 1.1469C2.34186 1.25191 2.04555 1.41958 1.79076 1.64011C1.53597 1.86065 1.32781 2.12962 1.17844 2.43131C0.84514 2.99549 0.700371 3.65077 0.765063 4.30241C0.812498 4.90411 1.02723 5.48069 1.38513 5.96738L10.975 22.6699C11.0946 22.8446 11.2545 22.9881 11.4412 23.0884C11.628 23.1886 11.8362 23.2427 12.0482 23.2461C12.2664 23.2642 12.4852 23.2196 12.6787 23.1174C12.8722 23.0153 13.0323 22.86 13.14 22.6699L22.7722 5.96738C23.1107 5.44149 23.2765 4.82353 23.2466 4.19935C23.2152 3.53457 23.0165 2.88836 22.6689 2.32031ZM10.8319 17.4583L3.44673 4.60369C3.25594 4.21256 3.1579 4.01699 3.1579 4.01699C3.1302 3.84247 3.16491 3.66379 3.25594 3.51221C3.32987 3.33538 3.47081 3.19481 3.64812 3.12108H10.8319V17.4583ZM20.6894 4.08835C20.7292 4.28546 20.7292 4.4885 20.6894 4.68562L13.14 17.5217V3.20565H19.6984C19.9303 3.18029 20.1648 3.21488 20.3794 3.30608L20.4827 3.40914C20.5861 3.40914 20.5861 3.59414 20.6894 3.59414C20.7371 3.75545 20.7371 3.92704 20.6894 4.08835Z" fill="white" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_12_66">
+                                                        <rect width="24" height="24" fill="white" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg> /day
+                                        </div>
+                                        <span> Reward </span>
+                                    </div>
 
                                 </div>
                             );
