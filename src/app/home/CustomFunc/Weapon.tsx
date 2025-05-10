@@ -20,12 +20,8 @@ import liemThanChet from "../../../../public/weapon/liem-than-chet.svg";
 import noThan from "../../../../public/weapon/no-than.svg";
 import sauNong from "../../../../public/weapon/sau-nong.svg";
 import thuongDo from "../../../../public/weapon/thuong-do.svg";
-
-import { ChildProps, dataMe,  Weapons } from "@/app/utils/common";
-import arrowRight from "../../../../public/icons/Arrow-right.png";
-import arrowLeft from "../../../../public/icons/Arrow-left.png";
 import {ExclamationCircleFilled} from "@ant-design/icons";
-import { ChildProps, dataMe, PropsWeapon, Weapons } from "@/app/utils/common";
+import { ChildProps, dataMe, Weapons } from "@/app/utils/common";
 
 export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
     const [keyData, setKey] = useState(0);
@@ -310,10 +306,6 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
         }
 
         await getListWeapons();
-    }
-
-    const onChange = async () => {
-
     }
 
     return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Carousel, Col, Modal, Row } from "antd";
+import { Carousel, Modal } from "antd";
 import close from "../../../../public/icons/close-red.png";
 import { CarouseSum, ChildProps, dataMe } from "@/app/utils/common";
 import img1 from "../../../../public/img-1.svg";

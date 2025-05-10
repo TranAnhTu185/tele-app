@@ -35,7 +35,7 @@ export function InventoryMonster() {
                                 }
                                 return ret
                             })
-                            const _sort = _list.sort((a,b)=>b.totalEarns-a.totalEarns)
+                            const _sort = _list.sort((a,b)=>b.diamonds-a.diamonds)
 
                             setData(_sort);
                         }
@@ -67,7 +67,7 @@ export function InventoryMonster() {
                                </div>
 
                                <div className={'font-bold'}>{data[i].name}</div>
-                               <div className={'flex mt-1 justify-center text-xs'}>{data[i].totalEarns} &nbsp;
+                               <div className={'flex mt-1 justify-center text-xs'}>{data[i].diamonds} &nbsp;
                                    <Image  className="mt-1 w-[10px] h-[10px]"  alt="" src={diamond} /> | d
                                </div>
                             </div>
