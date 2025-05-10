@@ -97,6 +97,19 @@ body {
   border-radius: 40px;
 
 }
+.flickity-page-dots{
+  opacity: 0;
+}
+.flickity-button{
+  display: none;
+}
+.bandage-cl{
+  .ant-badge-count{
+    font-weight: 500;
+    /*color:black !important;*/
+  }
+
+}
 
 .grounded-radiants-input {
 

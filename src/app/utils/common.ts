@@ -85,3 +85,11 @@ export  interface ItemEarn{
     value:number,
 
 }
+
+export  interface SummonMonster{
+    name:string,
+    img:string,
+    totalEarns:number
+    diamonds:number,
+
+}

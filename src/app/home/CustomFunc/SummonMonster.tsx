@@ -11,6 +11,7 @@ import arrowLeft from "../../../../public/icons/Arrow-left.png";
 import SpinePlayerComponent from "@/app/lib/SpineCanvas";
 import { fixedData } from "../dataMonster";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import {InventoryMonster} from "@/app/home/CustomFunc/InventoryMonster";
 
 
 export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
@@ -242,6 +243,10 @@ export function SummonMonster({ onButtonClick, onVoidData }: ChildProps) {
                     <WhatInsideMonsterModal />
                 </div>
             </div>
+            <div className="w-full mt-3">
+
+                <InventoryMonster/>
+            </div>
         </div>
     );
 }
@@ -407,3 +412,5 @@ function WhatInsideMonsterModal() {
         </Modal>
     </>
 }
+
+
