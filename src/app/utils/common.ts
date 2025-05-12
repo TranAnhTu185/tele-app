@@ -95,3 +95,7 @@ export  interface SummonMonster{
     diamonds:number,
 
 }
+export  interface DataHistory{
+    time:Date,
+    value:number,
+}

@@ -20,6 +20,7 @@ export default function Navbar() {
         { id: 3, name: "Wallet", href: "/wallet", bg: wallet1, bgActive: wallet2, active: false },
         { id: 4, name: "Invite", href: "/invite", bg: invite1, bgActive: invite2, active: false },
         { id: 5, name: "Earns", href: "/earn", bg: earn1, bgActive: earn2, active: false },
+
     ];
 
     const pathname = usePathname();
