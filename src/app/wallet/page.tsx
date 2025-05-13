@@ -7,7 +7,7 @@ import wallet from "../../../public/icons/wallet.svg";
 import Image from "next/image";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { useCallback, useEffect, useState } from "react";
-import { Address, beginCell, Cell, toNano } from "@ton/core";
+import { Address, beginCell, Cell, fromNano, toNano } from "@ton/core";
 import { DataUser } from "../utils/common";
 import { getFromLocalStorage } from "../utils/localStorage";
 
@@ -269,6 +269,10 @@ function Withdraw({ address, onButtonClick }: Props) {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        debugger;
+        if(name === "amount") {
+            setFormData(prev => ({ ...prev, [`fee`]: Number(value) * 10000 }));
+        }
         setFormData(prev => ({ ...prev, [name]: value }));
     };
     return (
@@ -333,7 +337,7 @@ function Withdraw({ address, onButtonClick }: Props) {
                 </div>
 
                 {/* Fee */}
-                {/* <div>
+                <div>
                     <div className="flex justify-between text-sm text-gray-400 mb-1">
                         <span>Withdraw Fee</span>
                     </div>
@@ -343,7 +347,7 @@ function Withdraw({ address, onButtonClick }: Props) {
                         value={formData.fee}
                         onChange={handleChange}
                     />
-                </div> */}
+                </div>
 
                 {/* Withdraw Button */}
                 <button onClick={handleWithdraw} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
@@ -385,17 +389,52 @@ function Deposit({ onButtonClick }: Props) {
                         },
                     ],
                 })
-                console.log("result: " + JSON.stringify(result));
                 const bocBase64 = result.boc;
                 const cell = Cell.fromBase64(bocBase64);
                 const buffer = cell.hash();
                 const hashHex = buffer.toString("hex");
-                console.log("Transaction Hash:", hashHex);
+                fetchTxDetails(hashHex, stored.userId ? stored.userId : "");
             }
         } catch (error) {
             console.log(error);
         }
     }
+
+    const fetchTxDetails = async (hash: string, userId: string) => {
+        try {
+            const response = await fetch(`https://testnet.toncenter.com/api/v3/transactionsByMessage?msg_hash=${hash}&limit=10&offset=0`, {
+                method: 'GET',
+            })
+            if (response.ok) {
+                const dataTest = await response.json();
+                const storedToken = localStorage.getItem('token');
+                if (storedToken !== null && storedToken !== undefined) {
+                    const response = await fetch('https://ton-war.bytebuffer.co/deposit', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': JSON.parse(storedToken),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userName: userId ? userId : "",
+                            amount: fromNano(dataTest.transactions[0].out_msgs[0].value),
+                            tx_hash: dataTest.transactions[0].out_msgs[0].hash
+                        }),
+                    })
+                    if (response.ok) {
+                        const dataTest = await response.json();
+                        onButtonClick("home");
+                        console.log(dataTest);
+                    }
+                } else {
+                    console.error("no token");
+                }
+            }
+
+        } catch (e) {
+            console.error('Failed to fetch transaction:', e);
+        }
+    };
     return (
         <div className="min-h-screen text-white flex flex-col items-center p-6">
             {/* Header */}
