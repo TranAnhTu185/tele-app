@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import monster from "../../../../public/btn/monster.svg";
 import key from "../../../../public/icons/key.svg";
-import {Badge, Button, Carousel,  Modal, Progress} from "antd";
+import { Badge, Button, Carousel, Modal, Progress } from "antd";
 import backPack from "../../../../public/icons/BackPack.svg";
 import close from "../../../../public/icons/close-red.png";
 
@@ -20,7 +20,7 @@ import liemThanChet from "../../../../public/weapon/liem-than-chet.svg";
 import noThan from "../../../../public/weapon/no-than.svg";
 import sauNong from "../../../../public/weapon/sau-nong.svg";
 import thuongDo from "../../../../public/weapon/thuong-do.svg";
-import {ExclamationCircleFilled} from "@ant-design/icons";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import { ChildProps, dataMe, Weapons } from "@/app/utils/common";
 
 export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
@@ -208,14 +208,14 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
                         const dataList = await responWeapon.json();
                         dataList.weapons.forEach((item: Weapons, index: number) => {
                             item.exp = item.quality;
-                            item.totalExp =  4 ** getBaseLog(4, item.quality);
+                            item.totalExp = 4 ** getBaseLog(4, item.quality);
                             item.img = dataTest[index].img;
                             item.level = getBaseLog(4, item.quality);
                         });
                         setDataWeapon(dataList.weapons);
                     }
 
-                    if(responKey.ok){
+                    if (responKey.ok) {
                         const data = await responKey.json();
                         setKey(data.rc);
                     }
@@ -310,13 +310,13 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
 
     return (
         <div className="p-3 bg-no-repeat bg-center rounded-lg bg-[url('../../public/image.svg')]  min-h-[480px] relative">
-                <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
-                    <Image
-                        src={monster}
-                        alt=""
-                        className="w-[56px] h-[60px]"
-                    />
-                </button>
+            <button className="absolute top-[50px] left-[26px] cursor-pointer" onClick={() => onButtonClick("sum")}>
+                <Image
+                    src={monster}
+                    alt=""
+                    className="w-[56px] h-[60px]"
+                />
+            </button>
             <div className="flex justify-between items-center">
                 <div className="mr-3">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -427,9 +427,9 @@ export function Weapon({ onButtonClick, onVoidData }: ChildProps) {
         </div>
     )
 }
-function RewardModal({ keyData}:{keyData:number}) {
+function RewardModal({ keyData }: { keyData: number }) {
     const [isModalOpen, setIsOpenModal] = useState(false);
-    const [claimableKeys, setClaimableKeys]= useState<number>(0)
+    const [claimableKeys, setClaimableKeys] = useState<number>(0)
 
     const showModal = () => {
         setIsOpenModal(true);
@@ -439,8 +439,8 @@ function RewardModal({ keyData}:{keyData:number}) {
     };
     useEffect(() => {
 
-        if(isModalOpen){
-            const fetchData=async()=>{
+        if (isModalOpen) {
+            const fetchData = async () => {
                 const stored = localStorage.getItem('token');
                 if (stored !== null && stored !== undefined) {
                     try {
@@ -452,7 +452,7 @@ function RewardModal({ keyData}:{keyData:number}) {
                         })
                         if (respond.ok) {
                             const data = await respond.json();
-                            setClaimableKeys(data?.claimableKeys??0);
+                            setClaimableKeys(data?.claimableKeys ?? 0);
                         }
                     } catch (error) {
                         console.error('GET failed:', error);
@@ -468,15 +468,14 @@ function RewardModal({ keyData}:{keyData:number}) {
 
 
         <div onClick={showModal} className="flex text-xs justify-center items-center w-[61px] h-[30px] border border-solid border-[#7cce00]  rounded-[20px]">
-            <Badge  count={claimableKeys>0?<ExclamationCircleFilled  style={{ color: 'red', fontSize:'18px' }}/>:undefined }>
+            <Badge count={claimableKeys > 0 ? <ExclamationCircleFilled style={{ color: 'red', fontSize: '18px' }} /> : undefined}>
                 <div className="flex justify-center items-center text-[#7cce00]">
                     {keyData}
-
-                            <Image
-                                src={key}
-                                alt=""
-                                className="w-[20px] h-[20px] mr-[3px]"
-                            />
+                    <Image
+                        src={key}
+                        alt=""
+                        className="w-[20px] h-[20px] mr-[3px]"
+                    />
 
 
                 </div>
@@ -486,38 +485,25 @@ function RewardModal({ keyData}:{keyData:number}) {
         <Modal title={<>
             <div className={'flex'}>
                 <Image src={backPack} height={24} alt="" className={'me-2'} />
-                <span style={{ color: '#ffffff', paddingTop: '5px' }}> Inventory</span></div>
+                <span style={{ color: '#ffffff', paddingTop: '5px' }}> Idle reward</span></div>
         </>}
-               width={"100%"}
-               closeIcon={<Image src={close} alt="" />}
-               open={isModalOpen}
-               className={'monster-modal'}
-               footer={null}
-               centered
-               onCancel={hideModal}>
+            width={"100%"}
+            closeIcon={<Image src={close} alt="" />}
+            open={isModalOpen}
+            className={'monster-modal'}
+            footer={null}
+            centered
+            onCancel={hideModal}>
             <div className={"bg-[url('../../public/image.svg')] bg-no-repeat bg-center h-[330px] relative "}>
                 <div className={'w-full flex justify-center mt-5'}>
                     <span className={'text-4xl text-yellow-400 font-bold flex'}>
                         {claimableKeys}
-                        <Image
-                            src={key}
-                            alt=""
-                            className="w-[35px] mt-1 h-[35px] mr-[3px]"
-                        />
                     </span>
                 </div>
-                <div className={'w-full flex justify-center mt-5'}>
-                    <Image
-                        src={key}
-                        alt=""
-                        className="w-[105px] mt-1 h-[105px] mr-[3px]"
-                    />
-                </div>
-
                 <div className={'w-full flex  justify-center font-bold text-center mt-7 text-lg text-yellow-400'}>
                     <span className={'w-[60%]'}>
-                            The higher your level the more Key you receive
-                     </span>
+                        The higher your level the more Key you receive
+                    </span>
                 </div>
 
                 <div className={'absolute w-full bottom-0 px-3'}>

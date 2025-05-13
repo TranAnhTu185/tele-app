@@ -271,13 +271,13 @@ function WhatInsideMonsterModal({ ton }: Props) {
     const showModal = () => {
         if (ton === 0.1) {
             const dataListShow = dataMonster.filter(x => x.show1 == true);
-            setDataList(dataListShow);
+            setDataList(dataListShow.sort((a,b)=>b.dailyRe-a.dailyRe));
         } else if (ton === 1) {
             const dataListShow = dataMonster.filter(x => x.show2 == true);
-            setDataList(dataListShow);
+            setDataList(dataListShow.sort((a,b)=>b.dailyRe-a.dailyRe));
         } else {
             const dataListShow = dataMonster.filter(x => x.show3 == true);
-            setDataList(dataListShow);
+            setDataList(dataListShow.sort((a,b)=>b.dailyRe-a.dailyRe));
         }
 
         setIsOpenModal(true);

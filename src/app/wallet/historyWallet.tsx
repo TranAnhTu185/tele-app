@@ -9,7 +9,7 @@ interface State {
     onBack?: () => void
 }
 export function HistoryWallet ({onBack}:State) {
-    const [alignValue, setAlignValue] = useState('deposit');
+    const [alignValue, setAlignValue] = useState('withdraw');
 
     return     <>
            <main className=" pb-[120px] background-color-main w-full  min-h-[100vh] pt-[30px] relative">
@@ -31,12 +31,6 @@ export function HistoryWallet ({onBack}:State) {
                             options={[
                                 {
                                     label: (
-                                        <div  style={{borderRadius:"999px",paddingTop:'10px', paddingBottom:'10px'}}>Deposit</div>
-                                    ),
-                                    value: 'deposit',
-                                },
-                                {
-                                    label: (
                                         <div   style={{borderRadius:"999px",paddingTop:'10px', paddingBottom:'10px'}}>Withdraw</div>
                                     ),
                                     value: 'withdraw',
@@ -45,58 +39,12 @@ export function HistoryWallet ({onBack}:State) {
                         /></div>
                 </div>
                 <div className={'w-full flex justify-center'}>
-                    {alignValue === 'deposit' && <DepositHistory/>}
                     {alignValue === 'withdraw' && <WithdrawHistory/>}
 
                 </div>
     </main>
     </>
 }
-
-
-const DepositHistory: React.FC = () =>{
-    const _dataTest:DataHistory[]=[
-        {
-            time: new Date(2025,2,12,11,0),
-            value:1,
-        },
-        {
-            time: new Date(2025,3,14,12,5),
-            value:1,
-        },
-        {
-            time: new Date(2025,4,15,16,32),
-            value:1,
-        }
-    ]
-    return <>
-    <Row className={'mt-5 mx-2'}>
-        {(() => {
-            const arr = [];
-            for (let i = 0; i < _dataTest.length; i++) {
-                arr.push(
-
-                     <Col span={24} key={i}>
-                    <div className="  mt-3 text-amber-50">
-
-                        <div> {toFormat(_dataTest[i].time, "MM/YY")}</div>
-                        <div className={'w-full items-center flex justify-between text-center mt-2'}>
-                            <div className={'flex justify-center font-semibold  text-lg'}>
-                                {_dataTest[i].value} TON
-                            </div>
-                            <div className={'text-xs'}>{toFormat(_dataTest[i].time, "MMM dd, hh:mm ")}</div>
-                        </div>
-                    </div>
-                     </Col>
-                );
-            }
-            return arr;
-        })()}
-    </Row>
-    </>
-}
-
-
 
 const WithdrawHistory: React.FC = () =>{
     const _dataTest:DataHistory[]=[
