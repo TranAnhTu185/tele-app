@@ -1,0 +1,18 @@
+.ant-segmented{
+    background: #633251;
+    background: linear-gradient(0deg, rgba(99, 50, 81, 1) 0%, rgba(23, 33, 17, 1) 100%);
+    color: #fff;
+}
+.ant-segmented-item{
+   border-radius: 999px !important;
+    font-weight: 500;
+    font-size: 18px;
+
+}
+.ant-segmented-item-selected{
+    background: linear-gradient(90deg, #afc043 0%, #55832b 100%) !important
+}
+.ant-segmented-thumb{
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #afc043 0%, #55832b 100%) !important
+}
