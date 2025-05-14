@@ -16,9 +16,8 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
-        const tgApp = window.Telegram?.WebApp;
-        setTimeout(async () => {
-            console.log(tgApp);
+        const timer = setInterval(async () => {
+            const tgApp = window.Telegram?.WebApp;
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
@@ -88,8 +87,8 @@ export default function HomePage() {
             } else {
                 alert('No uesr login');
             }
-        }, 600)
-
+        }, 600);
+        return () => clearInterval(timer);
     }, [])
 
     const handleChildClick = (increment: string) => {
