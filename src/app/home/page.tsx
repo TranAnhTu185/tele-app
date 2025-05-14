@@ -16,9 +16,9 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
+        const tgApp = window.Telegram?.WebApp;
         setTimeout(async () => {
             debugger;
-            const tgApp = window.Telegram?.WebApp;
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
