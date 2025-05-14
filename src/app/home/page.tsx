@@ -17,6 +17,7 @@ export default function HomePage() {
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         setTimeout(async () => {
+            debugger;
             const tgApp = window.Telegram?.WebApp;
             if (tgApp) {
                 tgApp.ready();
