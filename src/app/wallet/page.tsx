@@ -89,7 +89,7 @@ const WalletPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <main className="flex min-h-screen flex-col items-center justify-center">
+            <main className="flex mt-[80px] min-h-screen flex-col items-center justify-center">
                 <div className="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded">
                     Loading...
                 </div>
@@ -97,7 +97,7 @@ const WalletPage: React.FC = () => {
         );
     }
     return (
-        <div>
+        <div className="mt-[80px]">
             {!isShowHistoryWallet &&
                 <div>
                     {tonWalletAddress ? (

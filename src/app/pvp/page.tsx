@@ -7,7 +7,7 @@ import { dataStatic } from "../utils/common";
 
 const PVPPage: React.FC = () => {
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex mt-[80px] flex-col items-center">
 			<StatisticPage />
 			<Navbar />
 		</div>

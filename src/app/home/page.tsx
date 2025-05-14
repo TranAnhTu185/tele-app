@@ -138,7 +138,7 @@ export default function HomePage() {
 
 
     return (
-        <main className="w-full bg-black ">
+        <main className="w-full bg-black mt-[80px]">
             {(initData && isAuTh == true) &&
                 <div className="w-full">
                     <Header key={childKey} />

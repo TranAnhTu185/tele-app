@@ -22,19 +22,27 @@ declare global {
 export default function Home() {
   const [uaData, setUaData] = useState<ParsedUA | null>(null);
   useEffect(() => {
-   async function initTg() {
-    if(await isTMA()) {
-      init();
-      if(viewport.mount.isAvailable()) {
-        await viewport.mount();
-        viewport.expand();
-      }
-      if(viewport.requestFullscreen.isAvailable()) {
-        await viewport.requestFullscreen();
+    async function initTg() {
+      if (await isTMA()) {
+        init();
+        if (viewport.mount.isAvailable()) {
+          await viewport.mount();
+          viewport.expand();
+        }
+        if (viewport.requestFullscreen.isAvailable()) {
+          await viewport.requestFullscreen();
+        }
       }
     }
-   }
-   initTg();
+    initTg();
+
+    const tgApp = window.Telegram?.WebApp;
+    setTimeout(async () => {
+      if (tgApp) {
+        tgApp.ready();
+      } else {
+      }
+    }, 500)
     const userAgent = navigator.userAgent;
     setUaData(parseUserAgent(userAgent));
   }, []);
