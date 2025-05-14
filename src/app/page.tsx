@@ -8,6 +8,9 @@ interface TelegramWebApp {
   ready: () => void;
   initData: string;
   initDataUnsafe: string;
+  expand: () => void;
+  close: () => void;
+  isExpanded: boolean;
 }
 
 
@@ -20,8 +23,13 @@ declare global {
 }
 export default function Home() {
   const [uaData, setUaData] = useState<ParsedUA | null>(null);
-
   useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand(); // mở fullscreen
+    }
+    console.log(tg);
     const userAgent = navigator.userAgent;
     console.log(parseUserAgent(userAgent));
     setUaData(parseUserAgent(userAgent));
