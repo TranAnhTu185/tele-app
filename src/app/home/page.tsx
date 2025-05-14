@@ -16,8 +16,8 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
-        const tgApp = window.Telegram?.WebApp;
         setTimeout(async () => {
+            const tgApp = window.Telegram?.WebApp;
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
@@ -138,7 +138,7 @@ export default function HomePage() {
 
 
     return (
-        <main className="w-full bg-black mt-[80px]">
+        <main className="w-full bg-black mt-[100px]">
             {(initData && isAuTh == true) &&
                 <div className="w-full">
                     <Header key={childKey} />
