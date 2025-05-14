@@ -3,7 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { ParsedUA, parseUserAgent } from "./lib/uaParser";
 import { useEffect, useState } from "react";
-import { init, isTMA, viewport } from "@telegram-apps/sdk";
+// import { init, isTMA, viewport } from "@telegram-apps/sdk";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -22,28 +22,19 @@ declare global {
 export default function Home() {
   const [uaData, setUaData] = useState<ParsedUA | null>(null);
   useEffect(() => {
-    async function initTg() {
-      if (await isTMA()) {
-        init();
-        if (viewport.mount.isAvailable()) {
-          await viewport.mount();
-          viewport.expand();
-        }
-        if (viewport.requestFullscreen.isAvailable()) {
-          await viewport.requestFullscreen();
-        }
-      }
-    }
-    initTg();
-
-    setTimeout(async () => {
-      const tgApp = window.Telegram?.WebApp;
-      console.log(tgApp);
-      if (tgApp) {
-        tgApp.ready();
-      } else {
-      }
-    }, 500)
+  //  async function initTg() {
+  //   if(await isTMA()) {
+  //     init();
+  //     if(viewport.mount.isAvailable()) {
+  //       await viewport.mount();
+  //       viewport.expand();
+  //     }
+  //     if(viewport.requestFullscreen.isAvailable()) {
+  //       await viewport.requestFullscreen();
+  //     }
+  //   }
+  //  }
+  //  initTg();
     const userAgent = navigator.userAgent;
     setUaData(parseUserAgent(userAgent));
   }, []);
@@ -51,7 +42,7 @@ export default function Home() {
   if (!uaData) return <div>Loading device info...</div>;
   return (
     <div>
-      {/* {uaData.isMobile == true && */}
+      {uaData.isMobile == true &&
         <div className="min-h-screen flex flex-col items-center justify-end bg-[url('../../public/bg-cho.jpg')] bg-contain bg-no-repeat text-white px-4 py-6">
           <div className="w-full px-4 flex items-center justify-center mb-8">
             <button className="w-full max-w-sm flex items-center justify-between grounded-radiants rounded-full px-4 py-2">
@@ -71,11 +62,11 @@ export default function Home() {
             </button>
           </div>
         </div>
-      {/* }
+      }
 
       {uaData.isMobile == false &&
         <div className="flex min-h-screen flex-col items-center justify-center text-white p-4"> War Ton  is currently only available on mobiles devices.</div>
-      } */}
+      }
 
     </div>
 

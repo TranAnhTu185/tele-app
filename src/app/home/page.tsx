@@ -16,12 +16,12 @@ export default function HomePage() {
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
-        const timer = setInterval(async () => {
-            const tgApp = window.Telegram?.WebApp;
+        const tgApp = window.Telegram?.WebApp;
+        setTimeout(async () => {
+            console.log(tgApp);
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
-                    clearInterval(timer);
                     const initDataUnsafe = tgApp.initDataUnsafe;
                     const params = new URLSearchParams(initDataUnsafe);
                     const startParam = params.get('start_param'); // ✅ this works
@@ -86,9 +86,10 @@ export default function HomePage() {
                     }
                 }
             } else {
+                alert('No uesr login');
             }
-        }, 600);
-        return () => clearInterval(timer);
+        }, 600)
+
     }, [])
 
     const handleChildClick = (increment: string) => {
@@ -138,7 +139,7 @@ export default function HomePage() {
 
 
     return (
-        <main className="w-full bg-black mt-[100px]">
+        <main className="w-full bg-black">
             {(initData && isAuTh == true) &&
                 <div className="w-full">
                     <Header key={childKey} />
