@@ -8,14 +8,12 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-import {BrowserView, MobileView} from "react-device-detect";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
     const [loading, setLoading] = useState(false);
     const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
-
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
@@ -89,7 +87,7 @@ export default function HomePage() {
             } else {
                 alert('No uesr login');
             }
-        }, 500)
+        }, 600)
 
     }, [])
 
@@ -140,33 +138,27 @@ export default function HomePage() {
 
 
     return (
-        <main className="w-full  bg-black ">
-            <MobileView>
+        <main className="w-full bg-black ">
+            {(initData && isAuTh == true) &&
+                <div className="w-full">
+                    <Header key={childKey} />
+                    <div className="text-white w-full mx-auto">
+                        <div className="mt-22">
+                            <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
+                                <Spin spinning={loading}>
+                                    {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
+                                    {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
 
-                {(initData && isAuTh == true) &&
-                    <div className="w-full">
-                        <Header key={childKey} />
-                        <div className="text-white w-full mx-auto">
-                            <div className="mt-22">
-                                <div className="background-color-radi mx-[8px] border border-[rgba(255,255,255,0.4)]">
-                                    <Spin spinning={loading}>
-                                        {isStatic === "sum" && <SummonMonster onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-                                        {isStatic === "weapon" && <Weapon onButtonClick={handleChildClick} onVoidData={handleChildvoid} />}
-
-                                    </Spin>
-                                </div>
+                                </Spin>
                             </div>
                         </div>
-                        <Navbar />
                     </div>
-                }
-                {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
-                    <Spin percent={mergedPercent} size="large" />
-                </div>}
-            </MobileView>
-            <BrowserView>
-                <div className="flex min-h-screen flex-col items-center justify-center text-white p-4"> War Ton  is currently only available on mobiles devices.</div>
-            </BrowserView>
+                    <Navbar />
+                </div>
+            }
+            {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
+                <Spin percent={mergedPercent} size="large" />
+            </div>}
         </main>
     )
 }

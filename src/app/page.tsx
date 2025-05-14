@@ -9,9 +9,6 @@ interface TelegramWebApp {
   ready: () => void;
   initData: string;
   initDataUnsafe: string;
-  expand: () => void;
-  close: () => void;
-  isExpanded: boolean;
 }
 
 

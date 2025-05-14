@@ -20,10 +20,10 @@ export default function RootLayout({
         <title>TON War</title>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
       </head>
-      <body className={inter.className}>
-            <TonConnectUIProvider manifestUrl="https://teal-defeated-piranha-723.mypinata.cloud/ipfs/bafkreicratyikzcjr73lr6v3yvp7u4ne7bqnkimgj7ogtavei4lzabdxga">
-            {children}
-          </TonConnectUIProvider>
+      <body className={inter.className + " mt-[60px]"}>
+        <TonConnectUIProvider manifestUrl="https://teal-defeated-piranha-723.mypinata.cloud/ipfs/bafkreicratyikzcjr73lr6v3yvp7u4ne7bqnkimgj7ogtavei4lzabdxga">
+          {children}
+        </TonConnectUIProvider>
       </body>
     </html>
   );
