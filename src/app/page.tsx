@@ -50,7 +50,7 @@ export default function Home() {
   if (!uaData) return <div>Loading device info...</div>;
   return (
     <div>
-      {uaData.isMobile == true &&
+      {/* {uaData.isMobile == true && */}
         <div className="min-h-screen flex flex-col items-center justify-end bg-[url('../../public/bg-cho.jpg')] bg-contain bg-no-repeat text-white px-4 py-6">
           <div className="w-full px-4 flex items-center justify-center mb-8">
             <button className="w-full max-w-sm flex items-center justify-between grounded-radiants rounded-full px-4 py-2">
@@ -70,11 +70,11 @@ export default function Home() {
             </button>
           </div>
         </div>
-      }
+      {/* }
 
       {uaData.isMobile == false &&
         <div className="flex min-h-screen flex-col items-center justify-center text-white p-4"> War Ton  is currently only available on mobiles devices.</div>
-      }
+      } */}
 
     </div>
 
