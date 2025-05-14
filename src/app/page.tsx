@@ -3,7 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { ParsedUA, parseUserAgent } from "./lib/uaParser";
 import { useEffect, useState } from "react";
-import { init, isTMA, viewport, initData } from "@telegram-apps/sdk";
+import { init, isTMA, viewport, initDataUser, initDataRaw } from "@telegram-apps/sdk";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -21,22 +21,24 @@ declare global {
 }
 export default function Home() {
   const [uaData, setUaData] = useState<ParsedUA | null>(null);
-   const initDataTesst = initData;
+  const initDataTesst = initDataRaw;
+  const dataUsser = initDataUser;
   useEffect(() => {
-    console.log(initDataTesst);
-   async function initTg() {
-    if(await isTMA()) {
-      init();
-      if(viewport.mount.isAvailable()) {
-        await viewport.mount();
-        viewport.expand();
-      }
-      if(viewport.requestFullscreen.isAvailable()) {
-        await viewport.requestFullscreen();
+    console.log("datatesst", initDataTesst);
+    console.log("datatesst user", dataUsser);
+    async function initTg() {
+      if (await isTMA()) {
+        init();
+        if (viewport.mount.isAvailable()) {
+          await viewport.mount();
+          viewport.expand();
+        }
+        if (viewport.requestFullscreen.isAvailable()) {
+          await viewport.requestFullscreen();
+        }
       }
     }
-   }
-   initTg();
+    initTg();
     const userAgent = navigator.userAgent;
     setUaData(parseUserAgent(userAgent));
   }, []);
