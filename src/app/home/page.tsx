@@ -80,12 +80,12 @@ export default function HomePage() {
                             setisAuTh(true);
                         }
                     } catch (error) {
+                        console.error('Error loggin', error);
                         setisAuTh(false);
                     } finally {
                     }
                 }
             } else {
-                alert('No uesr login');
             }
         }, 600);
         return () => clearInterval(timer);
