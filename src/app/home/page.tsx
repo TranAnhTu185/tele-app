@@ -21,6 +21,7 @@ export default function HomePage() {
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
+                    clearInterval(timer);
                     const initDataUnsafe = tgApp.initDataUnsafe;
                     const params = new URLSearchParams(initDataUnsafe);
                     const startParam = params.get('start_param'); // ✅ this works
@@ -79,7 +80,6 @@ export default function HomePage() {
                             setisAuTh(true);
                         }
                     } catch (error) {
-                        console.error('Error loggin', error);
                         setisAuTh(false);
                     } finally {
                     }
