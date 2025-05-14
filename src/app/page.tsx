@@ -37,8 +37,8 @@ export default function Home() {
     initTg();
 
     setTimeout(async () => {
-      debugger;
       const tgApp = window.Telegram?.WebApp;
+      console.log(tgApp);
       if (tgApp) {
         tgApp.ready();
       } else {

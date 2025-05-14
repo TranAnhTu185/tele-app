@@ -18,7 +18,7 @@ export default function HomePage() {
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
         setTimeout(async () => {
-            debugger;
+            console.log(tgApp);
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
