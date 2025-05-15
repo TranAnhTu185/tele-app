@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <div>
       {uaData.isMobile == true &&
-        <div className="min-h-screen flex flex-col items-center justify-end bg-[url('../../public/bg-cho.jpg')] bg-contain bg-no-repeat text-white px-4 py-6">
+        <div className="min-h-screen flex flex-col items-center justify-end bg-[url('../../public/bg-cho.jpg')] bg-cover bg-no-repeat text-white px-4 py-6">
           <div className="w-full px-4 flex items-center justify-center mb-8">
             <button className="w-full max-w-sm flex items-center justify-between grounded-radiants rounded-full px-4 py-2">
               <span className="text-yellow-400 font-medium text-lg">Let&apos;s go</span>
