@@ -29,6 +29,10 @@ export default function HomePage() {
             hash: inidataRaw.hash(),
         }
         console.log(objDataInit);
+        if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+            window.Telegram.WebApp.ready(); // ← đúng cách
+            console.log(window.Telegram?.WebApp);
+        }
         let initData = "";
         if (launchParams.tgWebAppData) {
             initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
