@@ -16,7 +16,7 @@ export default function HomePage() {
     const [initDataTe, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
-    const inidataRaw = initData.raw;
+    const inidataRaw = initData.raw();
     useEffect(() => {
         const launchParams = retrieveLaunchParams();
         console.log(inidataRaw);
