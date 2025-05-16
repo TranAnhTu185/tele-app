@@ -18,12 +18,20 @@ export default function HomePage() {
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
-        const { initDataRaw, initData } = retrieveLaunchParams();
         const launchParams = retrieveLaunchParams();
+        let initDataTest = "";
+        if(launchParams.tgWebAppData) {
+            initDataTest = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
+            acc[key] = typeof value === 'string'
+                ? value
+                : JSON.stringify(value);
+            return acc;
+        }, {} as Record<string, string>)
+        ).toString();
+        }
         console.log(launchParams);
+        console.log(initDataTest);
         setTimeout(async () => {
-            console.log(initDataRaw);
-            console.log("initData", initData);
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
