@@ -20,6 +20,15 @@ export default function HomePage() {
     useEffect(() => {
         const launchParams = retrieveLaunchParams();
         console.log(inidataRaw);
+        const objDataInit = {
+            user: inidataRaw.user(),
+            chat_instance: inidataRaw.chatInstance(),
+            chat_type: inidataRaw.chatType(),
+            auth_date: inidataRaw.authDate(),
+            signature: launchParams.tgWebAppData?.signature,
+            hash: inidataRaw.hash(),
+        }
+        console.log(objDataInit);
         let initData = "";
         if (launchParams.tgWebAppData) {
             initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
