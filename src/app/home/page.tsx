@@ -19,6 +19,8 @@ export default function HomePage() {
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
         const { initDataRaw, initData } = retrieveLaunchParams();
+        const launchParams = retrieveLaunchParams();
+        alert(launchParams);
         setTimeout(async () => {
             console.log(initDataRaw);
             console.log("initData", initData);
