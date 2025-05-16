@@ -10,7 +10,7 @@ import {Col, Row, Tabs} from "antd";
 const InvitePage: React.FC = () => {
 
     return (
-        <main className="pb-[120px] mt-[80px] background-color-main pt-[30px] relative">
+        <main className="pb-[120px] background-color-main pt-[110px] relative">
             <div className={'flex justify-center text-white font-bold text-2xl'}>
                 Invite Friends
 

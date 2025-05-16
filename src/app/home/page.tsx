@@ -8,90 +8,89 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-import { retrieveLaunchParams, initData } from "@telegram-apps/sdk";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
     const [loading, setLoading] = useState(false);
-    const [initDataTe, setinitData] = useState<string | null>(null);
+    const [initData, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
-    const initDataTest = initData.restore();
     useEffect(() => {
-        const launchParams = retrieveLaunchParams();
-        console.log(initDataTest);
-        let initData = "";
-        if (launchParams.tgWebAppData) {
-            initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
-                acc[key] = typeof value === 'string'
-                    ? value
-                    : JSON.stringify(value);
-                return acc;
-            }, {} as Record<string, string>)
-            ).toString();
-        }
+        const tgApp = window.Telegram?.WebApp;
         setTimeout(async () => {
-            if (initData) {
-                setinitData(initData);
-                removeFromLocalStorage("userInfo");
-                try {
-                    const response = await fetch('https://ton-war.bytebuffer.co/auth', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            "initData": initData,
-                        }),
-                    })
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        setisAuTh(false);
-                        throw new Error(errorData.error || 'Failed to check membership');
-                    } else {
-                        const data = await response.json();
-                        saveToLocalStorage("initData", initData);
-                        saveToLocalStorage("token", data.token);
-                        try {
-                            const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
-                                method: 'GET',
-                                headers: {
-                                    'Authorization': data.token,
-                                },
-                            })
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.error || 'Failed to check');
-                            } else {
-                                const dataItem = await response.json();
-                                const dataInfor = dataItem.data;
-                                const userInfor = {
-                                    userId: dataInfor.user_id,
-                                    userName: dataInfor.username ? dataInfor.username : dataInfor.firstName + " " + dataInfor.lastName,
-                                    avatar: dataInfor.photoUrl,
-                                    currentTon: dataInfor.currentTon,
-                                    currentPoint: dataInfor.currentPoint,
-                                    currentKey: dataInfor.currentKey,
-                                    level: dataInfor.level,
-                                    totalReward: dataInfor.totalReward,
-                                    dailyReward: dataInfor.dailyReward,
-                                    languageCode: dataInfor.languageCode
+            console.log('tgApp',tgApp);
+            if (tgApp) {
+                tgApp.ready();
+
+                if (tgApp.initData) {
+                    console.log('tgAppInit:',tgApp.initData);
+                    const initDataUnsafe = tgApp.initDataUnsafe;
+                    const params = new URLSearchParams(initDataUnsafe);
+                    const startParam = params.get('start_param'); // ✅ this works
+                    setinitData(tgApp.initData);
+                    removeFromLocalStorage("userInfo");
+                    try {
+                        const response = await fetch('https://ton-war.bytebuffer.co/auth', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                "initData": tgApp.initData,
+                                "startParam": startParam
+                            }),
+                        })
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            setisAuTh(false);
+                            throw new Error(errorData.error || 'Failed to check membership');
+                        } else {
+                            const data = await response.json();
+                            saveToLocalStorage("initData", tgApp.initData);
+                            saveToLocalStorage("token", data.token);
+                            try {
+                                const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': data.token,
+                                    },
+                                })
+                                if (!response.ok) {
+                                    const errorData = await response.json();
+                                    throw new Error(errorData.error || 'Failed to check');
+                                } else {
+                                    const dataItem = await response.json();
+                                    const dataInfor = dataItem.data;
+                                    const userInfor = {
+                                        userId: dataInfor.user_id,
+                                        userName: dataInfor.username ? dataInfor.username : dataInfor.firstName + " " + dataInfor.lastName,
+                                        avatar: dataInfor.photoUrl,
+                                        currentTon: dataInfor.currentTon,
+                                        currentPoint: dataInfor.currentPoint,
+                                        currentKey: dataInfor.currentKey,
+                                        level: dataInfor.level,
+                                        totalReward: dataInfor.totalReward,
+                                        dailyReward: dataInfor.dailyReward,
+                                        languageCode: dataInfor.languageCode
+                                    }
+                                    saveToLocalStorage("userInfo", userInfor);
                                 }
-                                saveToLocalStorage("userInfo", userInfor);
+                            } catch (error) {
+                                console.error('Error loggin', error);
+                            } finally {
                             }
-                        } catch (error) {
-                            console.error('Error loggin', error);
-                        } finally {
+                            setisAuTh(true);
                         }
-                        setisAuTh(true);
+                    } catch (error) {
+                        console.error('Error loggin', error);
+                        setisAuTh(false);
+                    } finally {
                     }
-                } catch (error) {
-                    console.error('Error loggin', error);
-                    setisAuTh(false);
-                } finally {
                 }
+            } else {
+                alert('No uesr login');
             }
-        }, 100)
+        }, 600)
 
     }, [])
 
@@ -142,8 +141,8 @@ export default function HomePage() {
 
 
     return (
-        <main className="w-full bg-black mt-[100px]">
-            {(initDataTe && isAuTh == true) &&
+        <main className="w-full bg-black">
+            {(initData && isAuTh == true) &&
                 <div className="w-full">
                     <Header key={childKey} />
                     <div className="text-white w-full mx-auto">
@@ -160,7 +159,7 @@ export default function HomePage() {
                     <Navbar />
                 </div>
             }
-            {(!initDataTe) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
+            {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
                 <Spin percent={mergedPercent} size="large" />
             </div>}
         </main>
