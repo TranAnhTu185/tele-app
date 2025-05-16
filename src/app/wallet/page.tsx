@@ -97,7 +97,7 @@ const WalletPage: React.FC = () => {
         );
     }
     return (
-        <div>
+        <div className="mt-[80px]">
             {!isShowHistoryWallet &&
                 <div>
                     {tonWalletAddress ? (

@@ -46,7 +46,7 @@ function StatisticPage() {
 		fetchData();
 	}, [])
 	return (
-		<div className="p-3 min-h-[500px] w-full relative top-[10px]">
+		<div className="p-3 min-h-[500px] mt-[80px] w-full relative top-[10px]">
 			<div className="flex justify-between items-center">
 				<div className="mr-3">
 					<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
