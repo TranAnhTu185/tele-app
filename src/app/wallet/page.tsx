@@ -89,7 +89,7 @@ const WalletPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <main className="flex pt-[80px] min-h-screen flex-col items-center  justify-center">
+            <main className="flex pt-[80px] min-h-screen flex-col items-center background-color-main  justify-center">
                 <div className="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded">
                     Loading...
                 </div>
@@ -97,11 +97,11 @@ const WalletPage: React.FC = () => {
         );
     }
     return (
-        <div className="pt-[80px]">
+        <div className="pt-[80px] background-color-main ">
             {!isShowHistoryWallet &&
                 <div>
                     {tonWalletAddress ? (
-                        <main className="pb-[120px] background-color-main  min-h-[100vh] pt-[40px] relative">
+                        <main className="pb-[120px]  min-h-[100vh] pt-[40px] relative">
                             {tabShow === 'home' && <div className="w-full">
                                 <div className=" flex justify-center text-2xl  text-white">
                                     <h1> Wallet </h1>
