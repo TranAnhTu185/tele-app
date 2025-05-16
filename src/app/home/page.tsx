@@ -8,17 +8,20 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
     const [loading, setLoading] = useState(false);
-    const [initData, setinitData] = useState<string | null>(null);
+    const [initDataTe, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         const tgApp = window.Telegram?.WebApp;
+        const { initDataRaw, initData } = retrieveLaunchParams();
         setTimeout(async () => {
-            console.log(tgApp);
+            console.log(initDataRaw);
+            console.log("initData", initData);
             if (tgApp) {
                 tgApp.ready();
                 if (tgApp.initData) {
@@ -140,7 +143,7 @@ export default function HomePage() {
 
     return (
         <main className="w-full bg-black">
-            {(initData && isAuTh == true) &&
+            {(initDataTe && isAuTh == true) &&
                 <div className="w-full">
                     <Header key={childKey} />
                     <div className="text-white w-full mx-auto">
@@ -157,7 +160,7 @@ export default function HomePage() {
                     <Navbar />
                 </div>
             }
-            {(!initData) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
+            {(!initDataTe) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
                 <Spin percent={mergedPercent} size="large" />
             </div>}
         </main>
