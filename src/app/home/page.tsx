@@ -8,7 +8,7 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-import { retrieveLaunchParams } from "@telegram-apps/sdk";
+import { retrieveLaunchParams, initData } from "@telegram-apps/sdk";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
@@ -16,8 +16,10 @@ export default function HomePage() {
     const [initDataTe, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
+    const initDataTest = initData.restore();
     useEffect(() => {
         const launchParams = retrieveLaunchParams();
+        console.log(initDataTest);
         let initData = "";
         if (launchParams.tgWebAppData) {
             initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
