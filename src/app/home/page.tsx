@@ -8,7 +8,7 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-import { retrieveLaunchParams, initData } from "@telegram-apps/sdk";
+import { retrieveLaunchParams, initData, retrieveRawInitData } from "@telegram-apps/sdk";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
@@ -19,20 +19,17 @@ export default function HomePage() {
     const inidataRaw = initData;
     useEffect(() => {
         const launchParams = retrieveLaunchParams();
+        const initDataRaw = retrieveRawInitData()
         console.log(inidataRaw);
-        const objDataInit = {
-            user: inidataRaw.user(),
-            chat_instance: inidataRaw.chatInstance(),
-            chat_type: inidataRaw.chatType(),
-            auth_date: inidataRaw.authDate(),
-            signature: launchParams.tgWebAppData?.signature,
-            hash: inidataRaw.hash(),
-        }
-        console.log(objDataInit);
-        if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-            window.Telegram.WebApp.ready(); // ← đúng cách
-            console.log(window.Telegram?.WebApp);
-        }
+        // const objDataInit = {
+        //     user: inidataRaw.user(),
+        //     chat_instance: inidataRaw.chatInstance(),
+        //     chat_type: inidataRaw.chatType(),
+        //     auth_date: inidataRaw.authDate(),
+        //     signature: launchParams.tgWebAppData?.signature,
+        //     hash: inidataRaw.hash(),
+        // }
+        console.log(initDataRaw);
         let initData = "";
         if (launchParams.tgWebAppData) {
             initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {

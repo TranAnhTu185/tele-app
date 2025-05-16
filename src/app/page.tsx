@@ -34,11 +34,6 @@ export default function Home() {
         }
       }
     }
-
-    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready(); // ← đúng cách
-      console.log(window.Telegram?.WebApp);
-    }
     initTg();
     const userAgent = navigator.userAgent;
     setUaData(parseUserAgent(userAgent));
