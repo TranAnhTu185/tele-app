@@ -16,10 +16,12 @@ export default function HomePage() {
     const [initDataTe, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
+    const inidataRestort = initData.restore();
     const inidataRaw = initData.raw();
     useEffect(() => {
         const launchParams = retrieveLaunchParams();
         console.log(inidataRaw);
+        console.log(inidataRestort);
         let initData = "";
         if (launchParams.tgWebAppData) {
             initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
