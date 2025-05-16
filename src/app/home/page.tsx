@@ -18,6 +18,7 @@ export default function HomePage() {
     const [childKey, setChildKey] = useState(0);
     useEffect(() => {
         const launchParams = retrieveLaunchParams();
+        console.log(launchParams);
         let initData = "";
         if (launchParams.tgWebAppData) {
             initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
@@ -141,7 +142,7 @@ export default function HomePage() {
 
     return (
         <main className="w-full bg-black mt-[100px]">
-            {(initDataTe && isAuTh == true) &&
+            {/*{(initDataTe && isAuTh == true) &&*/}
                 <div className="w-full">
                     <Header key={childKey} />
                     <div className="text-white w-full mx-auto">
@@ -157,7 +158,7 @@ export default function HomePage() {
                     </div>
                     <Navbar />
                 </div>
-            }
+            {/*}*/}
             {(!initDataTe) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
                 <Spin percent={mergedPercent} size="large" />
             </div>}
