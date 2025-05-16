@@ -20,7 +20,7 @@ export default function HomePage() {
         const tgApp = window.Telegram?.WebApp;
         const { initDataRaw, initData } = retrieveLaunchParams();
         const launchParams = retrieveLaunchParams();
-        alert(launchParams);
+        console.log(launchParams);
         setTimeout(async () => {
             console.log(initDataRaw);
             console.log("initData", initData);
