@@ -8,7 +8,7 @@ import "../page.style.css"
 import { dataMe } from "@/app/utils/common";
 import { Weapon } from "@/app/home/CustomFunc/Weapon";
 import { SummonMonster } from "@/app/home/CustomFunc/SummonMonster";
-import { retrieveLaunchParams, initData, retrieveRawInitData } from "@telegram-apps/sdk";
+import { retrieveRawInitData } from "@telegram-apps/sdk";
 
 export default function HomePage() {
     const [isStatic, setIsStatic] = useState("sum");
@@ -16,31 +16,9 @@ export default function HomePage() {
     const [initDataTe, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
-    const inidataRaw = initData;
     useEffect(() => {
-        const launchParams = retrieveLaunchParams();
-        const initDataRaw = retrieveRawInitData()
-        console.log(inidataRaw);
-        // const objDataInit = {
-        //     user: inidataRaw.user(),
-        //     chat_instance: inidataRaw.chatInstance(),
-        //     chat_type: inidataRaw.chatType(),
-        //     auth_date: inidataRaw.authDate(),
-        //     signature: launchParams.tgWebAppData?.signature,
-        //     hash: inidataRaw.hash(),
-        // }
-        console.log(initDataRaw);
-        let initData = "";
-        if (launchParams.tgWebAppData) {
-            initData = new URLSearchParams(Object.entries(launchParams.tgWebAppData).reduce((acc, [key, value]) => {
-                acc[key] = typeof value === 'string'
-                    ? value
-                    : JSON.stringify(value);
-                return acc;
-            }, {} as Record<string, string>)
-            ).toString();
-        }
-        setTimeout(async () => {
+        const initData = retrieveRawInitData()
+        const getInitData = async () => {
             if (initData) {
                 setinitData(initData);
                 removeFromLocalStorage("userInfo");
@@ -101,8 +79,9 @@ export default function HomePage() {
                 } finally {
                 }
             }
-        }, 100)
+        }
 
+        getInitData();
     }, [])
 
     const handleChildClick = (increment: string) => {
