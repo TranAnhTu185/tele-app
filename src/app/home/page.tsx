@@ -20,13 +20,14 @@ export default function HomePage() {
         const initData = retrieveRawInitData()
         const getInitData = async () => {
             const stored = localStorage.getItem('token');
-            if (stored !== null && stored !== undefined) {
-                const dataToken = JSON.parse(stored);
-                getDataUser(dataToken);
-            } else {
-                if (initData) {
-                    setinitData(initData);
-                    removeFromLocalStorage("userInfo");
+
+            if (initData) {
+                setinitData(initData);
+                removeFromLocalStorage("userInfo"); 
+                if (stored !== null && stored !== undefined) {
+                    const dataToken = JSON.parse(stored);
+                    getDataUser(dataToken);
+                } else {
                     try {
                         const response = await fetch('https://ton-war.bytebuffer.co/auth', {
                             method: 'POST',
@@ -34,7 +35,7 @@ export default function HomePage() {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                            "initData": initData,
+                                "initData": initData,
                             }),
                         })
                         if (!response.ok) {
@@ -164,8 +165,8 @@ export default function HomePage() {
             </div>}
 
             {(initDataTe && isAuTh == false) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
-                <Spin percent={mergedPercent} tip={'djtmemay...'}  size="large" ></Spin>
-                <div className={'ps-2 mt-2'} style={{color:'#1677ff'}}>Getting account</div>
+                <Spin percent={mergedPercent} tip={'djtmemay...'} size="large" ></Spin>
+                <div className={'ps-2 mt-2'} style={{ color: '#1677ff' }}>Getting account</div>
             </div>}
         </main>
     )
