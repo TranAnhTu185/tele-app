@@ -12,6 +12,7 @@ import earn2 from "../../../public/navbar/button-earn-2.svg";
 import { usePathname } from "next/navigation";
 import pvp1 from "../../../public/navbar/button-pvp-1.svg";
 import pvp2 from "../../../public/navbar/button-pvp-2.svg";
+import "./page.css"
 
 export default function Navbar() {
     const navItems = [
@@ -42,7 +43,7 @@ export default function Navbar() {
 
     return (
         <div className="fixed inset-x-0 bottom-0">
-            <nav className="bg-[url('../../public/navbar/bg-nav.svg')] bg-cover p-4 flex justify-around items-center h-[109px]">
+            <nav className="bg-[#121716] border-gradi-white-black p-4 flex justify-around items-center h-[90px]">
                 {
                     navItems.map((item, index) => (
                         <div key={index}>
@@ -60,7 +61,7 @@ export default function Navbar() {
                                 <Image
                                     src={isActive(item.href) == true ? item.bgActive : item.bg}
                                     alt=""
-                                    className="w-[44px] h-[46px] mx-auto mb-[8px]"
+                                    className="w-[44px] h-[46px] mx-auto"
                                 />
                             </Link>
                             <Link className={`items-center justify-center ${item.name === "Wallet" ? "flex" : "hidden"}`}
@@ -68,7 +69,7 @@ export default function Navbar() {
                                 <Image
                                     src={isActive(item.href) == true ? item.bgActive : item.bg}
                                     alt=""
-                                    className="w-[56px] h-[60px] mx-auto mb-[58px] ml-[10px]"
+                                    className="w-[56px] h-[60px] mx-auto"
                                 />
                             </Link>
                         </div>

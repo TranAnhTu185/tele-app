@@ -19,70 +19,80 @@ export default function HomePage() {
     useEffect(() => {
         const initData = retrieveRawInitData()
         const getInitData = async () => {
-            if (initData) {
-                setinitData(initData);
-                removeFromLocalStorage("userInfo");
-                try {
-                    const response = await fetch('https://ton-war.bytebuffer.co/auth', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
+            const stored = localStorage.getItem('token');
+            if (stored !== null && stored !== undefined) {
+                const dataToken = JSON.parse(stored);
+                getDataUser(dataToken);
+            } else {
+                if (initData) {
+                    setinitData(initData);
+                    removeFromLocalStorage("userInfo");
+                    try {
+                        const response = await fetch('https://ton-war.bytebuffer.co/auth', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
                             "initData": initData,
-                        }),
-                    })
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        setisAuTh(false);
-                        throw new Error(errorData.error || 'Failed to check membership');
-                    } else {
-                        const data = await response.json();
-                        saveToLocalStorage("initData", initData);
-                        saveToLocalStorage("token", data.token);
-                        try {
-                            const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
-                                method: 'GET',
-                                headers: {
-                                    'Authorization': data.token,
-                                },
-                            })
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.error || 'Failed to check');
-                            } else {
-                                const dataItem = await response.json();
-                                const dataInfor = dataItem.data;
-                                const userInfor = {
-                                    userId: dataInfor.user_id,
-                                    userName: dataInfor.username ? dataInfor.username : dataInfor.firstName + " " + dataInfor.lastName,
-                                    avatar: dataInfor.photoUrl,
-                                    currentTon: dataInfor.currentTon,
-                                    currentPoint: dataInfor.currentPoint,
-                                    currentKey: dataInfor.currentKey,
-                                    level: dataInfor.level,
-                                    totalReward: dataInfor.totalReward,
-                                    dailyReward: dataInfor.dailyReward,
-                                    languageCode: dataInfor.languageCode
-                                }
-                                saveToLocalStorage("userInfo", userInfor);
-                            }
-                        } catch (error) {
-                            console.error('Error loggin', error);
-                        } finally {
+                            }),
+                        })
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            setisAuTh(false);
+                            throw new Error(errorData.error || 'Failed to check membership');
+                        } else {
+                            const data = await response.json();
+                            saveToLocalStorage("initData", "initData");
+                            saveToLocalStorage("token", data.token);
+                            getDataUser(data.token);
                         }
-                        setisAuTh(true);
+                    } catch (error) {
+                        console.error('Error loggin', error);
+                        setisAuTh(false);
+                    } finally {
                     }
-                } catch (error) {
-                    console.error('Error loggin', error);
-                    setisAuTh(false);
-                } finally {
                 }
             }
         }
 
         getInitData();
     }, [])
+
+    const getDataUser = async (token: string) => {
+        try {
+            const response = await fetch('https://ton-war.bytebuffer.co/account/me?text=day%20la%20gi%20%3F', {
+                method: 'GET',
+                headers: {
+                    'Authorization': token,
+                },
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to check');
+            } else {
+                const dataItem = await response.json();
+                const dataInfor = dataItem.data;
+                const userInfor = {
+                    userId: dataInfor.user_id,
+                    userName: dataInfor.username ? dataInfor.username : dataInfor.firstName + " " + dataInfor.lastName,
+                    avatar: dataInfor.photoUrl,
+                    currentTon: dataInfor.currentTon,
+                    currentPoint: dataInfor.currentPoint,
+                    currentKey: dataInfor.currentKey,
+                    level: dataInfor.level,
+                    totalReward: dataInfor.totalReward,
+                    dailyReward: dataInfor.dailyReward,
+                    languageCode: dataInfor.languageCode
+                }
+                saveToLocalStorage("userInfo", userInfor);
+            }
+        } catch (error) {
+            console.error('Error loggin', error);
+        } finally {
+        }
+        setisAuTh(true);
+    }
 
     const handleChildClick = (increment: string) => {
         setLoading(true);

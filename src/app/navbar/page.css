@@ -1,0 +1,7 @@
+
+.border-gradi-white-black {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(90deg,rgba(69, 69, 69, 1) 0%, rgba(207, 207, 207, 1) 50%, rgba(69, 69, 69, 1) 100%);
+}
