@@ -24,6 +24,7 @@ export default function Home() {
   useEffect(() => {
     async function initTg() {
       if (await isTMA()) {
+        debugger;
         init();
         if (viewport.mount.isAvailable()) {
           await viewport.mount();
@@ -32,9 +33,12 @@ export default function Home() {
         if (viewport.requestFullscreen.isAvailable()) {
           await viewport.requestFullscreen();
         }
+        if(swipeBehavior.mount.isAvailable()) {
+          await swipeBehavior.mount();
+        }
         if (swipeBehavior.disableVertical.isAvailable()) {
-          swipeBehavior.disableVertical();
-          swipeBehavior.isVerticalEnabled();
+          await swipeBehavior.disableVertical();
+          await swipeBehavior.isVerticalEnabled();
         }
       }
     }
