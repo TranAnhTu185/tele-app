@@ -4,9 +4,10 @@ import Navbar from "@/app/navbar/page";
 import Image from "next/image";
 import diamond from "../../../public/icons/diamond.svg";
 import gift from "../../../public/icons/gift.svg";
-import {TeamOutlined} from "@ant-design/icons";
+import {CopyOutlined, TeamOutlined, UploadOutlined} from "@ant-design/icons";
 import knife1 from "../../../public/icons/knife1.svg";
-import {Col, Row, Tabs} from "antd";
+import {Button, Col, Row, Tabs} from "antd";
+import "./page.css"
 const InvitePage: React.FC = () => {
 
     return (
@@ -108,7 +109,7 @@ const InvitePage: React.FC = () => {
 
             </div>
 
-            <div className={'mt-[30px] pe-[40px] w-full p-[20px] flex justify-center items-center text-center text-white '}>
+            <div className={'mt-[30px] pe-[40px] w-full p-[20px] mb-[40px] flex justify-center items-center text-center text-white '}>
                 <Tabs
                     className={'w-full '}
                     defaultActiveKey="1"
@@ -120,6 +121,30 @@ const InvitePage: React.FC = () => {
                         }
                     ]}
                 />
+            </div>
+
+            <div className="flex flex-col justify-center items-center w-full fixed bottom-[100px]">
+                <div className="flex justify-center items-center mt-[10px] mb-[10px] w-full px-5">
+                    <Row gutter={8} className={' w-full'}>
+                        <Col span={16}>
+                            <Button type={'primary'} className={'ButtonOpen1  w-full'} >
+                           Invite friends
+                        </Button>
+                        </Col>
+                        <Col span={4}>
+                            <Button type={'primary'} className={'ButtonOpen1 w-[55px]'} >
+                                <CopyOutlined />
+                        </Button>
+                        </Col>
+                        <Col span={4}>
+                            <Button type={'primary'} className={'ButtonOpen1 w-[55px]'} >
+                                <UploadOutlined />
+                        </Button>
+                        </Col>
+                    </Row>
+
+                </div>
+
             </div>
 
             <Navbar />

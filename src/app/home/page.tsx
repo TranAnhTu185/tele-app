@@ -165,7 +165,7 @@ export default function HomePage() {
             </div>}
 
             {(initDataTe && isAuTh == false) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
-                <Spin percent={mergedPercent} tip={'djtmemay...'} size="large" ></Spin>
+                <Spin percent={mergedPercent} tip={'loading...'} size="large" ></Spin>
                 <div className={'ps-2 mt-2'} style={{ color: '#1677ff' }}>Getting account</div>
             </div>}
         </main>
