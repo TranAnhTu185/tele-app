@@ -5,7 +5,10 @@ import { Outfit } from "next/font/google";
 import Script from "next/script";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
-const out = Outfit({ subsets: ["latin"] });
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit', // Optional, if you want to use CSS variable
+});
 
 export default function RootLayout({
   children,
@@ -20,7 +23,7 @@ export default function RootLayout({
         <title>TON War</title>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
       </head>
-      <body className={out.className + " bg-black"}>
+      <body className={outfit.className + " bg-black"}>
         <TonConnectUIProvider manifestUrl="https://teal-defeated-piranha-723.mypinata.cloud/ipfs/bafkreicratyikzcjr73lr6v3yvp7u4ne7bqnkimgj7ogtavei4lzabdxga">
           {children}
         </TonConnectUIProvider>
