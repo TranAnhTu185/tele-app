@@ -95,9 +95,11 @@ const WalletPage: React.FC = () => {
         if (!isNumber(num)) {
             return num;
         }
-        let rounded = Number(num.toFixed(2));
-        let [intPart, decimalPart] = rounded.toString().split(".");
-        let formattedInt = new Intl.NumberFormat('en-US').format(Number(intPart));
+        const rounded = Number(num.toFixed(2));
+        const spli = rounded.toString().split(".");
+        const intPart = spli[0];
+        let decimalPart = spli[1];
+        const formattedInt = new Intl.NumberFormat('en-US').format(Number(intPart));
         if (!decimalPart || Number(decimalPart) === 0) {
             return formattedInt;
         } else if (decimalPart.endsWith("0")) {
