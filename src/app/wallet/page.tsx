@@ -143,11 +143,11 @@ const WalletPage: React.FC = () => {
 
                                 <div className="mt-[20px] h-[55px] flex justify-center">
                                     <div className={'w-[90%] h-[100%] items-center rounded-4xl flex justify-between'}>
-                                        <button className="cursor-pointer w-[47%] h-[55px] font-bold text-center inline-block grounded-radiants px-[10px] items-center rounded-4xl text-amber-50 flex justify-between" onClick={() => handleClickTran('deposit')}>
+                                        <button className="cursor-pointer w-[47%] text-lg h-[55px] font-bold text-center inline-block grounded-radiants px-[10px] items-center rounded-4xl text-amber-50 flex justify-between" onClick={() => handleClickTran('deposit')}>
                                             Deposit
                                         </button>
 
-                                        <button className="cursor-pointer w-[47%] font-bold h-[55px] text-center  inline-block grounded-radiants  px-[20px] items-center rounded-4xl text-amber-50 flex justify-between" onClick={() => handleClickTran('withdraw')}>
+                                        <button className="cursor-pointer w-[47%] text-lg font-bold h-[55px] text-center  inline-block grounded-radiants  px-[20px] items-center rounded-4xl text-amber-50 flex justify-between" onClick={() => handleClickTran('withdraw')}>
                                             Withdraw
                                         </button>
                                     </div>
