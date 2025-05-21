@@ -87,6 +87,27 @@ const WalletPage: React.FC = () => {
         setTabShow(increment);
     };
 
+    function isNumber(num: number) {
+        return !(num === null || num === undefined || isNaN(num) || num.toString().trim().length === 0);
+    }
+
+    function formatNumberExFloat(num: number) {
+        if (!isNumber(num)) {
+            return num;
+        }
+        let rounded = Number(num.toFixed(2));
+        let [intPart, decimalPart] = rounded.toString().split(".");
+        let formattedInt = new Intl.NumberFormat('en-US').format(Number(intPart));
+        if (!decimalPart || Number(decimalPart) === 0) {
+            return formattedInt;
+        } else if (decimalPart.endsWith("0")) {
+            decimalPart = decimalPart.slice(0, -1);
+        }
+        return `${formattedInt}.${decimalPart}`;
+    }
+
+
+
     if (isLoading) {
         return (
             <main className="flex pt-[80px] min-h-screen flex-col items-center background-color-main  justify-center">
@@ -145,7 +166,7 @@ const WalletPage: React.FC = () => {
                                 </div>
                                 <div className="mt-[10px] h-[65px] flex justify-center  ">
                                     <div className={' w-[90%] h-[65px] font-bold pt-[20px]  grounded-radiants inline-block px-[20px]  rounded-4xl text-amber-50 '}>
-                                        <span className={'text-yellow-400 font-bold'}>{dataItem?.currentPoint}</span> &nbsp;
+                                        <span className={'text-yellow-400 font-bold'}>{dataItem?.currentPoint ? formatNumberExFloat(dataItem?.currentPoint) : 0}</span> &nbsp;
                                         <span className={'text-amber-50 font-bold'}>eBH</span>
 
                                     </div>
@@ -160,7 +181,7 @@ const WalletPage: React.FC = () => {
                                                 className="w-[15px] h-[15px]"
                                             /> </span> &nbsp;
 
-                                        <span className={'text-yellow-400 font-bold'}>{dataItem?.currentTon}</span> &nbsp;
+                                        <span className={'text-yellow-400 font-bold'}>{dataItem?.currentTon ? formatNumberExFloat(dataItem?.currentTon) : 0}</span> &nbsp;
                                         <span className={'text-amber-50 font-bold'}>TON</span>
                                     </div>
                                 </div>
