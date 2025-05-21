@@ -23,10 +23,6 @@ export default function Home() {
   const [uaData, setUaData] = useState<ParsedUA | null>(null);
   useEffect(() => {
     async function initTg() {
-      if (swipeBehavior.disableVertical.isAvailable()) {
-        swipeBehavior.disableVertical();
-        swipeBehavior.isVerticalEnabled();
-      }
       if (await isTMA()) {
         init();
         if (viewport.mount.isAvailable()) {
@@ -35,6 +31,10 @@ export default function Home() {
         }
         if (viewport.requestFullscreen.isAvailable()) {
           await viewport.requestFullscreen();
+        }
+        if (swipeBehavior.disableVertical.isAvailable()) {
+          swipeBehavior.disableVertical();
+          swipeBehavior.isVerticalEnabled();
         }
       }
     }
