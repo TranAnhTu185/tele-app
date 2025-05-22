@@ -3,7 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { ParsedUA, parseUserAgent } from "./lib/uaParser";
 import { useEffect, useState } from "react";
-import { init, isTMA, viewport, swipeBehavior, mainButton } from "@telegram-apps/sdk";
+import { init, isTMA, viewport, swipeBehavior, miniApp } from "@telegram-apps/sdk";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -33,28 +33,25 @@ export default function Home() {
         if (viewport.requestFullscreen.isAvailable()) {
           await viewport.requestFullscreen();
         }
-        if(swipeBehavior.mount.isAvailable()) {
+        if (swipeBehavior.mount.isAvailable()) {
           await swipeBehavior.mount();
         }
         if (swipeBehavior.disableVertical.isAvailable()) {
           await swipeBehavior.disableVertical();
           await swipeBehavior.isVerticalEnabled();
         }
-        if(mainButton.mount.isAvailable()) {
-          await mainButton.mount();
+        if (miniApp.mountSync.isAvailable()) {
+          await miniApp.mountSync();
+          miniApp.isMounted();
         }
-        if(mainButton.setParams.isAvailable()) {
-          mainButton.setParams({
-            backgroundColor: '#000000',
-            hasShineEffect: true,
-            isEnabled: true,
-            isVisible: false,
-          });
-          await mainButton.backgroundColor();
-          await mainButton.hasShineEffect();
-          await mainButton.isEnabled();
-          await mainButton.isVisible();
-          await mainButton.state();
+        if (miniApp.setHeaderColor.isAvailable()) {
+          await miniApp.setHeaderColor('bg_color');
+          await miniApp.headerColor(); // 'bg_color'
+        }
+
+        if (miniApp.setHeaderColor.isAvailable() && miniApp.setHeaderColor.supports.rgb()) {
+          await miniApp.setHeaderColor('#000000');
+          await miniApp.headerColor(); // '#aabbcc'
         }
       }
     }
