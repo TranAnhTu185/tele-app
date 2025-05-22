@@ -4,11 +4,101 @@ import Navbar from "@/app/navbar/page";
 import Image from "next/image";
 import diamond from "../../../public/icons/diamond.svg";
 import gift from "../../../public/icons/gift.svg";
-import {CopyOutlined, TeamOutlined, UploadOutlined} from "@ant-design/icons";
+import { CopyOutlined, TeamOutlined, UploadOutlined } from "@ant-design/icons";
 import knife1 from "../../../public/icons/knife1.svg";
-import {Button, Col, Row, Tabs} from "antd";
+import { Button, Col, Row, Tabs } from "antd";
 import "./page.css"
+import { useEffect, useState } from "react";
+import { openTelegramLink } from '@telegram-apps/sdk'
 const InvitePage: React.FC = () => {
+    const [userId, setUserId] = useState('')
+    const [startParam, setStartParam] = useState('')
+    const INVITE_URL = "t.me/LindTqqbot/tonWar/start";
+
+    useEffect(() => {
+        const initWebApp = async () => {
+            if (typeof window !== 'undefined') {
+                const WebApp = (await import('@twa-dev/sdk')).default;
+                WebApp.ready();
+                const dataUserId = WebApp.initDataUnsafe.user?.id.toString();
+                const datastartParam = WebApp.initDataUnsafe.start_param;
+                setUserId(WebApp.initDataUnsafe.user?.id.toString() || '');
+                setStartParam(WebApp.initDataUnsafe.start_param || '');
+
+                if (datastartParam && dataUserId) {
+                    try {
+                        const response = await fetch('/api/referrals', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId: dataUserId, referrerId: datastartParam }),
+                        });
+                        if (!response.ok) throw new Error('Failed to save referral');
+                    } catch (error) {
+                        console.error('Error saving referral:', error);
+                    }
+                }
+
+                if (dataUserId) {
+                try {
+                    const response = await fetch(`/api/referrals?userId=${dataUserId}`);
+                    if (!response.ok) throw new Error('Failed to fetch referrals');
+                    const data = await response.json();
+                    console.log(data)
+                } catch (error) {
+                    console.error('Error fetching referrals:', error);
+                }
+            }
+            }
+        };
+
+        initWebApp();
+    }, [])
+
+    useEffect(() => {
+        const checkReferral = async () => {
+            if (startParam && userId) {
+                try {
+                    const response = await fetch('/api/referrals', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId, referrerId: startParam }),
+                    });
+                    if (!response.ok) throw new Error('Failed to save referral');
+                } catch (error) {
+                    console.error('Error saving referral:', error);
+                }
+            }
+        }
+
+        const fetchReferrals = async () => {
+            if (userId) {
+                try {
+                    const response = await fetch(`/api/referrals?userId=${userId}`);
+                    if (!response.ok) throw new Error('Failed to fetch referrals');
+                    const data = await response.json();
+                    console.log(data)
+                } catch (error) {
+                    console.error('Error fetching referrals:', error);
+                }
+            }
+        }
+
+        checkReferral();
+        fetchReferrals();
+    }, [userId, startParam])
+
+    const handleInviteFriend = () => {
+        const inviteLink = `${INVITE_URL}?startapp=${userId}`
+        const shareText = `Join me on this awesome Telegram mini app!`
+        const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`
+        openTelegramLink(fullUrl)
+    }
+
+    const handleCopyLink = () => {
+        const inviteLink = `${INVITE_URL}?startapp=${userId}`
+        navigator.clipboard.writeText(inviteLink)
+        alert('Invite link copied to clipboard!')
+    }
 
     return (
         <main className="pb-[120px] background-color-main pt-[110px] relative">
@@ -25,16 +115,16 @@ const InvitePage: React.FC = () => {
             <div className={'w-full mt-5 flex justify-center text-white text-xl'}>
                 <div className={'w-[95%] flex justify-center text-white me-2'}>
 
-                        <div className={' w-[45%] h-[65px]  flex grounded-radiants items-center text-center '}>
-                            <div className={'w-full'}>
-                                <nav className={'text-center justify-center flex  text-sm '} >Total Friends</nav>
-                                <nav className={' text-center justify-center flex text-lg '} >
-                                   <span className={'text-amber-400 '}> 3 </span> &nbsp;
-                                    <TeamOutlined />
-                                </nav>
-                            </div>
-
+                    <div className={' w-[45%] h-[65px]  flex grounded-radiants items-center text-center '}>
+                        <div className={'w-full'}>
+                            <nav className={'text-center justify-center flex  text-sm '} >Total Friends</nav>
+                            <nav className={' text-center justify-center flex text-lg '} >
+                                <span className={'text-amber-400 '}> 3 </span> &nbsp;
+                                <TeamOutlined />
+                            </nav>
                         </div>
+
+                    </div>
                     <div className={' w-[45%] h-[65px] ms-2 flex grounded-radiants items-center text-center '}>
                         <div className={'w-full'}>
                             <nav className={'text-center justify-center flex  text-sm '} >TON Earned</nav>
@@ -47,7 +137,7 @@ const InvitePage: React.FC = () => {
                                     className="w-[15px] h-[15px]"
                                 /></span>
 
-                        </nav>
+                            </nav>
                         </div>
 
                     </div>
@@ -69,34 +159,34 @@ const InvitePage: React.FC = () => {
                     <div className={'mt-7 font-bold'}> Reward</div>
 
                     <div className={' mt-3 ps-3 w-[95%] flex text-sm justify-between'} >
-                       <span>Each Egg opened by your friend</span>
+                        <span>Each Egg opened by your friend</span>
                         <span className={'text-amber-400 flex'}>
-                                5%
-                                <span className={'ms-1 mt-[3px]'}><Image
-                                    src={diamond}
-                                    alt=""
-                                    className="w-[15px] h-[15px]"
-                                /></span>
+                            5%
+                            <span className={'ms-1 mt-[3px]'}><Image
+                                src={diamond}
+                                alt=""
+                                className="w-[15px] h-[15px]"
+                            /></span>
                         </span>
                     </div>
 
                     <div className={' mt-3 ps-3 w-[95%] flex text-sm justify-between'} >
                         <span>Invite 1 friend</span>
                         <span className={'text-amber-400 flex'}>
-                                +500
-                                <span className={'ms-1 mt-[2px] text-xs text-white'}>
+                            +500
+                            <span className={'ms-1 mt-[2px] text-xs text-white'}>
                                 eBH
-                                    </span>
+                            </span>
                         </span>
                     </div>
 
                     <div className={' mt-3 ps-3 w-[95%] flex text-sm justify-between'} >
                         <span>Invite 1 premium friend</span>
                         <span className={'text-amber-400 flex'}>
-                                +1,000
-                                 <span className={'ms-1 mt-[2px] text-xs text-white'}>
-                                 eBH
-                                    </span>
+                            +1,000
+                            <span className={'ms-1 mt-[2px] text-xs text-white'}>
+                                eBH
+                            </span>
                         </span>
                     </div>
                     <div className={' mt-3 ps-3 w-[95%] flex text-sm justify-between text-gray-500'} >
@@ -117,7 +207,7 @@ const InvitePage: React.FC = () => {
                         {
                             label: 'List Friends',
                             key: '1',
-                            children: <LastedRewardFunct/>,
+                            children: <LastedRewardFunct />,
                         }
                     ]}
                 />
@@ -127,19 +217,19 @@ const InvitePage: React.FC = () => {
                 <div className="flex justify-center items-center mt-[10px] mb-[10px] w-full px-5">
                     <Row gutter={8} className={' w-full'}>
                         <Col span={16}>
-                            <Button type={'primary'} className={'ButtonOpen1  w-full'} >
-                           Invite friends
-                        </Button>
+                            <Button type={'primary'} className={'btn-invite  w-full'} onClick={handleInviteFriend}>
+                                Invite friends
+                            </Button>
                         </Col>
                         <Col span={4}>
-                            <Button type={'primary'} className={'ButtonOpen1 w-[55px]'} >
+                            <Button type={'primary'} className={'btn-invite w-[55px]'} onClick={handleCopyLink}>
                                 <CopyOutlined />
-                        </Button>
+                            </Button>
                         </Col>
                         <Col span={4}>
-                            <Button type={'primary'} className={'ButtonOpen1 w-[55px]'} >
+                            <Button type={'primary'} className={'btn-invite w-[55px]'} >
                                 <UploadOutlined />
-                        </Button>
+                            </Button>
                         </Col>
                     </Row>
 
@@ -152,28 +242,28 @@ const InvitePage: React.FC = () => {
     );
 };
 
-interface Rewards{
+interface Rewards {
     name: string;
-    avatar:string;
-    value:number;
+    avatar: string;
+    value: number;
 }
 
-function  LastedRewardFunct(){
-    const data:Rewards[]=[
+function LastedRewardFunct() {
+    const data: Rewards[] = [
         {
-        value:1,
-        avatar:knife1,
-        name:'abcd'
+            value: 1,
+            avatar: knife1,
+            name: 'abcd'
         },
         {
-        value:1,
-        avatar:knife1,
-        name:'abcd'
+            value: 1,
+            avatar: knife1,
+            name: 'abcd'
         },
         {
-        value:1,
-        avatar:knife1,
-        name:'abcd'
+            value: 1,
+            avatar: knife1,
+            name: 'abcd'
         },
     ]
     return <div >
@@ -201,7 +291,7 @@ function  LastedRewardFunct(){
                         <Col span={6}>
                             <div className={' text-amber-400  flex justify-center items-center '}>
 
-                             +{data[i].value}  TON
+                                +{data[i].value}  TON
 
                             </div>
                         </Col>
