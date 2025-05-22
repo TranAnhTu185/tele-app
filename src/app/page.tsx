@@ -3,7 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { ParsedUA, parseUserAgent } from "./lib/uaParser";
 import { useEffect, useState } from "react";
-import { init, isTMA, viewport, swipeBehavior } from "@telegram-apps/sdk";
+import { init, isTMA, viewport, swipeBehavior, mainButton } from "@telegram-apps/sdk";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -39,6 +39,26 @@ export default function Home() {
         if (swipeBehavior.disableVertical.isAvailable()) {
           await swipeBehavior.disableVertical();
           await swipeBehavior.isVerticalEnabled();
+        }
+        if(mainButton.mount.isAvailable()) {
+          await mainButton.mount();
+        }
+        if(mainButton.setParams.isAvailable()) {
+          mainButton.setParams({
+            backgroundColor: '#000000',
+            hasShineEffect: true,
+            isEnabled: true,
+            isLoaderVisible: true,
+            isVisible: true,
+            textColor: '#ffffff'
+          });
+          await mainButton.backgroundColor();
+          await mainButton.hasShineEffect();
+          await mainButton.isEnabled();
+          await mainButton.isVisible();
+          await mainButton.isLoaderVisible();
+          await mainButton.textColor();
+          await mainButton.state();
         }
       }
     }
