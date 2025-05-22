@@ -48,16 +48,12 @@ export default function Home() {
             backgroundColor: '#000000',
             hasShineEffect: true,
             isEnabled: true,
-            isLoaderVisible: true,
-            isVisible: true,
-            textColor: '#ffffff'
+            isVisible: false,
           });
           await mainButton.backgroundColor();
           await mainButton.hasShineEffect();
           await mainButton.isEnabled();
           await mainButton.isVisible();
-          await mainButton.isLoaderVisible();
-          await mainButton.textColor();
           await mainButton.state();
         }
       }
