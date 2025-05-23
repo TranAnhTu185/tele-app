@@ -16,49 +16,49 @@ export default function HomePage() {
     const [initDataTe, setinitData] = useState<string | null>(null);
     const [isAuTh, setisAuTh] = useState<boolean | null>(false);
     const [childKey, setChildKey] = useState(0);
-    useEffect(() => {
-        const initData = retrieveRawInitData()
-        const getInitData = async () => {
-            const stored = localStorage.getItem('token');
-
-            if (initData) {
-                setinitData(initData);
-                removeFromLocalStorage("userInfo"); 
-                if (stored !== null && stored !== undefined) {
-                    const dataToken = JSON.parse(stored);
-                    getDataUser(dataToken);
-                } else {
-                    try {
-                        const response = await fetch('https://ton-war.bytebuffer.co/auth', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                "initData": initData,
-                            }),
-                        })
-                        if (!response.ok) {
-                            const errorData = await response.json();
-                            setisAuTh(false);
-                            throw new Error(errorData.error || 'Failed to check membership');
-                        } else {
-                            const data = await response.json();
-                            saveToLocalStorage("initData", "initData");
-                            saveToLocalStorage("token", data.token);
-                            getDataUser(data.token);
-                        }
-                    } catch (error) {
-                        console.error('Error loggin', error);
-                        setisAuTh(false);
-                    } finally {
-                    }
-                }
-            }
-        }
-
-        getInitData();
-    }, [])
+    // useEffect(() => {
+    //     const initData = retrieveRawInitData()
+    //     const getInitData = async () => {
+    //         const stored = localStorage.getItem('token');
+    //
+    //         if (initData) {
+    //             setinitData(initData);
+    //             removeFromLocalStorage("userInfo");
+    //             if (stored !== null && stored !== undefined) {
+    //                 const dataToken = JSON.parse(stored);
+    //                 getDataUser(dataToken);
+    //             } else {
+    //                 try {
+    //                     const response = await fetch('https://ton-war.bytebuffer.co/auth', {
+    //                         method: 'POST',
+    //                         headers: {
+    //                             'Content-Type': 'application/json',
+    //                         },
+    //                         body: JSON.stringify({
+    //                             "initData": initData,
+    //                         }),
+    //                     })
+    //                     if (!response.ok) {
+    //                         const errorData = await response.json();
+    //                         setisAuTh(false);
+    //                         throw new Error(errorData.error || 'Failed to check membership');
+    //                     } else {
+    //                         const data = await response.json();
+    //                         saveToLocalStorage("initData", "initData");
+    //                         saveToLocalStorage("token", data.token);
+    //                         getDataUser(data.token);
+    //                     }
+    //                 } catch (error) {
+    //                     console.error('Error loggin', error);
+    //                     setisAuTh(false);
+    //                 } finally {
+    //                 }
+    //             }
+    //         }
+    //     }
+    //
+    //     getInitData();
+    // }, [])
 
     const getDataUser = async (token: string) => {
         try {
@@ -143,7 +143,7 @@ export default function HomePage() {
 
     return (
         <main className="w-full bg-black mt-[100px]">
-            {(initDataTe && isAuTh == true) &&
+            {/*{(initDataTe && isAuTh == true) &&*/}
                 <div className="w-full">
                     <Header key={childKey} />
                     <div className="text-white w-full mx-auto">
@@ -159,11 +159,11 @@ export default function HomePage() {
                     </div>
                     <Navbar />
                 </div>
-            }
-            {((!initDataTe) || (initDataTe && isAuTh == false)) && <div className="flex min-h-screen flex-col items-center justify-center p-4">
-                <Spin percent={mergedPercent} tip={'loading...'} size="large" ></Spin>
-                <div className={'ps-2 mt-2'} style={{ color: '#1677ff' }}>Getting account</div>
-            </div>}
+            {/*}*/}
+            {/*{((!initDataTe) || (initDataTe && isAuTh == false)) && <div className="flex min-h-screen flex-col items-center justify-center p-4">*/}
+            {/*    <Spin percent={mergedPercent} tip={'loading...'} size="large" ></Spin>*/}
+            {/*    <div className={'ps-2 mt-2'} style={{ color: '#1677ff' }}>Getting account</div>*/}
+            {/*</div>}*/}
         </main>
     )
 }

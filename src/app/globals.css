@@ -145,3 +145,14 @@ body {
 .ant-tabs-nav::before {
   border: none !important;
 }
+
+.ant-input{
+  background: none !important;
+  height: 45px !important;
+  border-color: green !important;
+  color: white !important;
+  border-radius: 12px !important;
+}
+.ant-input-disabled{
+  color: #9e9e9e !important;
+}

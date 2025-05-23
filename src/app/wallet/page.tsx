@@ -11,7 +11,7 @@ import { Address, beginCell, Cell, fromNano, toNano } from "@ton/core";
 import { DataUser } from "../utils/common";
 import { getFromLocalStorage } from "../utils/localStorage";
 import { HistoryWallet } from "@/app/wallet/historyWallet";
-import { Modal } from "antd";
+import {Form, Input, Modal} from "antd";
 
 const WalletPage: React.FC = () => {
     const [tonConnectUI] = useTonConnectUI();
@@ -241,7 +241,7 @@ type Props = {
 };
 
 function Withdraw({ address, onButtonClick }: Props) {
-
+    const [form]= Form.useForm()
     const [formData, setFormData] = useState({
         amount: 0,
         code: '',
@@ -321,13 +321,16 @@ function Withdraw({ address, onButtonClick }: Props) {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        if (name === "amount") {
-            setFormData(prev => ({ ...prev, [`fee`]: Number(value) * 10000 }));
-        }
-        setFormData(prev => ({ ...prev, [name]: value }));
+        // debugger
+        // if (name === "amount") {
+        //     setFormData(prev => ({ ...prev, [`fee`]: Number(value) * 10000 }));
+        //     form.setFieldValue('fee',Number(value) * 10000)
+        // }
+        // setFormData(prev => ({ ...prev, [name]: value }));
+        form.setFieldValue('fee',Number(value) * 10000)
     };
     return (
-        <div className="min-h-screen text-white flex flex-col items-center p-6">
+        <div className=" text-white flex flex-col items-center p-6">
             {/* Header */}
             <div className="w-full max-w-md flex items-center justify-between text-xl font-semibold mb-6">
                 <button className="text-white text-2xl cursor-pointer grounded-radiants-input w-[40px] h-[40px] flex items-center justify-center" onClick={() => onButtonClick("home")}>{'<'} </button>
@@ -336,75 +339,60 @@ function Withdraw({ address, onButtonClick }: Props) {
             </div>
 
             {/* Main Card */}
-            <div className="w-full max-w-md p-6 rounded-2xl space-y-5">
-
-                {/* Address */}
-                <div>
-                    <label className="text-sm mb-1 block">Address</label>
-                    <input
-                        disabled
-                        className="w-full grounded-radiants-input text-gray-400 p-3 rounded-lg"
-                        value={Address.parse(address).toString()}
-                    />
-                </div>
-
-                {/* Amount */}
-                <div>
-                    <div className="flex justify-between mb-1">
-                        <label className="text-sm">Amount</label>
-                        <span className="text-sm text-gray-400">Available 0.04 TON</span>
+            <div className="w-full max-w-md p-6 rounded-2xl space-y-5" >
+                <Form form={form} initialValues={{address:Address.parse(address).toString()}}>
+                    {/* Address */}
+                    <div>
+                        <label className="text-sm mb-1 block text-white">Address</label>
+                        <Form.Item name={'address'}>
+                            <Input disabled />
+                        </Form.Item>
                     </div>
-                    <div className="relative">
-                        <input
-                            name="amount"
-                            className="w-full grounded-radiants-input p-3 pr-16 rounded-lg focus:outline-none"
-                            placeholder="0"
-                            type="number"
-                            value={formData.amount}
-                            onChange={handleChange}
-                        />
-                        <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg">
-                            MAX
-                        </button>
+
+                    {/* Amount */}
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <label className="text-sm text-white">Amount <span style={{color:"red"}}>*</span></label>
+                            <span className="text-sm text-gray-400">Available 0.04 TON</span>
+                        </div>
+                        <div className="relative">
+                            <Form.Item name={'amount'}>
+                                <Input  type="number"   onChange={handleChange}/>
+                            </Form.Item>
+                            <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg">
+                                MAX
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                {/* Code */}
-                <div>
-                    <label className="text-sm mb-1 block">Code</label>
-                    <div className="relative">
-                        <input
-                            className="w-full grounded-radiants-input p-3 pr-28 rounded-lg focus:outline-none"
-                            placeholder=""
-                            type="text"
-                            name="code"
-                            value={formData.code}
-                            onChange={handleChange}
-                        />
-                        <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg" onClick={handeleSendCode}>
-                            Send code
-                        </button>
+                    {/* Code */}
+                    <div>
+                        <label  className="text-sm mb-1 block  text-white">Code <span style={{color:"red"}}>*</span></label>
+                        <div className="relative">
+                            <Form.Item name={'code'}>
+                                <Input type="number" onChange={handleChange}/>
+                            </Form.Item>
+                            <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg" onClick={handeleSendCode}>
+                                Send code
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                {/* Fee */}
-                <div>
-                    <div className="flex justify-between text-sm text-gray-400 mb-1">
-                        <span>Withdraw Fee</span>
+                    {/* Fee */}
+                    <div>
+                        <div className="flex justify-between text-sm text-gray-400 mb-1">
+                            <span>Withdraw Fee</span>
+                        </div>
+                        <Form.Item name={'fee'} rules={[]}>
+                            <Input disabled type="number"/>
+                        </Form.Item>
                     </div>
-                    <input
-                        disabled
-                        className="w-full grounded-radiants-input text-gray-400 p-3 rounded-lg"
-                        value={formData.fee}
-                        onChange={handleChange}
-                    />
-                </div>
 
-                {/* Withdraw Button */}
-                <button onClick={handleWithdraw} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
-                    Withdraw
-                </button>
-
+                    {/* Withdraw Button */}
+                    <button onClick={handleWithdraw} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
+                        Withdraw
+                    </button>
+                </Form>
                 <Modal
                     title=""
                     closable={{ 'aria-label': 'Custom Close Button' }}
@@ -527,12 +515,12 @@ function Deposit({ onButtonClick }: Props) {
 
                 {/* Address */}
                 <div>
-                    <label className="text-sm mb-1 block">Address</label>
-                    <input
-                        disabled
-                        className="w-full grounded-radiants-input text-gray-400 p-3 rounded-lg"
-                        value={Address.parse(addressNhan).toString()}
-                    />
+                    <label className="text-white text-sm mb-1 block ">Address</label>
+                    <Form.Item name={'address'}>
+
+                        <Input disabled  value={Address.parse(addressNhan).toString()}/>
+
+                    </Form.Item>
                 </div>
 
                 {/* Amount */}
@@ -542,6 +530,13 @@ function Deposit({ onButtonClick }: Props) {
                         <span className="text-sm text-gray-400">Available 0.04 TON</span>
                     </div>
                     <div className="relative">
+
+
+                        <Form.Item name={'amount'}  >
+
+                            <Input disabled  value={Address.parse(addressNhan).toString()}/>
+
+                        </Form.Item>
                         <input
                             name="amount"
                             className="w-full grounded-radiants-input p-3 pr-16 rounded-lg focus:outline-none"
