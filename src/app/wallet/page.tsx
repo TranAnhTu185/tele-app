@@ -242,12 +242,7 @@ type Props = {
 
 function Withdraw({ address, onButtonClick }: Props) {
     const [form]= Form.useForm()
-    const [formData, setFormData] = useState({
-        amount: 0,
-        code: '',
-        address: '',
-        fee: 10000,
-    });
+
 
     const handeleSendCode = async () => {
         const stored = localStorage.getItem('token');
@@ -284,8 +279,7 @@ function Withdraw({ address, onButtonClick }: Props) {
     };
 
     const handleWithdraw = async () => {
-        formData.address = address;
-        console.log(formData);
+
         const stored = localStorage.getItem('token');
         if (stored !== null && stored !== undefined) {
             try {
@@ -296,9 +290,9 @@ function Withdraw({ address, onButtonClick }: Props) {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        "amount": Number(formData.amount),
+                        "amount": form.getFieldValue(('amount')),
                         "wallet": address,
-                        "otp": formData.code
+                        "otp": form.getFieldValue(('code'))
                     }),
                 })
                 if (response.ok) {
@@ -320,13 +314,7 @@ function Withdraw({ address, onButtonClick }: Props) {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        // debugger
-        // if (name === "amount") {
-        //     setFormData(prev => ({ ...prev, [`fee`]: Number(value) * 10000 }));
-        //     form.setFieldValue('fee',Number(value) * 10000)
-        // }
-        // setFormData(prev => ({ ...prev, [name]: value }));
+        const   {value}  = e.target;
         form.setFieldValue('fee',Number(value) * 10000)
     };
     return (
@@ -340,7 +328,7 @@ function Withdraw({ address, onButtonClick }: Props) {
 
             {/* Main Card */}
             <div className="w-full max-w-md p-6 rounded-2xl space-y-5" >
-                <Form form={form} initialValues={{address:Address.parse(address).toString()}}>
+                <Form form={form} initialValues={{address:Address.parse(address).toString(), amount:0, fee:0}}>
                     {/* Address */}
                     <div>
                         <label className="text-sm mb-1 block text-white">Address</label>
@@ -356,10 +344,14 @@ function Withdraw({ address, onButtonClick }: Props) {
                             <span className="text-sm text-gray-400">Available 0.04 TON</span>
                         </div>
                         <div className="relative">
-                            <Form.Item name={'amount'}>
-                                <Input  type="number"   onChange={handleChange}/>
+                            <Form.Item name={'amount'}
+                                       rules={[
+                                           {
+                                               required: true, message: 'Not null!'
+                                           }]}>
+                                <Input  type="number" min={0}  onChange={handleChange}/>
                             </Form.Item>
-                            <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg">
+                            <button className="absolute cursor-pointer right-2 top-[22px] -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg">
                                 MAX
                             </button>
                         </div>
@@ -369,10 +361,15 @@ function Withdraw({ address, onButtonClick }: Props) {
                     <div>
                         <label  className="text-sm mb-1 block  text-white">Code <span style={{color:"red"}}>*</span></label>
                         <div className="relative">
-                            <Form.Item name={'code'}>
+                            <Form.Item name={'code'}
+                                       rules={[
+                                           {
+                                               required: true, message: 'Not null!'
+                                           }]}
+                            >
                                 <Input type="number" onChange={handleChange}/>
                             </Form.Item>
-                            <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg" onClick={handeleSendCode}>
+                            <button className="absolute cursor-pointer right-2 top-[22px] -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg" onClick={handeleSendCode}>
                                 Send code
                             </button>
                         </div>
@@ -383,13 +380,13 @@ function Withdraw({ address, onButtonClick }: Props) {
                         <div className="flex justify-between text-sm text-gray-400 mb-1">
                             <span>Withdraw Fee</span>
                         </div>
-                        <Form.Item name={'fee'} rules={[]}>
+                        <Form.Item name={'fee'}>
                             <Input disabled type="number"/>
                         </Form.Item>
                     </div>
 
                     {/* Withdraw Button */}
-                    <button onClick={handleWithdraw} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
+                    <button type={'submit'} onClick={handleWithdraw} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
                         Withdraw
                     </button>
                 </Form>
@@ -411,14 +408,8 @@ function Withdraw({ address, onButtonClick }: Props) {
 function Deposit({ onButtonClick }: Props) {
     const [tonConnectUI] = useTonConnectUI();
     const addressNhan = "0QDqpyz11y8BMxUi-PNUxgTdLiLIjFV1IcC3-1Bsc3Gt095c";
-    const [formData, setFormData] = useState({
-        amount: 0,
-    });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+    const [form]= Form.useForm()
 
     const handleDeposit = async () => {
         try {
@@ -433,7 +424,7 @@ function Deposit({ onButtonClick }: Props) {
                     messages: [
                         {
                             address: addressNhan, // địa chỉ nhận
-                            amount: toNano(formData.amount).toString(), // 0.1 TON = 100M nanoTON
+                            amount: toNano(form.getFieldValue('amount')).toString(), // 0.1 TON = 100M nanoTON
                             payload: payload.toBoc().toString("base64"),
                         },
                     ],
@@ -510,50 +501,46 @@ function Deposit({ onButtonClick }: Props) {
                 <div className="w-6" /> {/* placeholder to balance the back button */}
             </div>
 
-            {/* Main Card */}
+                    {/* Main Card */}
             <div className="w-full max-w-md p-6 rounded-2xl space-y-5">
+                <Form form={form} initialValues={{address:Address.parse(addressNhan).toString(), amount:0}}>
+                    {/* Address */}
+                    <div>
+                        <label className="text-sm mb-1 block">Address</label>
 
-                {/* Address */}
-                <div>
-                    <label className="text-white text-sm mb-1 block ">Address</label>
-                    <Form.Item name={'address'}>
-
-                        <Input disabled  value={Address.parse(addressNhan).toString()}/>
-
-                    </Form.Item>
-                </div>
-
-                {/* Amount */}
-                <div>
-                    <div className="flex justify-between mb-1">
-                        <label className="text-sm">Amount</label>
-                        <span className="text-sm text-gray-400">Available 0.04 TON</span>
-                    </div>
-                    <div className="relative">
-
-
-                        <Form.Item name={'amount'}  >
-
-                            <Input disabled  value={Address.parse(addressNhan).toString()}/>
-
+                        <Form.Item name={'address'}
+                                   rules={[
+                                       {
+                                           required: true, message: 'Not null!'
+                                       }]}
+                        >
+                            <Input />
                         </Form.Item>
-                        <input
-                            name="amount"
-                            className="w-full grounded-radiants-input p-3 pr-16 rounded-lg focus:outline-none"
-                            placeholder="0"
-                            type="number"
-                            value={formData.amount}
-                            onChange={handleChange}
-                        />
-                        <button className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg">
-                            MAX
-                        </button>
                     </div>
-                </div>
-                <button onClick={handleDeposit} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
-                    Deposit
-                </button>
 
+                    {/* Amount */}
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <label className="text-sm text-white">Amount <span style={{color:"red"}}>*</span></label>
+                            <span className="text-sm text-gray-400">Available 0.04 TON</span>
+                        </div>
+                        <div className="relative">
+                            <Form.Item name={'amount'}
+                                       rules={[
+                                           {
+                                               required: true, message: 'Not null!'
+                                           }]}>
+                                <Input  type="number" min={0} />
+                            </Form.Item>
+                            <button className="absolute cursor-pointer right-2 top-[22px] -translate-y-1/2 text-sm text-white background-color-gra-green px-3 py-1 rounded-lg">
+                                MAX
+                            </button>
+                        </div>
+                    </div>
+                    <button type={'submit'} onClick={handleDeposit} className="w-full cursor-pointer py-3 rounded-full text-white font-semibold background-color-gra-green">
+                        Deposit
+                    </button>
+                </Form>
                 <Modal
                     title=""
                     closable={{ 'aria-label': 'Custom Close Button' }}
@@ -567,5 +554,6 @@ function Deposit({ onButtonClick }: Props) {
         </div>
     );
 };
+
 
 export default WalletPage;
