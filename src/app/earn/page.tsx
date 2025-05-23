@@ -113,8 +113,15 @@ const EarnPage: React.FC = () => {
 function ADSModal() {
     const [isModalOpen, setIsOpenModal] = useState(true);
     const [disableClose, setDisableClose] = useState(true);
-    const hideModal = () => {
-        setIsOpenModal(false);
+    const hideModal = async () => {
+        if (typeof window !== 'undefined') {
+            const WebApp = (await import('@twa-dev/sdk')).default;
+            WebApp.ready();
+            WebApp.openLink("https://otieu.com/4/9154325");
+            setIsOpenModal(false);
+        } else {
+            setIsOpenModal(false);
+        }
     };
     useEffect(() => {
         setTimeout(() => {

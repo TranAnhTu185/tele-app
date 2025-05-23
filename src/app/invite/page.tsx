@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { openTelegramLink } from '@telegram-apps/sdk'
 const InvitePage: React.FC = () => {
     const [userId, setUserId] = useState('')
-    const [startParam, setStartParam] = useState('')
     const INVITE_URL = "t.me/LindTqqbot/tonWar/start";
 
     useEffect(() => {
@@ -20,72 +19,12 @@ const InvitePage: React.FC = () => {
             if (typeof window !== 'undefined') {
                 const WebApp = (await import('@twa-dev/sdk')).default;
                 WebApp.ready();
-                const dataUserId = WebApp.initDataUnsafe.user?.id.toString();
-                const datastartParam = WebApp.initDataUnsafe.start_param;
                 setUserId(WebApp.initDataUnsafe.user?.id.toString() || '');
-                setStartParam(WebApp.initDataUnsafe.start_param || '');
-
-                if (datastartParam && dataUserId) {
-                    try {
-                        const response = await fetch('/api/referrals', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ userId: dataUserId, referrerId: datastartParam }),
-                        });
-                        if (!response.ok) throw new Error('Failed to save referral');
-                    } catch (error) {
-                        console.error('Error saving referral:', error);
-                    }
-                }
-
-                if (dataUserId) {
-                try {
-                    const response = await fetch(`/api/referrals?userId=${dataUserId}`);
-                    if (!response.ok) throw new Error('Failed to fetch referrals');
-                    const data = await response.json();
-                    console.log(data)
-                } catch (error) {
-                    console.error('Error fetching referrals:', error);
-                }
-            }
             }
         };
 
         initWebApp();
     }, [])
-
-    useEffect(() => {
-        const checkReferral = async () => {
-            if (startParam && userId) {
-                try {
-                    const response = await fetch('/api/referrals', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ userId, referrerId: startParam }),
-                    });
-                    if (!response.ok) throw new Error('Failed to save referral');
-                } catch (error) {
-                    console.error('Error saving referral:', error);
-                }
-            }
-        }
-
-        const fetchReferrals = async () => {
-            if (userId) {
-                try {
-                    const response = await fetch(`/api/referrals?userId=${userId}`);
-                    if (!response.ok) throw new Error('Failed to fetch referrals');
-                    const data = await response.json();
-                    console.log(data)
-                } catch (error) {
-                    console.error('Error fetching referrals:', error);
-                }
-            }
-        }
-
-        checkReferral();
-        fetchReferrals();
-    }, [userId, startParam])
 
     const handleInviteFriend = () => {
         const inviteLink = `${INVITE_URL}?startapp=${userId}`
