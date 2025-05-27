@@ -3,7 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { ParsedUA, parseUserAgent } from "./lib/uaParser";
 import { useEffect, useState } from "react";
-import { init, isTMA, viewport, swipeBehavior, miniApp } from "@telegram-apps/sdk";
+import { init, isTMA, viewport, swipeBehavior, miniApp, mainButton } from "@telegram-apps/sdk";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -52,6 +52,22 @@ export default function Home() {
         if (miniApp.setHeaderColor.isAvailable() && miniApp.setHeaderColor.supports.rgb()) {
           await miniApp.setHeaderColor('#000000');
           await miniApp.headerColor(); // '#aabbcc'
+        }
+        if (mainButton.mount.isAvailable()) {
+          await mainButton.mount();
+        }
+        if (mainButton.setParams.isAvailable()) {
+          mainButton.setParams({
+            hasShineEffect: false,
+            isEnabled: false,
+            isLoaderVisible: false,
+            isVisible: false,
+          });
+          mainButton.hasShineEffect();
+          mainButton.isEnabled();
+          mainButton.isLoaderVisible(); 
+          mainButton.isVisible(); 
+          mainButton.state();
         }
       }
     }
