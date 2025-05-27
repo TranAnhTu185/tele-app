@@ -23,7 +23,7 @@ export default function HomePage() {
 
             if (initData) {
                 setinitData(initData);
-                removeFromLocalStorage("userInfo"); 
+                removeFromLocalStorage("userInfo");
                 if (stored !== null && stored !== undefined) {
                     const dataToken = JSON.parse(stored);
                     getDataUser(dataToken);
