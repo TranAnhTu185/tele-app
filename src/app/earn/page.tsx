@@ -114,6 +114,7 @@ function ADSModal() {
     const [isModalOpen, setIsOpenModal] = useState(true);
     const [disableClose, setDisableClose] = useState(true);
     const hideModal = async () => {
+
         if (typeof window !== 'undefined') {
             const WebApp = (await import('@twa-dev/sdk')).default;
             WebApp.ready();
@@ -143,13 +144,7 @@ function ADSModal() {
             footer={null}
             onCancel={hideModal}>
             <div>
-                <iframe
-                    src="https://otieu.com/4/9154325"
-                    width={'w-full'}
-                    height="600"
-                    style={{ border: '1px solid black' }}
-                    title="Example Iframe"
-                ></iframe>
+                <Image  className="w-[500px] h-[500px]"  alt="https://otieu.com/4/9154325" src={knife1}  />
             </div>
         </Modal>
     </>
